@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 300" font-family="sans-serif">
+  <style>
+    .disk{fill:#eef2f7;stroke:#94a3b8;stroke-width:2;rx:6}
+    .blk{stroke:#334155;stroke-width:1.5;rx:4}
+    .lbl{font-size:14px;fill:#1e293b;text-anchor:middle}
+    .t{font-size:16px;fill:#1e293b;text-anchor:middle;font-weight:bold}
+  </style>
+  <text class="t" x="260" y="24">RAID 5 · 分布式奇偶校验（Parity 轮转）</text>
+
+  <rect class="disk" x="20"  y="50" width="100" height="220"/>
+  <rect class="disk" x="140" y="50" width="100" height="220"/>
+  <rect class="disk" x="260" y="50" width="100" height="220"/>
+  <rect class="disk" x="380" y="50" width="100" height="220"/>
+  <text class="lbl" x="70"  y="45">Disk1</text>
+  <text class="lbl" x="190" y="45">Disk2</text>
+  <text class="lbl" x="310" y="45">Disk3</text>
+  <text class="lbl" x="430" y="45">Disk4</text>
+
+  <!-- helper macro via repeated rects -->
+  <!-- Row A: data data data parity(disk4) -->
+  <rect class="blk" x="30"  y="60" width="80" height="40" fill="#93c5fd"/><text class="lbl" x="70" y="85">A1</text>
+  <rect class="blk" x="150" y="60" width="80" height="40" fill="#93c5fd"/><text class="lbl" x="190" y="85">A2</text>
+  <rect class="blk" x="270" y="60" width="80" height="40" fill="#93c5fd"/><text class="lbl" x="310" y="85">A3</text>
+  <rect class="blk" x="390" y="60" width="80" height="40" fill="#fbbf24"/><text class="lbl" x="430" y="85">Ap</text>
+
+  <!-- Row B: data data parity(disk3) data -->
+  <rect class="blk" x="30"  y="110" width="80" height="40" fill="#60a5fa"/><text class="lbl" x="70" y="135">B1</text>
+  <rect class="blk" x="150" y="110" width="80" height="40" fill="#60a5fa"/><text class="lbl" x="190" y="135">B2</text>
+  <rect class="blk" x="270" y="110" width="80" height="40" fill="#fbbf24"/><text class="lbl" x="310" y="135">Bp</text>
+  <rect class="blk" x="390" y="110" width="80" height="40" fill="#60a5fa"/><text class="lbl" x="430" y="135">B3</text>
+
+  <!-- Row C: data parity(disk2) data data -->
+  <rect class="blk" x="30"  y="160" width="80" height="40" fill="#3b82f6"/><text class="lbl" x="70" y="185">C1</text>
+  <rect class="blk" x="150" y="160" width="80" height="40" fill="#fbbf24"/><text class="lbl" x="190" y="185">Cp</text>
+  <rect class="blk" x="270" y="160" width="80" height="40" fill="#3b82f6"/><text class="lbl" x="310" y="185">C2</text>
+  <rect class="blk" x="390" y="160" width="80" height="40" fill="#3b82f6"/><text class="lbl" x="430" y="185">C3</text>
+
+  <!-- Row D: parity(disk1) data data data -->
+  <rect class="blk" x="30"  y="210" width="80" height="40" fill="#fbbf24"/><text class="lbl" x="70" y="235">Dp</text>
+  <rect class="blk" x="150" y="210" width="80" height="40" fill="#2563eb"/><text class="lbl" x="190" y="235">D1</text>
+  <rect class="blk" x="270" y="210" width="80" height="40" fill="#2563eb"/><text class="lbl" x="310" y="235">D2</text>
+  <rect class="blk" x="390" y="210" width="80" height="40" fill="#2563eb"/><text class="lbl" x="430" y="235">D3</text>
+
+  <text class="lbl" x="260" y="285" fill="#334155">黄色=校验块（XOR），逐行轮换所在盘 · 坏 1 块盘可通过其余数据+校验重建</text>
+</svg>

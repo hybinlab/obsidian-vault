@@ -1,0 +1,23 @@
+{
+  "id": "conv-1786112867815-tlbqzn7n7",
+  "providerId": "claude",
+  "title": "Clarify what to review",
+  "titleGenerationStatus": "success",
+  "createdAt": 1786112867815,
+  "lastActivityAt": 1786113186713,
+  "sessionId": "ed9b4d93-b68d-4501-ba0c-f6a4852e823b",
+  "selectedModel": "sonnet",
+  "providerState": {
+    "providerSessionId": "ed9b4d93-b68d-4501-ba0c-f6a4852e823b"
+  },
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 706,
+    "cacheReadInputTokens": 34110,
+    "contextWindow": 1000000,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 34818,
+    "percentage": 3
+  }
+}

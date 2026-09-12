@@ -1,0 +1,23 @@
+{
+  "id": "conv-1784723081679-apfkv4zd2",
+  "providerId": "claude",
+  "title": "Clarify scope for additions",
+  "titleGenerationStatus": "success",
+  "createdAt": 1784723081685,
+  "lastActivityAt": 1784723093024,
+  "sessionId": "75cdd5d6-49b2-4442-983d-4d9f27e0187c",
+  "selectedModel": "sonnet",
+  "providerState": {
+    "providerSessionId": "75cdd5d6-49b2-4442-983d-4d9f27e0187c"
+  },
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 395,
+    "cacheReadInputTokens": 25489,
+    "contextWindow": 1000000,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 25886,
+    "percentage": 3
+  }
+}

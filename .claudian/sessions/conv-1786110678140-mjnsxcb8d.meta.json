@@ -1,0 +1,23 @@
+{
+  "id": "conv-1786110678140-mjnsxcb8d",
+  "providerId": "claude",
+  "title": "Review and suggest additions",
+  "titleGenerationStatus": "success",
+  "createdAt": 1786110678146,
+  "lastActivityAt": 1786110961881,
+  "sessionId": "a84119b6-34b0-4a22-869e-f557f6e053b4",
+  "selectedModel": "sonnet",
+  "providerState": {
+    "providerSessionId": "a84119b6-34b0-4a22-869e-f557f6e053b4"
+  },
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 238,
+    "cacheReadInputTokens": 29961,
+    "contextWindow": 1000000,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 30201,
+    "percentage": 3
+  }
+}

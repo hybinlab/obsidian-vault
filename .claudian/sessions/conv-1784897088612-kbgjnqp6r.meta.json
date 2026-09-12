@@ -1,0 +1,23 @@
+{
+  "id": "conv-1784897088612-kbgjnqp6r",
+  "providerId": "claude",
+  "title": "Review for missing additions",
+  "titleGenerationStatus": "success",
+  "createdAt": 1784897088613,
+  "lastActivityAt": 1784897102151,
+  "sessionId": "8e091c1a-7e05-47ce-9632-fabeeb788fe2",
+  "selectedModel": "sonnet",
+  "providerState": {
+    "providerSessionId": "8e091c1a-7e05-47ce-9632-fabeeb788fe2"
+  },
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 446,
+    "cacheReadInputTokens": 25472,
+    "contextWindow": 1000000,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 25920,
+    "percentage": 3
+  }
+}

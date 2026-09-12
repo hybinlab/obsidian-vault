@@ -1,0 +1,23 @@
+{
+  "id": "conv-1784460120150-umd5mbtxh",
+  "providerId": "claude",
+  "title": "Verify message visibility",
+  "titleGenerationStatus": "success",
+  "createdAt": 1784460120154,
+  "lastActivityAt": 1784460300839,
+  "sessionId": "e4c1100b-cabb-4b94-a3bc-5f1633351f48",
+  "selectedModel": "sonnet",
+  "providerState": {
+    "providerSessionId": "e4c1100b-cabb-4b94-a3bc-5f1633351f48"
+  },
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 2665,
+    "cacheReadInputTokens": 33263,
+    "contextWindow": 1000000,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 35930,
+    "percentage": 4
+  }
+}

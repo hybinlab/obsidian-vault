@@ -1,0 +1,18 @@
+{
+	"nodes":[
+		{"id":"group-top","type":"group","x":0,"y":0,"width":920,"height":200,"label":"上层工具（用户直接操作）"},
+		{"id":"node-iptables","type":"file","file":"linux/防火墙/iptables.md","x":20,"y":70,"width":200,"height":100},
+		{"id":"node-firewalld","type":"file","file":"linux/防火墙/firewalld.md","x":240,"y":70,"width":200,"height":100},
+		{"id":"node-ufw","type":"file","file":"linux/防火墙/ufw.md","x":460,"y":70,"width":200,"height":100},
+		{"id":"node-nft-native","type":"text","text":"nft 命令\n（原生语法，直接操作nftables）","x":680,"y":70,"width":200,"height":100},
+		{"id":"node-nftables","type":"file","file":"linux/防火墙/nftables.md","x":330,"y":320,"width":260,"height":120},
+		{"id":"node-overview","type":"file","file":"linux/防火墙/防火墙总览.md","x":330,"y":520,"width":260,"height":100}
+	],
+	"edges":[
+		{"id":"edge-iptables","fromNode":"node-iptables","fromSide":"bottom","toNode":"node-nftables","toSide":"top","label":"翻译执行（兼容层）"},
+		{"id":"edge-firewalld","fromNode":"node-firewalld","fromSide":"bottom","toNode":"node-nftables","toSide":"top","label":"动态管理"},
+		{"id":"edge-ufw","fromNode":"node-ufw","fromSide":"bottom","toNode":"node-nftables","toSide":"top","label":"简化封装"},
+		{"id":"edge-nft","fromNode":"node-nft-native","fromSide":"bottom","toNode":"node-nftables","toSide":"top","label":"原生命令"},
+		{"id":"edge-summary","fromNode":"node-nftables","fromSide":"bottom","toNode":"node-overview","toSide":"top","label":"详见总览"}
+	]
+}

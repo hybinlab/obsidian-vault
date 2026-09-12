@@ -1,0 +1,23 @@
+{
+  "id": "conv-1784544028727-xxmngs9wu",
+  "providerId": "claude",
+  "title": "Review code for changes",
+  "titleGenerationStatus": "success",
+  "createdAt": 1784544028733,
+  "lastActivityAt": 1784544045826,
+  "sessionId": "8e0c6693-0d46-450c-922b-3dc2dc30553c",
+  "selectedModel": "sonnet",
+  "providerState": {
+    "providerSessionId": "8e0c6693-0d46-450c-922b-3dc2dc30553c"
+  },
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 588,
+    "cacheReadInputTokens": 25253,
+    "contextWindow": 1000000,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 25843,
+    "percentage": 3
+  }
+}

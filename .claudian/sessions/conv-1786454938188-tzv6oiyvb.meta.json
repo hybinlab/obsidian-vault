@@ -1,0 +1,24 @@
+{
+  "id": "conv-1786454938188-tzv6oiyvb",
+  "providerId": "claude",
+  "title": "Review content for gaps and improvements",
+  "titleGenerationStatus": "success",
+  "createdAt": 1786454938195,
+  "lastActivityAt": 1786454968437,
+  "sessionId": "262eb664-4b62-423c-9c32-0e6729429dd2",
+  "selectedModel": "sonnet",
+  "providerState": {
+    "providerSessionId": "262eb664-4b62-423c-9c32-0e6729429dd2"
+  },
+  "currentNote": "2026-08-11.md",
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 870,
+    "cacheReadInputTokens": 28629,
+    "contextWindow": 1000000,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 29501,
+    "percentage": 3
+  }
+}

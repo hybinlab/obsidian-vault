@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "conversationId": "conv-1788182120066-fww20z886",
+  "records": [
+    {
+      "schemaVersion": 1,
+      "id": "msg-1788182120148-9fszyf1",
+      "userTurnOrdinal": 1,
+      "state": "accepted",
+      "localMessageId": "msg-1788182120063-fmdfgaz",
+      "timestamp": 1788182120063,
+      "rawDisplayText": "如何",
+      "canonicalText": "如何",
+      "context": {
+        "currentNote": {
+          "path": "随笔/2026-08-31.md"
+        }
+      },
+      "images": [],
+      "contentDigest": "94be8d843e1685cb2d4b0ba08957cdcf3ba2af5f12fc77b5af1b2417197403b9",
+      "providerUserMessageId": "e7a60416-e831-4dad-b125-3c186c522618",
+      "providerAssistantMessageId": "03524db1-6073-437f-a33d-79a5a49b0d6a"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "msg-1788182172667-hje7ym5",
+      "userTurnOrdinal": 2,
+      "state": "accepted",
+      "localMessageId": "msg-1788182172664-sna9ggq",
+      "timestamp": 1788182172664,
+      "rawDisplayText": "设备科值得吗",
+      "canonicalText": "设备科值得吗",
+      "images": [],
+      "contentDigest": "0f7a85bbc6fe663f1ac80e5b9c1de5febce90357c3195ec87c34142f3f912f9a",
+      "providerUserMessageId": "9e8f99d2-6d33-4a56-b2de-b796caafe08d",
+      "providerAssistantMessageId": "65c09ca7-52bd-456e-8723-0d38e6ef293c"
+    }
+  ]
+}

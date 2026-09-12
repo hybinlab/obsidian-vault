@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 260" font-family="sans-serif">
+  <style>
+    .disk{fill:#eef2f7;stroke:#94a3b8;stroke-width:2;rx:6}
+    .blk{stroke:#166534;stroke-width:1.5;rx:4}
+    .lbl{font-size:14px;fill:#1e293b;text-anchor:middle}
+    .t{font-size:16px;fill:#1e293b;text-anchor:middle;font-weight:bold}
+  </style>
+  <text class="t" x="160" y="24">RAID 1 · 镜像（完全冗余）</text>
+
+  <rect class="disk" x="30"  y="50" width="100" height="180"/>
+  <rect class="disk" x="190" y="50" width="100" height="180"/>
+  <text class="lbl" x="80"  y="45">Disk1</text>
+  <text class="lbl" x="240" y="45">Disk2</text>
+
+  <rect class="blk" x="40"  y="60" width="80" height="40" fill="#86efac"/>
+  <rect class="blk" x="200" y="60" width="80" height="40" fill="#86efac"/>
+  <text class="lbl" x="80" y="85">A</text>
+  <text class="lbl" x="240" y="85">A</text>
+
+  <rect class="blk" x="40"  y="110" width="80" height="40" fill="#4ade80"/>
+  <rect class="blk" x="200" y="110" width="80" height="40" fill="#4ade80"/>
+  <text class="lbl" x="80" y="135">B</text>
+  <text class="lbl" x="240" y="135">B</text>
+
+  <rect class="blk" x="40"  y="160" width="80" height="40" fill="#22c55e"/>
+  <rect class="blk" x="200" y="160" width="80" height="40" fill="#22c55e"/>
+  <text class="lbl" x="80" y="185">C</text>
+  <text class="lbl" x="240" y="185">C</text>
+
+  <line x1="150" y1="130" x2="180" y2="130" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#64748b"/></marker></defs>
+  <text class="lbl" x="160" y="120" fill="#64748b" font-size="12">同步写</text>
+
+  <text class="lbl" x="160" y="215" fill="#166534">任一盘存活即可用 · 可用容量 = 1 块盘</text>
+</svg>

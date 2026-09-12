@@ -1,0 +1,22 @@
+{
+  "id": "conv-1788528041859-te06tqijp",
+  "providerId": "claude",
+  "title": "在ansible文件夹下继续补充：怎么测试各节点的连通性",
+  "titleGenerationStatus": "failed",
+  "createdAt": 1788528041868,
+  "lastActivityAt": 1788971155577,
+  "sessionId": "4d6dee06-4c8c-41f9-bd01-205bc5a61a82",
+  "selectedModel": "sonnet",
+  "providerState": {
+    "providerSessionId": "4d6dee06-4c8c-41f9-bd01-205bc5a61a82"
+  },
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 299452,
+    "cacheReadInputTokens": 0,
+    "contextWindow": 1000000,
+    "contextTokens": 299454,
+    "percentage": 30
+  }
+}

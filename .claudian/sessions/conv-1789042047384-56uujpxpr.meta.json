@@ -1,0 +1,22 @@
+{
+  "id": "conv-1789042047384-56uujpxpr",
+  "providerId": "claude",
+  "title": "整合新排错文档到现有体系",
+  "titleGenerationStatus": "success",
+  "createdAt": 1789042047392,
+  "lastActivityAt": 1789211780712,
+  "sessionId": "f679cbc6-b38e-439c-911c-984fe283e14a",
+  "selectedModel": "sonnet",
+  "providerState": {
+    "providerSessionId": "f679cbc6-b38e-439c-911c-984fe283e14a"
+  },
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 252,
+    "cacheReadInputTokens": 306988,
+    "contextWindow": 1000000,
+    "contextTokens": 307242,
+    "percentage": 31
+  }
+}

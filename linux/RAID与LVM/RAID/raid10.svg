@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 300" font-family="sans-serif">
+  <style>
+    .disk{fill:#eef2f7;stroke:#94a3b8;stroke-width:2;rx:6}
+    .blk{stroke:#334155;stroke-width:1.5;rx:4}
+    .lbl{font-size:14px;fill:#1e293b;text-anchor:middle}
+    .t{font-size:16px;fill:#1e293b;text-anchor:middle;font-weight:bold}
+    .grp{fill:none;stroke:#94a3b8;stroke-width:1.5;stroke-dasharray:5 4}
+  </style>
+  <text class="t" x="260" y="24">RAID 10 · 先镜像（RAID1）再条带（RAID0）</text>
+
+  <rect class="grp" x="12" y="42" width="216" height="238" rx="8"/>
+  <rect class="grp" x="252" y="42" width="216" height="238" rx="8"/>
+  <text class="lbl" x="120" y="270" fill="#64748b" font-size="12">镜像组 1</text>
+  <text class="lbl" x="360" y="270" fill="#64748b" font-size="12">镜像组 2</text>
+
+  <rect class="disk" x="30"  y="50" width="90" height="200"/>
+  <rect class="disk" x="140" y="50" width="90" height="200"/>
+  <rect class="disk" x="270" y="50" width="90" height="200"/>
+  <rect class="disk" x="380" y="50" width="90" height="200"/>
+  <text class="lbl" x="75"  y="45">Disk1</text>
+  <text class="lbl" x="185" y="45">Disk2</text>
+  <text class="lbl" x="315" y="45">Disk3</text>
+  <text class="lbl" x="425" y="45">Disk4</text>
+
+  <!-- stripe A across mirror groups -->
+  <rect class="blk" x="38"  y="60" width="74" height="40" fill="#93c5fd"/><text class="lbl" x="75" y="85">A1</text>
+  <rect class="blk" x="148" y="60" width="74" height="40" fill="#93c5fd"/><text class="lbl" x="185" y="85">A1</text>
+  <rect class="blk" x="278" y="60" width="74" height="40" fill="#86efac"/><text class="lbl" x="315" y="85">A2</text>
+  <rect class="blk" x="388" y="60" width="74" height="40" fill="#86efac"/><text class="lbl" x="425" y="85">A2</text>
+
+  <!-- stripe B -->
+  <rect class="blk" x="38"  y="110" width="74" height="40" fill="#60a5fa"/><text class="lbl" x="75" y="135">B1</text>
+  <rect class="blk" x="148" y="110" width="74" height="40" fill="#60a5fa"/><text class="lbl" x="185" y="135">B1</text>
+  <rect class="blk" x="278" y="110" width="74" height="40" fill="#4ade80"/><text class="lbl" x="315" y="135">B2</text>
+  <rect class="blk" x="388" y="110" width="74" height="40" fill="#4ade80"/><text class="lbl" x="425" y="135">B2</text>
+
+  <!-- stripe C -->
+  <rect class="blk" x="38"  y="160" width="74" height="40" fill="#3b82f6"/><text class="lbl" x="75" y="185">C1</text>
+  <rect class="blk" x="148" y="160" width="74" height="40" fill="#3b82f6"/><text class="lbl" x="185" y="185">C1</text>
+  <rect class="blk" x="278" y="160" width="74" height="40" fill="#22c55e"/><text class="lbl" x="315" y="185">C2</text>
+  <rect class="blk" x="388" y="160" width="74" height="40" fill="#22c55e"/><text class="lbl" x="425" y="185">C2</text>
+
+  <text class="lbl" x="260" y="230" fill="#334155">组内镜像（同色同编号=互为副本）</text>
+  <text class="lbl" x="260" y="250" fill="#b91c1c">同一镜像组两块全坏才丢数据；跨组各坏1块仍安全</text>
+</svg>

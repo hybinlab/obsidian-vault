@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 300" font-family="sans-serif">
+  <style>
+    .disk{fill:#eef2f7;stroke:#94a3b8;stroke-width:2;rx:6}
+    .blk{stroke:#334155;stroke-width:1.5;rx:4}
+    .lbl{font-size:14px;fill:#1e293b;text-anchor:middle}
+    .t{font-size:16px;fill:#1e293b;text-anchor:middle;font-weight:bold}
+    .cap{font-size:15px;text-anchor:middle;font-weight:bold}
+  </style>
+  <text class="t" x="280" y="24">RAID 5 · 坏盘 → 重建 动态示意</text>
+
+  <!-- captions, cross-fading -->
+  <text class="cap" x="280" y="48" fill="#334155">
+    正常运行
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+      values="1;1;0;0;0;0;1" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+  </text>
+  <text class="cap" x="280" y="48" fill="#b91c1c">
+    Disk3 故障，正在用 A1⊕A2⊕Ap 重建 A3...
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+      values="0;0;1;1;0;0;0" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+  </text>
+  <text class="cap" x="280" y="48" fill="#15803d">
+    重建完成，新盘已接管 A3
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+      values="0;0;0;0;1;1;0" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+  </text>
+
+  <!-- disks -->
+  <rect class="disk" x="20"  y="70" width="110" height="180"/>
+  <rect class="disk" x="150" y="70" width="110" height="180"/>
+  <rect class="disk" x="280" y="70" width="110" height="180" id="disk3"/>
+  <rect class="disk" x="410" y="70" width="110" height="180"/>
+  <text class="lbl" x="75"  y="65">Disk1</text>
+  <text class="lbl" x="205" y="65">Disk2</text>
+  <text class="lbl" x="335" y="65">Disk3</text>
+  <text class="lbl" x="465" y="65">Disk4</text>
+
+  <!-- disk3 outline turns red on failure, green on rebuilt -->
+  <rect x="280" y="70" width="110" height="180" fill="none" stroke-width="4" rx="6">
+    <animate attributeName="stroke" dur="8s" repeatCount="indefinite"
+      values="#94a3b8;#94a3b8;#ef4444;#ef4444;#22c55e;#22c55e;#94a3b8"
+      keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+  </rect>
+
+  <!-- data blocks A1 A2 A3 Ap -->
+  <rect class="blk" x="30"  y="90" width="90" height="46" fill="#93c5fd"/><text class="lbl" x="75" y="118">A1</text>
+  <rect class="blk" x="160" y="90" width="90" height="46" fill="#93c5fd"/><text class="lbl" x="205" y="118">A2</text>
+
+  <!-- A3: color animates blue -> gray(fail) -> green(rebuilt) -->
+  <rect class="blk" x="290" y="90" width="90" height="46">
+    <animate attributeName="fill" dur="8s" repeatCount="indefinite"
+      values="#93c5fd;#93c5fd;#cbd5e1;#cbd5e1;#4ade80;#4ade80;#93c5fd"
+      keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+  </rect>
+  <text class="lbl" x="335" y="118">A3</text>
+
+  <!-- red X over A3 while failed -->
+  <g stroke="#b91c1c" stroke-width="4" stroke-linecap="round">
+    <line x1="295" y1="95" x2="375" y2="131">
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+        values="0;0;1;1;0;0;0" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+    </line>
+    <line x1="375" y1="95" x2="295" y2="131">
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+        values="0;0;1;1;0;0;0" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+    </line>
+  </g>
+
+  <rect class="blk" x="420" y="90" width="90" height="46" fill="#fbbf24"/><text class="lbl" x="465" y="118">Ap</text>
+
+  <!-- reading pulses on the 3 surviving blocks during rebuild -->
+  <g fill="#2563eb">
+    <circle cx="75" cy="150" r="6"><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0;0" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/></circle>
+    <circle cx="205" cy="150" r="6"><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0;0" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/></circle>
+    <circle cx="465" cy="150" r="6"><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0;0" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/></circle>
+  </g>
+  <text class="lbl" x="280" y="175" fill="#2563eb" font-size="12">
+    读取存活数据 + 校验
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0;0" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+  </text>
+
+  <!-- rebuild progress bar -->
+  <rect x="180" y="200" width="200" height="16" fill="none" stroke="#94a3b8" stroke-width="1.5" rx="4"/>
+  <rect x="182" y="202" width="0" height="12" fill="#2563eb" rx="3">
+    <animate attributeName="width" dur="8s" repeatCount="indefinite"
+      values="0;0;0;196;196;0;0" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+    <animate attributeName="fill" dur="8s" repeatCount="indefinite"
+      values="#2563eb;#2563eb;#2563eb;#2563eb;#22c55e;#22c55e;#2563eb" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+  </rect>
+  <text class="lbl" x="280" y="235" fill="#64748b" font-size="12">
+    重建进度
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;1;0;0" keyTimes="0;0.18;0.20;0.60;0.62;0.95;1"/>
+  </text>
+
+  <text class="lbl" x="280" y="270" fill="#334155" font-size="13">RAID 6 同理，但可承受同时坏 2 块盘（P+Q 双校验）</text>
+</svg>
