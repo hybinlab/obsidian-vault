@@ -475,6 +475,48 @@
       "contentDigest": "c0363a6d1dc56a60ae6cd0832b54493ab76a8b6a5bcb82247b3c7f770f65c751",
       "providerUserMessageId": "3b261717-ac18-4fdf-97b6-ea1dd2cd301e",
       "providerAssistantMessageId": "8db27550-2210-42d1-abe5-333b2f5e5436"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "msg-1789227977690-bw3bh95",
+      "userTurnOrdinal": 30,
+      "state": "accepted",
+      "localMessageId": "msg-1789227977677-o8bllle",
+      "timestamp": 1789227977677,
+      "rawDisplayText": "是不是应该把监控体系单独拎出来做成一个文件夹？",
+      "canonicalText": "是不是应该把监控体系单独拎出来做成一个文件夹？",
+      "images": [],
+      "contentDigest": "c8099d379b8adb96a2b55cda5cebdcd3974e8e77f5de85e6cc66e11713d31d15",
+      "providerUserMessageId": "da5ae958-23ba-4d61-9407-5aafd8ebce3f",
+      "providerAssistantMessageId": "a253c13f-a6d5-437f-ade4-c71cadf2a46a"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "msg-1789304966154-shjr9d9",
+      "userTurnOrdinal": 31,
+      "state": "accepted",
+      "localMessageId": "msg-1789304966120-5v417km",
+      "timestamp": 1789304966120,
+      "rawDisplayText": "https://github.com/pranshuparmar/witr，帮我整理一份语法速查手册吧",
+      "canonicalText": "https://github.com/pranshuparmar/witr，帮我整理一份语法速查手册吧",
+      "images": [],
+      "contentDigest": "99bb5d422d8f4776ec6ed1454582a027ca72707bb757f69dec2da7fdabc53001",
+      "providerUserMessageId": "6284a364-a176-430a-8f95-9300c349ef8a",
+      "providerAssistantMessageId": "f4f3580c-2460-4fbd-880e-d222d9afcc7b"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "msg-1789305366349-h2bi0vl",
+      "userTurnOrdinal": 32,
+      "state": "accepted",
+      "localMessageId": "msg-1789305366332-maytnck",
+      "timestamp": 1789305366332,
+      "rawDisplayText": "纠正：这是我部署在hoelab的而不是macbook",
+      "canonicalText": "纠正：这是我部署在hoelab的而不是macbook",
+      "images": [],
+      "contentDigest": "fc7c6f4685e4ebb4a0030735c624d98d4798818c60f24a6ec4a39bca0d70579e",
+      "providerUserMessageId": "5de67a92-d04e-4f0d-a84f-f88ef5a77b19",
+      "providerAssistantMessageId": "350305a4-c2e2-41ac-8459-3026bd0c50a9"
     }
   ]
 }

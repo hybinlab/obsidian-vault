@@ -1,8 +1,3 @@
----
-tags:
-  - macos
----
-
 # witr 命令参考
 
 > **witr** — "Why is this running?" 进程溯源工具 回答：这个进程为什么在跑、怎么启动的、谁在管它。
@@ -10,17 +5,23 @@ tags:
 
 ---
 
-## 安装
+## 安装（homelab / Linux）
 
 ```bash
-# 手动安装（Ubuntu 24.04 及以下）
-curl -LO https://github.com/pranshuparmar/witr/releases/latest/download/witr-linux-amd64
-chmod +x witr-linux-amd64
-sudo mv witr-linux-amd64 /usr/local/bin/witr
+# 官方安装脚本（自动识别系统架构，推荐）
+curl -fsSL https://raw.githubusercontent.com/pranshuparmar/witr/main/install.sh | bash
 
-# apt 安装（Ubuntu 26.04+）
+# apt（Ubuntu 26.04+ / Debian sid+ 及衍生发行版，如 Kali）
 sudo apt install witr
+
+# 手动下载二进制（脚本失败时用）
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+ARCH=$(uname -m); [ "$ARCH" = "x86_64" ] && ARCH="amd64"; [ "$ARCH" = "aarch64" ] && ARCH="arm64"
+curl -fsSL "https://github.com/pranshuparmar/witr/releases/latest/download/witr-${OS}-${ARCH}" -o witr
+chmod +x witr && sudo mv witr /usr/local/bin/witr
 ```
+
+> 也支持 macOS/Windows/FreeBSD 及 Homebrew/Conda/AUR/Winget/npm 等包管理器，见 [Repology](https://repology.org/project/witr/versions)——这里只记 homelab 服务器上实际用的 Linux 安装方式。
 
 
 ---
@@ -118,7 +119,7 @@ witr --file /tmp/app.lock
 
 # 脚本中判断进程是否在运行
 witr nginx --short
-echo $?   # 0=正常 1=有警告 2=未找到 3=权限不足 4=输入有误
+echo $?   # 0=正常 1=有警告 2=未找到 3=权限不足 4=输入有误 5=内部错误
 ```
 
 
@@ -133,6 +134,7 @@ echo $?   # 0=正常 1=有警告 2=未找到 3=权限不足 4=输入有误
 | 2 | 未找到匹配进程 |
 | 3 | 权限不足 |
 | 4 | 参数错误或匹配结果不唯一 |
+| 5 | 内部错误（未预期的失败） |
 
 
 ---
