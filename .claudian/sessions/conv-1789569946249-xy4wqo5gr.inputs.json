@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "conversationId": "conv-1789569946249-xy4wqo5gr",
+  "records": [
+    {
+      "schemaVersion": 1,
+      "id": "msg-1789569946336-egzci7l",
+      "userTurnOrdinal": 1,
+      "state": "accepted",
+      "localMessageId": "msg-1789569946247-xn2tv2o",
+      "timestamp": 1789569946247,
+      "rawDisplayText": "今天实在是倒霉",
+      "canonicalText": "今天实在是倒霉",
+      "context": {
+        "currentNote": {
+          "path": "2026-09-16.md"
+        }
+      },
+      "images": [],
+      "contentDigest": "2c06fc44a7695d0bf9746496992afa5f1ab71344a1eadfe5e26ce4df5de102f6",
+      "providerUserMessageId": "81ab5c0b-e540-4d18-98cc-6e43634ecb6a"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "msg-1789570041510-9ws6lbt",
+      "userTurnOrdinal": 2,
+      "state": "accepted",
+      "localMessageId": "msg-1789570041499-94obiob",
+      "timestamp": 1789570041499,
+      "rawDisplayText": "实在倒霉",
+      "canonicalText": "实在倒霉",
+      "images": [],
+      "contentDigest": "b9de2ad13c9439174f526f777fd954e6c1aadefee7b488f7d6d4b16fbff5c434",
+      "providerUserMessageId": "b0ac9252-361c-4ce2-b20f-60575ed4fe58",
+      "providerAssistantMessageId": "04fc2d0f-58e1-4e2d-aedc-88d1c01b0e07"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "msg-1789570094077-of0srq8",
+      "userTurnOrdinal": 3,
+      "state": "accepted",
+      "localMessageId": "msg-1789570094073-vikm0eu",
+      "timestamp": 1789570094073,
+      "rawDisplayText": "我可以肯定的是，主板肯定是有问题的，但是CPU就不懂了",
+      "canonicalText": "我可以肯定的是，主板肯定是有问题的，但是CPU就不懂了",
+      "images": [],
+      "contentDigest": "ab8cbdcbeed86ac49c066a1dee75e24095ee5d9591fe72a365f66a9b937da6a2",
+      "providerUserMessageId": "6fe780e1-bfab-4d92-861d-d152a6d2818c",
+      "providerAssistantMessageId": "baf7f74a-3a1f-4a3a-909e-19dd4600d12a"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "msg-1789570141485-m82qb6e",
+      "userTurnOrdinal": 4,
+      "state": "accepted",
+      "localMessageId": "msg-1789570141482-4384d62",
+      "timestamp": 1789570141482,
+      "rawDisplayText": "我把CPU供电拔了，就没有出现启停。然后我把CPU重新插拔，更完蛋了，直接点不亮",
+      "canonicalText": "我把CPU供电拔了，就没有出现启停。然后我把CPU重新插拔，更完蛋了，直接点不亮",
+      "images": [],
+      "contentDigest": "98b3f035d456557a8f355fba4baa3da4685621e9deabc622c0f2e52a2db5f0cc",
+      "providerUserMessageId": "7074c504-19ab-4d28-9c06-1df506823fc3",
+      "providerAssistantMessageId": "51dc2edc-bdf1-42ee-9ffb-451489667699"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "msg-1789570188001-wdqwsqp",
+      "userTurnOrdinal": 5,
+      "state": "accepted",
+      "localMessageId": "msg-1789570187998-7r3samp",
+      "timestamp": 1789570187998,
+      "rawDisplayText": "针脚没弯",
+      "canonicalText": "针脚没弯",
+      "images": [],
+      "contentDigest": "4fd3430bb61e9d6242b07b5ec2a25f7cdf9aa5ae38c7395ee27a342f82420f7c",
+      "providerUserMessageId": "75b408b8-a605-4b31-9efb-4e63052d49f9",
+      "providerAssistantMessageId": "9d6dbfe0-d9fe-427d-8920-2202acdb91e6"
+    }
+  ]
+}
