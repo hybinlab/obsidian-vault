@@ -4,20 +4,19 @@
   "title": "今天实在是倒霉",
   "titleGenerationStatus": "pending",
   "createdAt": 1789569946258,
-  "lastActivityAt": 1789570206040,
+  "lastActivityAt": 1789657207684,
   "sessionId": "96ca424c-8702-4fed-9a64-8186b68e4bb7",
   "selectedModel": "sonnet",
   "providerState": {
     "providerSessionId": "96ca424c-8702-4fed-9a64-8186b68e4bb7"
   },
-  "currentNote": "2026-09-16.md",
   "usage": {
     "model": "sonnet",
     "inputTokens": 2,
-    "cacheCreationInputTokens": 1738,
-    "cacheReadInputTokens": 32640,
+    "cacheCreationInputTokens": 151,
+    "cacheReadInputTokens": 59926,
     "contextWindow": 1000000,
-    "contextTokens": 34380,
-    "percentage": 3
+    "contextTokens": 60079,
+    "percentage": 6
   }
 }
