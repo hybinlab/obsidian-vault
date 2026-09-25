@@ -141,6 +141,35 @@ systemctl daemon-reload
 
 要采的话在 `local.file_match.hermes_logs.path_targets` 里加对应 `__path__` 条目。注意 Loki 默认单 stream 标签基数有限，**不要用 rotated 时间戳做 label**（会爆 stream 数）。
 
+## 多机对齐：homelab 集群标签
+
+homelab 集群里两台机器都在推 Loki，标签体系要统一：
+
+| 维度 | 本机 (agent, systemd alloy) | docker-host (容器 alloy) |
+|---|---|---|
+| **hostname** | `agent` | `docker-host` |
+| **host label** | `"agent"`（硬编码，跟 hostname 一致） | `"docker-host"`（硬编码，跟 hostname 一致）|
+| **cluster label** | `cluster = "homelab"`（`loki.process add_labels`） | `cluster = "homelab"`（同一套）|
+| **job** | syslog / authlog / kernlog / hermes | docker / syslog / authlog |
+
+docker-host 上原来的 `config.alloy` **没有 `cluster` 标签**，只给本机加了之后 Loki 端筛 `{cluster="homelab"}` 会漏掉 docker-host 的日志。补齐那台需要做：
+
+1. 备份：`ssh docker-host 'cp /root/monitoring/config.alloy /root/monitoring/config.alloy.bak.<date>'`
+2. 在 `loki.write` 段之前插入 `loki.process "add_labels"` 段（结构跟本机一样，`cluster = "homelab"`、`forward_to = [loki.write.local.receiver]`）
+3. 把 `loki.source.docker "containers"` 和 `loki.source.file "syslog"` 两条 `forward_to` 都改成 `[loki.process.add_labels.receiver]`（让所有日志都过 add_labels）
+4. 容器没有 curl/wget，**热加载靠 `docker compose restart alloy`**（容器 alloy 不支持 `/-/reload` 因为 exec 没 HTTP 工具；这是 docker 镜像精简过的代价）
+
+验证：
+
+```
+curl http://127.0.0.1:3100/loki/api/v1/label/cluster/values
+→ ["homelab"]
+```
+
+跑完两台机器所有 Loki 日志都贴 `cluster="homelab"`，按集群筛干净。
+
+**`/etc/hostname` 是这两台机器 host label 的真实来源**——目前是硬编码到 alloy 配置里，如果机器改名 / 搬网段要同步改。也可以用 `loki.process.stage.template` + `local.file_match` 读 `/etc/hostname` 动态注入，但 homelab 规模不值得。
+
 ## 跟 [[监控告警链路追踪/Alloy/Alloy 接入 Prometheus 实战记录.md]] 的关系
 
 那篇是 Prometheus 指标链路（Prometheus ↔ unix_exporter + alloy 自指），这篇是 Loki 日志链路（alloy → Loki）。同一份 alloy config 既推 Prom 也推 Loki，互不影响。两篇共用同一份 `systemctl restart alloy` 节奏。
