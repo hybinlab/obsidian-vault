@@ -63,16 +63,8 @@ prometheus.scrape "default" {
     restart: always
 ```
 
-## 坑一：URL 写错 IP
 
-第一版把 URL 写成 `http://192.168.31.4:9090/api/v1/write`（本机 IP）。原因是把 `~/.ssh/config` 里 `docker-host → 192.168.31.1` 这条想当然否定了，误以为是 OpenWrt 网关、docker-host 在另一台机器。**正解**：
-
-- `.1` = docker-host（兼跑 docker / prometheus / grafana / loki / alloy / Caddy / vaultwarden）
-- `.11` = OpenWrt 网关
-
-`~/.ssh/config` 第一行就是硬证据，脑子绕远路时优先回头看。
-
-## 坑二：`/-/reload` 返回 200 ≠ 真的生效
+## 坑一：`/-/reload` 返回 200 ≠ 真的生效
 
 改完 `/etc/alloy/config.alloy` 的 URL 后调 `curl -X POST http://127.0.0.1:12345/-/reload`，返回 `config reloaded` + `Alloy is ready`，**但 alloy 进程仍在用旧 URL 发 batch**。`journalctl -u alloy` 看出真相：
 
@@ -133,8 +125,3 @@ WAL 增长 ≠ batch 已发——只看 WAL 容易误判"还没发"，要结合 
 - [[监控告警链路追踪/Alloy/Alloy 组件控制器与生命周期.md]] — reload vs restart 行为差异
 - [[监控告警链路追踪/Alloy/Grafana Alloy 概述.md]] — 之前判断为"知识存档，不急着部署"，本次小范围打通 homelab
 
-## 下一步
-
-- [ ] Prometheus 加 `up{job="alloy"}` 等基础 dashboard
-- [ ] docker-host 上 alloy 容器（`/root/monitoring/config.alloy`）也补 prometheus.remote_write（同链路）
-- [ ] 验证 scrape interval / retention 合理（alloy scrape_interval 默认 60s，Prometheus retention 30d）
