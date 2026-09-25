@@ -1,0 +1,22 @@
+{
+  "id": "conv-1790303223862-lfjyela7o",
+  "providerId": "claude",
+  "title": "建立可观测性文档库",
+  "titleGenerationStatus": "success",
+  "createdAt": 1790303223870,
+  "lastActivityAt": 1790337566006,
+  "sessionId": "98d4cc96-7900-41b0-907e-5038dc64b741",
+  "selectedModel": "sonnet",
+  "providerState": {
+    "providerSessionId": "98d4cc96-7900-41b0-907e-5038dc64b741"
+  },
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 359,
+    "cacheReadInputTokens": 221209,
+    "contextWindow": 1000000,
+    "contextTokens": 221570,
+    "percentage": 22
+  }
+}

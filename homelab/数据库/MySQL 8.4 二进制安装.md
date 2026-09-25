@@ -208,4 +208,4 @@ FLUSH PRIVILEGES;
 ## 相关笔记
 
 - [[homelab/数据库/CloudBeaver 部署与恢复手册.md]] — Web 端管理这个 MySQL 实例
-- [[homelab/监控/mysql部署prometheus.md]] — 给这个实例接 mysqld_exporter 监控
+- [[监控告警链路追踪/监控/mysql部署prometheus.md]] — 给这个实例接 mysqld_exporter 监控

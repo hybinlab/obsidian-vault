@@ -29,7 +29,7 @@ publish: true
 
 - [[ansible/Ansible 概念.md|ansible]] — Ansible 自动化配置管理
 - [[SRE/SRE 学习路径.md|SRE]] — SRE 方向的学习路径与方法论
-- [[claude code最佳实践/最佳实践.md|claude code最佳实践]] — AI 辅助工程的工作流与技巧
+- [[最佳实践|claude code最佳实践]] — AI 辅助工程的工作流与技巧
 - [[速查手册/Git 常用命令使用指南.md|速查手册]] — 命令、语法、配置速查
 
 ### 🧪 项目与探索
