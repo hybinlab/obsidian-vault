@@ -1,3 +1,11 @@
+---
+publish: true
+tags:
+  - Alloy
+  - HTTP
+  - 监听配置
+---
+
 # Ubuntu Grafana Alloy HTTP 监听配置
 
 ## 问题
