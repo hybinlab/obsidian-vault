@@ -4,7 +4,7 @@
   "title": "建立可观测性文档库",
   "titleGenerationStatus": "success",
   "createdAt": 1790303223870,
-  "lastActivityAt": 1790337566006,
+  "lastActivityAt": 1790430468064,
   "sessionId": "98d4cc96-7900-41b0-907e-5038dc64b741",
   "selectedModel": "sonnet",
   "providerState": {
@@ -13,10 +13,10 @@
   "usage": {
     "model": "sonnet",
     "inputTokens": 2,
-    "cacheCreationInputTokens": 359,
-    "cacheReadInputTokens": 221209,
+    "cacheCreationInputTokens": 2553,
+    "cacheReadInputTokens": 279792,
     "contextWindow": 1000000,
-    "contextTokens": 221570,
-    "percentage": 22
+    "contextTokens": 282347,
+    "percentage": 28
   }
 }
