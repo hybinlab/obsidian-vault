@@ -5,6 +5,8 @@ tags:
 ---
 # mysql部署prometheus
 
+> ⚠️ **旧版方案**：这篇讲的是独立部署 mysqld_exporter + Prometheus pull 采集的方式。database 这台机器已经决定改用 Alloy 内置的 `prometheus.exporter.mysql` 统一采集（跟 node 指标合并成一个 Alloy 进程，见 [[监控告警链路追踪/Alloy/实践/Alloy 接入 Prometheus 实战记录.md]]），本文档步骤仅作历史参考，迁移时记得卸载旧的 mysqld_exporter（见文末新增的"迁移到 Alloy 时的卸载步骤"）。
+
 # MySQL Exporter 部署文档
 
 ## 概述
@@ -266,6 +268,30 @@ sudo journalctl -u mysqld_exporter -f
 
 
 ---
+
+## 迁移到 Alloy 时的卸载步骤
+
+如果这台机器要改用 Alloy 内置的 `prometheus.exporter.mysql` 统一采集（同时也顶替了 node_exporter），旧的 mysqld_exporter 要停干净，避免两边同时采集导致端口冲突或者数据重复：
+
+```bash
+sudo systemctl stop mysqld_exporter
+sudo systemctl disable mysqld_exporter
+sudo rm /etc/systemd/system/mysqld_exporter.service
+sudo systemctl daemon-reload
+sudo rm /usr/local/bin/mysqld_exporter
+```
+
+同一台机器如果还装过 node_exporter，一并卸载：
+
+```bash
+sudo systemctl stop node_exporter
+sudo systemctl disable node_exporter
+sudo rm /etc/systemd/system/node_exporter.service
+sudo systemctl daemon-reload
+sudo rm /usr/local/bin/node_exporter
+```
+
+`prometheus.yml` 里对应这台机器的两条 `static_configs`（`job_name: 'node'` 和 `job_name: 'mysql'` 下各一条）也要删掉，改成等 Alloy push 数据过来——具体配置和踩过的坑见 [[监控告警链路追踪/Alloy/实践/Alloy 接入 Prometheus 实战记录.md]]。
 
 ## 相关链接
 
