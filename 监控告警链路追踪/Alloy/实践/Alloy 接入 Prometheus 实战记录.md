@@ -150,6 +150,23 @@ discovery.relabel "unix_job" {
 
 **教训**：内嵌/虚拟类型的 exporter 组件（`prometheus.exporter.unix` 这种没有真实网络地址的）容易在 `instance` 标签上留坑，写完 `discovery.relabel` 别只顾着改 `job`，`instance` 也要显式检查一遍是不是默认成了 loopback 地址。
 
+## 坑五：Node Exporter Full 仪表盘 CPU/Network 面板间歇性 N/A——`$__rate_interval` 和实际 scrape interval 不匹配
+
+现象：`CPU Basic`/`Network Traffic Basic`/`CPU Busy` 这类用 `rate()`/`irate()` 的面板持续显示 `无数据`/`N/A`，但同一仪表盘里 `RAM`/`SWAP`/`Sys Load`/`Root FS` 这些不用 `rate()` 的面板正常，而且 Prometheus 里直接查 `node_cpu_seconds_total{instance="agent"}` 原始计数器**确实有数据**——一开始怀疑过"数据太新""变量插值出错""查询语句本身有问题"，逐个排除后才找到真根因。
+
+**排查路径**（比结论更值得记）：
+
+1. 先怀疑"数据太新，`rate()` 窗口没攒够点"——等了很久、Uptime 都到几小时了还是不行，排除
+2. 怀疑面板用的 `instance="$node"` 变量插值出问题（Grafana 多选变量可能插值成 `(agent)` 带括号格式）——把 `$node` 换成字面量 `"agent"` 手动测试，还是 N/A，排除
+3. 去浏览器开发者工具 Network 面板抓 `/api/ds/query` 的真实请求/响应——**第一次抓错**，抓到的是别的面板（Sys Load）的请求，仪表盘里十几个面板的查询请求会同时发出，靠"随手点一条"容易抓错，得看 Response 里的 `executedQueryString` 字段确认是不是目标面板的查询
+4. 抓对了之后，响应是 `status: 200`（不是报错！）但 `data.values` 是空数组，`executedQueryString` 里能看到 Prometheus 实际执行的查询窗口是 `[1m0s]`——这个 `1m0s` 是 `$__rate_interval` 宏自动算出来的
+
+**真根因**：`$__rate_interval` 由 Grafana **数据源设置里的 Scrape interval** 算出来（约等于 `4 × scrape_interval`）。Grafana 数据源那边这个值还是默认的 `15s`（算出 `4×15s=60s=1m`），但 Alloy 的 `prometheus.scrape "default"` 组件**没有显式设置 `scrape_interval`**，用的是 Alloy 默认值（更长，比如 60s）——查询窗口和实际采集间隔卡在同一个数量级，`rate()` 需要窗口内至少 2 个采样点，两个时间点经常因为没对齐凑不够，导致间歇性查不到数据。
+
+**正解**：去 Grafana → Connections → Data sources → 对应的 Prometheus 数据源，把 **Scrape interval** 改成跟 Alloy 实际一致（比如 `60s`），`$__rate_interval` 自动变成 `4m`，窗口够宽就稳定了。（另一种思路是反过来把 Alloy 的 `prometheus.scrape` 显式设成 `scrape_interval = "15s"`，跟 Grafana 默认假设对齐——两种选一种，核心是让两边数字一致，别一边改一边不改。）
+
+**教训**：`rate()`/`irate()` 面板间歇性 N/A 但原始计数器确实有数据，别急着怀疑采集链路或者 PromQL 语法，先查**查询窗口跟实际采集间隔够不够匹配**——这是 Grafana + Prometheus 组合里一个经典但很容易被忽略的坑，跟 Alloy 本身没关系，纯粹是 Grafana 数据源配置和实际采集节奏没对齐。
+
 ## 探测工具陷阱
 
 `(timeout 2 bash -c "echo > /dev/tcp/H/P")` 在子 shell 里报"Connection refused"和"closed/filtered" 都可能是探测器自身问题，**不是网络真被拒**。这次差点因这个误判把整个链路放弃。
@@ -170,6 +187,8 @@ discovery.relabel "unix_job" {
 | `curl .../api/v1/label/instance/values` 里出现 `127.0.0.1:xxxxx` 这类地址 | 内嵌 exporter 组件没显式设置 `instance`，落到了 `__address__` 默认值 |
 | Prometheus `/api/v1/label/job/values` 含 `alloy` | 端到端通 |
 | `alloy_build_info` series 存在 | self-scrape 也推过去了 |
+| `rate()`/`irate()` 面板间歇性 N/A，但原始计数器 `curl .../api/v1/query?query=<metric>` 查得到数据 | 查 Grafana 数据源的 Scrape interval 设置是否跟 Alloy 实际 `scrape_interval` 匹配（决定 `$__rate_interval` 窗口够不够宽） |
+| 浏览器开发者工具 Network 面板 `/api/ds/query` 响应里的 `executedQueryString` | 确认抓到的请求是不是目标面板的（仪表盘同时发多个面板的请求，容易抓错） |
 
 WAL 增长 ≠ batch 已发——只看 WAL 容易误判"还没发"，要结合 `bytes_total` 一起看。
 

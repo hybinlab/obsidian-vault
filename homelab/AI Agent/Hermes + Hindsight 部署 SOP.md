@@ -1,5 +1,7 @@
 # Hermes + Hindsight（Bare Metal）部署 SOP
 
+> Hindsight 专项笔记（API 细节、概念）另开在 [[homelab/AI Agent/Hindsight/]] 文件夹，这篇是 Hermes+Hindsight 联合部署的 SOP，两者耦合较深，暂不拆分。
+
 > **适用场景**：Hermes Agent 与 Hindsight API 同机部署在 Agent VM；PostgreSQL 独立部署在 DB VM；Hindsight 使用本地 Embedding / Reranker（中英混合），LLM 使用 MiniMax 国内 API。
 > **验证版本**：Hindsight API `v0.10.1` / torch `2.14.0+cpu`
 > **验证环境**：PVE 9.2 · Ubuntu 24.04 · Python 3.12 · uv · PostgreSQL 16 · pgvector 0.6.0
@@ -221,7 +223,7 @@ curl -s -X POST http://127.0.0.1:8888/v1/default/banks/test/memories/recall \
   -d '{"query":"PG 数据库在哪台机器上？"}'
 ```
 
-能召回上面那条即说明 embedding / reranker / 数据库链路正常。测试 bank 可在 Web UI 删除。
+能召回上面那条即说明 embedding / reranker / 数据库链路正常。测试 bank 可在 Web UI 删除（见 §15）。
 
 ---
 
@@ -331,3 +333,38 @@ journalctl -u hindsight -b --no-pager | grep -E "Database:|LLM:|Connection verif
 - 凭据一旦出现在聊天记录、日志或截图中（**包括打码截图**），视为已暴露并轮换：MiniMax Key、DB 密码。
 - Hindsight 仅监听 `127.0.0.1`；默认 REST API 无鉴权，需要跨机访问时经 Caddy 反代并加认证，不要直接 frp 暴露。
 - PostgreSQL `pg_hba.conf` 只放行 Agent VM 的 `/32`。
+
+---
+
+## 15. Web UI（Control Plane）
+
+Hindsight 官方 Web UI 走 `npx` 临时运行，不用装 Node 包到系统里：
+
+```bash
+npx @vectorize-io/hindsight-control-plane --api-url http://127.0.0.1:8888
+```
+
+- `npx` 会把包和依赖下载到本机 npm 缓存（`~/.npm/_npx/`），**不是全局安装**，不会污染系统，但会占磁盘空间。不想要了直接 `rm -rf ~/.npm/_npx` 清掉。
+- Node 最低版本要求未核实过，`npx` 启动时如果报版本不对，按提示装对应的 LTS 版本即可（Ubuntu 24.04 apt 源里的版本偏旧，可能需要单独装）。
+
+### 跑在哪台机器上
+
+Hindsight API 只监听 `127.0.0.1:8888`（§14），Web UI 本质是个连这个本地端口的前端，**跑在哪台机器上就只能连那台机器自己的 8888**。按"Agent 相关的东西全放在 Agent VM"的分工，Web UI 也放 Agent VM 上跑，Mac 只负责开浏览器：
+
+```bash
+# Agent VM 上
+node -v    # 没有 Node 或版本太旧，先装 Node LTS
+npx @vectorize-io/hindsight-control-plane --api-url http://127.0.0.1:8888
+```
+
+### 从 Mac 访问
+
+UI 起在 Agent VM 上，端口不对外开放（符合 §14 的最小暴露原则），从 Mac 访问靠端口转发，二选一：
+
+- **VS Code Remote SSH**：连上 Agent VM 后，VS Code 通常会自动把 `9999` 转发到 Mac 本地，转发不了就去「端口」面板手动添加
+- **SSH 隧道**：Mac 上执行
+  ```bash
+  ssh -N -L 9999:127.0.0.1:9999 root@<AGENT_VM_IP>
+  ```
+
+两种方式选一个跑起来之后，Mac 浏览器打开 `http://localhost:9999` 即可。
