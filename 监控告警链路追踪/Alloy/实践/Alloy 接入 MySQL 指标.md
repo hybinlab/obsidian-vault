@@ -26,8 +26,8 @@ GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'localhost';
 `prometheus.exporter.mysql` 的 `data_source_name` 参数是 **Secret 类型**（[[监控告警链路追踪/Alloy/Alloy 数据类型.md]] 讲过这个类型——Alloy 不会在 UI/日志里明文展示它）。用环境变量传密码，配合字符串拼接组出完整 DSN：
 
 ```bash
-# /etc/default/alloy 或者 systemd override 里加
-MYSQL_EXPORTER_PASSWORD=换个强密码
+# /etc/default/alloy 或者 systemd override 里加（值要加双引号，见文末踩坑）
+MYSQL_EXPORTER_PASSWORD="换个强密码"
 ```
 
 ```alloy
@@ -147,8 +147,21 @@ curl -sg 'http://192.168.31.1:9090/api/v1/query?query=mysql_up'
 
 `mysql_up` 这个指标本身就是 mysqld_exporter 自带的健康探测——能连上 MySQL 是 `1`，连不上是 `0`，比查具体业务指标更快确认链路通没通。
 
+## 踩坑：`mysql_up=0` + `1045`，env 文件里的密码没加引号
+
+现象：`mysql_up{job="mysql"}` 是 `0`，Alloy 日志每分钟一条：
+
+```
+Error 1045 (28000): Access denied for user 'exporter'@'localhost' (using password: YES)
+```
+
+`using password: YES` 说明密码送出去了，只是值不对，网络和授权的主机部分都没问题。原因和 PG 完全一样：`/etc/default/alloy` 里的 `MYSQL_EXPORTER_PASSWORD` **没加双引号**，密码里有特殊字符时被 systemd 解析成了别的值。加引号后 `systemctl restart alloy` 解决（**用 restart，不是 reload**）。
+
+排查路径、判定方法、注意事项都在 [[监控告警链路追踪/Alloy/实践/Alloy 接入 PostgreSQL 指标.md]] 的"`pg_up=0` + `28P01`"一节，不重复写。
+
 ## 相关笔记
 
+- [[监控告警链路追踪/Alloy/实践/Alloy 接入 PostgreSQL 指标.md]] — 同一台机器上的 PG，含同一个引号踩坑
 - [[监控告警链路追踪/监控/mysql部署prometheus.md]] — 旧方案 + 卸载步骤
 - [[监控告警链路追踪/Alloy/实践/Alloy 接入 Prometheus 实战记录.md]] — node 指标实战 + `instance` 唯一性教训
 - [[监控告警链路追踪/Alloy/Alloy 数据类型.md]] — Secret 类型

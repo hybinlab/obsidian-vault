@@ -229,17 +229,23 @@ curl -s -X POST http://127.0.0.1:8888/v1/default/banks/test/memories/recall \
 
 ## 10. systemd 服务化
 
-`/etc/systemd/system/hindsight.service`：
+日志不进 journald，由 systemd 直接追加写文件，再由 Alloy 的 `loki.source.file` tail 推进 Loki（见 [[监控告警链路追踪/Alloy/实践/Alloy 采集 Loki 日志实战记录.md]]）。**日志目录要先建**，systemd 不会替你建：
+
+```bash
+mkdir -p /var/log/hindsight
+```
+
+> 目录不存在时服务会启动失败（通常是 `status=209/STDOUT`）。也可以在 `[Service]` 里加 `LogsDirectory=hindsight` 让 systemd 自己建，就不用手动 `mkdir`。
+
+`/etc/systemd/system/hindsight.service`（线上实际使用的版本）：
 
 ```ini
 [Unit]
-Description=Hindsight Memory API
+Description=Hindsight memory API
 After=network-online.target
 Wants=network-online.target
 
 [Service]
-Type=simple
-WorkingDirectory=/opt/hindsight
 EnvironmentFile=/opt/hindsight/hindsight.env
 ExecStart=/opt/hindsight/.venv/bin/hindsight-api
 Restart=on-failure
@@ -247,11 +253,17 @@ RestartSec=5
 # 升级/换模型需重新下载时留余量
 TimeoutStartSec=600
 
+# 日志落到 /var/log/hindsight/，由 alloy loki.source.file tail
+StandardOutput=append:/var/log/hindsight/hindsight.log
+StandardError=append:/var/log/hindsight/hindsight.err.log
+
 [Install]
 WantedBy=multi-user.target
 ```
 
 > host/port 已在 env 中设置，`ExecStart` 不再重复传参，避免两处不一致。不需要 `source .venv/bin/activate`。
+>
+> 相比早先的版本去掉了 `Type=simple`（默认值，等价）和 `WorkingDirectory=/opt/hindsight`。去掉后进程工作目录是 `/`，只有服务写相对路径文件时才需要加回来。
 
 ```bash
 systemctl daemon-reload
@@ -266,11 +278,33 @@ ss -lntp | grep 8888          # 期望: 127.0.0.1:8888
 
 ## 11. 运维
 
+应用日志在文件里（§10），**`journalctl -u hindsight` 现在只剩 systemd 自己的启动/停止/失败记录，看不到应用输出**：
+
 ```bash
-journalctl -u hindsight -f                 # 实时
-journalctl -u hindsight -n 100 --no-pager  # 最近 100 行
+tail -f /var/log/hindsight/hindsight.log /var/log/hindsight/hindsight.err.log   # 实时看应用日志
+journalctl -u hindsight -n 50 --no-pager   # 只看服务启停/崩溃记录
 systemctl restart hindsight
 ```
+
+Loki 里等价的查询是 `{job="hindsight"}`，可以按 `level`、`stream` 再筛。
+
+### 日志轮转（建议，尚未配置）
+
+`append:` 只追加不轮转，文件会一直长大。systemd 一直持有文件句柄，轮转要用 `copytruncate`，用 rename + create 的话 systemd 会继续写进被改名的旧文件。`/etc/logrotate.d/hindsight`：
+
+```text
+/var/log/hindsight/*.log {
+    weekly
+    rotate 4
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+}
+```
+
+> `copytruncate` 在复制和清空之间可能丢几行；Alloy 侧遇到文件被截断时的行为我没有验证过，上线后观察一次轮转前后 Loki 里日志是否连续。
 
 ### 升级
 
@@ -278,7 +312,7 @@ systemctl restart hindsight
 systemctl stop hindsight
 uv pip install --python /opt/hindsight/.venv/bin/python -U hindsight-api --torch-backend cpu
 uv pip check --python /opt/hindsight/.venv/bin/python
-systemctl start hindsight && journalctl -u hindsight -f
+systemctl start hindsight && tail -f /var/log/hindsight/hindsight.log /var/log/hindsight/hindsight.err.log
 ```
 
 > 不带 `--torch-backend cpu` 升级会把 CUDA torch 和 nvidia-* 装回来。
@@ -298,7 +332,7 @@ systemctl start hindsight && journalctl -u hindsight -f
 | # | 现象 | 原因 | 处理 |
 |---|---|---|---|
 | 1 | `LLM API key is required` | Hermes 用 `HINDSIGHT_LLM_API_KEY`，独立 API 读 `HINDSIGHT_API_LLM_API_KEY`；或 env 没 source（重启/新开 Shell 后） | 用 env 文件 + systemd `EnvironmentFile=` |
-| 2 | 日志 `LLM: provider=openai, model=gpt-4o-mini`、`Database: pg0` | env 未加载，全部走默认值 | 同上；启动先核对前两行日志 |
+| 2 | 日志 `LLM: provider=openai, model=gpt-4o-mini`、`Database: pg0` | env 未加载，全部走默认值 | 同上；启动先核对前两行日志（`/var/log/hindsight/`，见 §10） |
 | 3 | MiniMax `401 invalid api key (2049)` | `provider=minimax` 默认 endpoint 是国际站 `api.minimax.io`，国内 Key 需 `api.minimaxi.com` | 显式设置 `HINDSIGHT_API_LLM_BASE_URL` |
 | 4 | `vector.control: No such file` | pgvector 装在了客户端而不是 DB Server | DB VM 安装 `postgresql-16-pgvector` |
 | 5 | `Model/connection initialization did not complete within 300s` | 首次启动边下载模型边初始化，超时 | 先 `hf download` 预下载（§6），或调大 `HINDSIGHT_API_MODEL_INIT_TIMEOUT` |
@@ -321,7 +355,7 @@ systemctl is-active hindsight         # active
 ss -lntp | grep 8888                  # 127.0.0.1:8888
 free -h                               # total ≈ 7.7Gi
 hermes memory status                  # available
-journalctl -u hindsight -b --no-pager | grep -E "Database:|LLM:|Connection verified|initialized \(|dimension|startup complete"
+tail -n 300 /var/log/hindsight/hindsight*.log | grep -E "Database:|LLM:|Connection verified|initialized \(|dimension|startup complete"
 ```
 
 ---
