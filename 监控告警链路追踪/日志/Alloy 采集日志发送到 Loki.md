@@ -1,7 +1,11 @@
 ---
 publish: true
 tags:
+  - Alloy
+  - Loki
   - 部署
+cssclasses:
+  - Alloy
 ---
 
 对应官方 Send logs to Loki 教程，四个组件串成一条日志采集链路：`local.file_match`（找文件）→ `loki.source.file`（读文件内容）→ `loki.process`（过滤/处理）→ `loki.write`（写入 Loki）。概念背景见 [[监控告警链路追踪/Alloy/Alloy 构建 Pipeline.md]] 里的"日志管道"模式。
@@ -283,4 +287,4 @@ loki.write "local" {
 - [[监控告警链路追踪/Alloy/Alloy 构建 Pipeline.md]] — 日志管道的通用模式和更复杂的 stage 组合
 - [[监控告警链路追踪/Alloy/Alloy 组件控制器与生命周期.md]] — 热重载、健康状态
 - [[监控告警链路追踪/Alloy/Grafana Alloy 概述.md]] — 什么场景下值得部署 Alloy
-- [[监控告警链路追踪/日志/Alloy 处理日志（多阶段 Pipeline）.md]] — loki.process 内部多个 stage 怎么串联
+- [[Alloy 处理日志（多阶段 Pipeline）]] — loki.process 内部多个 stage 怎么串联

@@ -1,8 +1,13 @@
 ---
 publish: true
+tags:
+  - Alloy
+  - Loki
+cssclasses:
+  - Alloy
 ---
 
-对应官方 Processing logs 教程。 [[监控告警链路追踪/日志/Alloy 采集日志发送到 Loki.md]] 讲的是"怎么把日志采进来"，这篇讲**日志到了 Alloy 之后怎么加工**——`loki.process` 内部怎么叠多个 `stage.*`，从一条原始 JSON 日志里解析字段、改时间戳、按条件丢弃、打标签、替换最终写入内容。
+对应官方 Processing logs 教程。 [[Alloy 采集日志发送到 Loki]] 讲的是"怎么把日志采进来"，这篇讲**日志到了 Alloy 之后怎么加工**——`loki.process` 内部怎么叠多个 `stage.*`，从一条原始 JSON 日志里解析字段、改时间戳、按条件丢弃、打标签、替换最终写入内容。
 
 ## 核心概念：提取映射表（extracted map）
 
@@ -147,7 +152,7 @@ loki.write "local_loki" {
 
 `stage.docker {}` 是一个开箱即用的预设 stage，专门用来解析 Docker 日志驱动（json-file/journald）产生的那层 JSON 包装（`{"log":"...", "stream":"stdout", "time":"..."}`），一步顶前面教程里手写的好几个 `stage.json`+`stage.timestamp`。**如果日志源本身就是 Docker 容器，优先用 `stage.docker {}`，不用照抄上面那套手写解析逻辑。**
 
-**⚠️ 和 homelab 实际配置的写法差异**：这里 `discovery.relabel` 用的是 `targets = discovery.docker.docker_containers.targets`（真拿 target 列表去跑）+ 下游用 `.output`（relabel 之后的结果）；而 [[监控告警链路追踪/日志/Alloy 采集日志发送到 Loki.md]] 里 homelab 实际用的是 `targets = []`（留空，不实际跑）+ 下游 `loki.source.docker` 用 `relabel_rules = ....rules`（只要规则，由 `loki.source.docker` 自己内部套用）。**两种写法都对，是同一件事的两种实现方式**：一种是"提前把 relabel 做完，把结果传给下游"，另一种是"只传规则，让下游自己套用"。homelab 现在用的是后一种，看到官方教程写法不一样不用慌。
+**⚠️ 和 homelab 实际配置的写法差异**：这里 `discovery.relabel` 用的是 `targets = discovery.docker.docker_containers.targets`（真拿 target 列表去跑）+ 下游用 `.output`（relabel 之后的结果）；而 [[Alloy 采集日志发送到 Loki]] 里 homelab 实际用的是 `targets = []`（留空，不实际跑）+ 下游 `loki.source.docker` 用 `relabel_rules = ....rules`（只要规则，由 `loki.source.docker` 自己内部套用）。**两种写法都对，是同一件事的两种实现方式**：一种是"提前把 relabel 做完，把结果传给下游"，另一种是"只传规则，让下游自己套用"。homelab 现在用的是后一种，看到官方教程写法不一样不用慌。
 
 ## 小结
 
@@ -155,5 +160,5 @@ loki.write "local_loki" {
 
 ## 相关笔记
 
-- [[监控告警链路追踪/日志/Alloy 采集日志发送到 Loki.md]] — homelab 实际部署的采集配置
+- [[Alloy 采集日志发送到 Loki]] — homelab 实际部署的采集配置
 - [[监控告警链路追踪/Alloy/Alloy 构建 Pipeline.md]] — pipeline 的通用模式
