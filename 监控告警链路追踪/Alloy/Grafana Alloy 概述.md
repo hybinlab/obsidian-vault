@@ -60,7 +60,7 @@ Docker/Podman 容器、Kubernetes(Helm)/OpenShift、Linux 包管理器(deb/rpm)�
 
 **指标采集**：homelab 规模是"中心 Prometheus 直接够得着所有目标"，Prometheus 自带 scrape 引擎，装 Alloy 纯属多此一举——这条结论成立，见后面的"实测反例"。
 
-**日志采集**：这条不适用。**Prometheus 本身不采集日志**，它只做指标，从来没有"Prometheus 自带 scrape 日志"这个选项可比较——要把日志送进 Loki，天生就需要一个独立 agent（Promtail 或 Alloy 二选一）。所以 homelab 现在用 Alloy 采日志（[[监控告警链路追踪/日志/Alloy 采集日志发送到 Loki.md]]）不是"为了用新技术而用"，是日志采集这个环节本来就绕不开一个采集端 agent，选 Alloy 而不是 Promtail 只是因为 Grafana 官方已经把 Promtail 标为 deprecated、推荐迁移到 Alloy。
+**日志采集**：这条不适用。**Prometheus 本身不采集日志**，它只做指标，从来没有"Prometheus 自带 scrape 日志"这个选项可比较——要把日志送进 Loki，天生就需要一个独立 agent（Promtail 或 Alloy 二选一）。所以 homelab 现在用 Alloy 采日志（[[Alloy 采集日志发送到 Loki]]）不是"为了用新技术而用"，是日志采集这个环节本来就绕不开一个采集端 agent，选 Alloy 而不是 Promtail 只是因为 Grafana 官方已经把 Promtail 标为 deprecated、推荐迁移到 Alloy。
 
 也就是说：**指标场景下 Alloy 是多余的替代品，日志场景下 Alloy 是必需的采集端**——这是两个独立的判断，不要混着套用同一个"要不要用 Alloy"的结论。链路追踪同理，Prometheus/Loki 都不采 trace，一旦以后要接 Jaeger/Tempo，同样需要一个采集端，Alloy 也是候选之一。
 
@@ -78,8 +78,8 @@ Docker/Podman 容器、Kubernetes(Helm)/OpenShift、Linux 包管理器(deb/rpm)�
 - [[监控告警链路追踪/Alloy/Alloy 组件控制器与生命周期.md]] — 健康状态、热重载、优雅降级
 - [[监控告警链路追踪/Alloy/Alloy 自定义组件.md]] — declare/argument/export、Module 跨文件复用
 - [[监控告警链路追踪/Alloy/Alloy 采集 Prometheus 指标.md]] — discovery/scrape/remote_write 实战配方
-- [[监控告警链路追踪/日志/Alloy 采集日志发送到 Loki.md]] — 日志管道实战，当前 homelab 实际在用
-- [[监控告警链路追踪/日志/Alloy 处理日志（多阶段 Pipeline）.md]] — stage.json/timestamp/drop/labels/output 逐步拆解
+- [[Alloy 采集日志发送到 Loki]] — 日志管道实战，当前 homelab 实际在用
+- [[Alloy 处理日志（多阶段 Pipeline）]] — stage.json/timestamp/drop/labels/output 逐步拆解
 - [[监控告警链路追踪/Alloy/Alloy 顶层配置块参考.md]] — logging/http/livedebugging/remotecfg/import.*/foreach
 - [[监控告警链路追踪/日志/Alloy Loki 组件总览.md]] — 23 个 loki.* 组件索引
 - [[监控告警链路追踪/Alloy/Alloy HTTP 接口参考.md]] — /metrics /-/reload /-/ready /-/healthy 等端点

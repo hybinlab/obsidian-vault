@@ -42,12 +42,12 @@ logging {
 
 ## 对应 homelab 实际用法：Docker Compose
 
-homelab 那份用的是 Docker Compose，效果一样，只是把这行 `docker run` 换成了 `docker-compose.yml` 里的 `services.alloy` 块，加了 `network_mode` 或自定义网络（这样才能用 `http://loki:3100` 这种容器名当地址访问，参考 [[监控告警链路追踪/日志/Alloy 采集日志发送到 Loki.md]] 里的实际配置）。
+homelab 那份用的是 Docker Compose，效果一样，只是把这行 `docker run` 换成了 `docker-compose.yml` 里的 `services.alloy` 块，加了 `network_mode` 或自定义网络（这样才能用 `http://loki:3100` 这种容器名当地址访问，参考 [[Alloy 采集日志发送到 Loki]] 里的实际配置）。
 
 ## 相关笔记
 
 - [[监控告警链路追踪/Alloy/Grafana Alloy 概述.md]] — 部署方式总览、当前场景判断
-- [[监控告警链路追踪/日志/Alloy 采集日志发送到 Loki.md]] — homelab 实际的 Docker Compose 配置
+- [[Alloy 采集日志发送到 Loki]] — homelab 实际的 Docker Compose 配置
 - [[监控告警链路追踪/Alloy/安装/Alloy 安装 - Linux.md]]
 - [[监控告警链路追踪/Alloy/安装/Alloy 安装 - Ansible.md]]
 - [[监控告警链路追踪/Alloy/安装/Alloy 安装 - macOS.md]]

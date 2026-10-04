@@ -8,7 +8,7 @@ cssclasses:
   - Alloy
 ---
 
-database 机器从"独立装 mysqld_exporter"（旧方案见 [[监控告警链路追踪/监控/mysql部署prometheus.md]]）迁移到 Alloy 内置 `prometheus.exporter.mysql`，跟这台机器的 node 指标合并成一个 Alloy 进程，复用 [[监控告警链路追踪/Alloy/实践/Alloy 接入 Prometheus 实战记录.md]] 里踩过的坑（尤其是 `instance` 标签唯一性那个）。
+database 机器从"独立装 mysqld_exporter"（旧方案见 [[mysql部署prometheus]]）迁移到 Alloy 内置 `prometheus.exporter.mysql`，跟这台机器的 node 指标合并成一个 Alloy 进程，复用 [[监控告警链路追踪/Alloy/实践/Alloy 接入 Prometheus 实战记录.md]] 里踩过的坑（尤其是 `instance` 标签唯一性那个）。
 
 ## 前置：MySQL 这边先建一个最小权限的监控账号
 
@@ -125,7 +125,7 @@ homelab 单机规模，默认集合就够用，不用特地精简。
 
 ## 卸载旧方案
 
-参考 [[监控告警链路追踪/监控/mysql部署prometheus.md]] 文末新增的"迁移到 Alloy 时的卸载步骤"，把 mysqld_exporter + node_exporter 都停掉卸干净，`prometheus.yml` 里对应这台机器的两条 `static_configs`（`job_name: 'node'` 和 `job_name: 'mysql'` 下各一条）也要删。
+参考 [[mysql部署prometheus]] 文末新增的"迁移到 Alloy 时的卸载步骤"，把 mysqld_exporter + node_exporter 都停掉卸干净，`prometheus.yml` 里对应这台机器的两条 `static_configs`（`job_name: 'node'` 和 `job_name: 'mysql'` 下各一条）也要删。
 
 ## 验证
 
@@ -162,7 +162,7 @@ Error 1045 (28000): Access denied for user 'exporter'@'localhost' (using passwor
 ## 相关笔记
 
 - [[监控告警链路追踪/Alloy/实践/Alloy 接入 PostgreSQL 指标.md]] — 同一台机器上的 PG，含同一个引号踩坑
-- [[监控告警链路追踪/监控/mysql部署prometheus.md]] — 旧方案 + 卸载步骤
+- [[mysql部署prometheus]] — 旧方案 + 卸载步骤
 - [[监控告警链路追踪/Alloy/实践/Alloy 接入 Prometheus 实战记录.md]] — node 指标实战 + `instance` 唯一性教训
 - [[监控告警链路追踪/Alloy/Alloy 数据类型.md]] — Secret 类型
 - [[监控告警链路追踪/Alloy/Alloy 函数调用.md]] — `sys.env()`

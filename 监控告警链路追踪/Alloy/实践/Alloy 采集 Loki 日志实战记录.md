@@ -171,7 +171,7 @@ Hindsight API 是 Python 服务（部署见 [[homelab/AI Agent/Hermes + Hindsigh
 
 这条链路比系统日志/Hermes 多一步解析（`loki.process "hindsight_parse"`），日志格式是 Python logging 默认的 `时间 - 级别 - logger - 正文`：
 
-1. `stage.regex`：用命名捕获组抽出 `py_ts` / `level` / `logger` / `msg`，进"提取映射表"（机制见 [[监控告警链路追踪/日志/Alloy 处理日志（多阶段 Pipeline）.md]]）
+1. `stage.regex`：用命名捕获组抽出 `py_ts` / `level` / `logger` / `msg`，进"提取映射表"（机制见 [[Alloy 处理日志（多阶段 Pipeline）]]）
 2. `stage.labels`：把 `level`、`logger` 提成 Loki 标签，之后能直接 `{job="hindsight", level="ERROR"}` 筛
 3. `stage.output`：日志正文换成只剩 `msg`——级别和 logger 已经在标签里了，正文里不重复存
 4. `stage.static_labels`：补 `cluster="homelab"`
@@ -269,5 +269,5 @@ curl http://127.0.0.1:3100/loki/api/v1/label/cluster/values
 - [[监控告警链路追踪/Alloy/Alloy 构建 Pipeline.md]] — Pipeline 模式
 - [[监控告警链路追踪/Alloy/Alloy 接入 Prometheus 实战记录.md]] — 同一 alloy 实例的 Prom 链路实战
 - [[监控告警链路追踪/Alloy/Grafana Alloy 概述.md]] — Alloy 整体
-- [[监控告警链路追踪/日志/Alloy 处理日志（多阶段 Pipeline）.md]] — `loki.process` 各 stage 与提取映射表
+- [[Alloy 处理日志（多阶段 Pipeline）]] — `loki.process` 各 stage 与提取映射表
 - [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] — Hindsight 服务本身的部署
