@@ -33,7 +33,7 @@ brew uninstall grafana/grafana/alloy
 
 ## 配置文件位置
 
-遵循 Homebrew 的前缀规则，用 `brew --prefix` 查当前系统的 Homebrew 安装根目录，再拼 `/etc/alloy/config.alloy`（跟 [[监控告警链路追踪/日志/Alloy 采集日志发送到 Loki.md]] 里"加载配置"那步 `sudo cp config.alloy $(brew --prefix)/etc/alloy/config.alloy` 对得上）。服务本身也是走 `brew services` 管理，跟其他 Homebrew 装的后台服务（比如 PostgreSQL、Redis）操作方式一致。
+遵循 Homebrew 的前缀规则，用 `brew --prefix` 查当前系统的 Homebrew 安装根目录，再拼 `/etc/alloy/config.alloy`（跟 [[Alloy 采集日志发送到 Loki]] 里"加载配置"那步 `sudo cp config.alloy $(brew --prefix)/etc/alloy/config.alloy` 对得上）。服务本身也是走 `brew services` 管理，跟其他 Homebrew 装的后台服务（比如 PostgreSQL、Redis）操作方式一致。
 
 ## 相关笔记
 

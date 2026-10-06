@@ -44,7 +44,7 @@ sudo zypper -r grafana install alloy
 
 ## 配置文件位置
 
-包管理器安装的版本，配置文件固定在 `/etc/alloy/config.alloy`（跟 [[监控告警链路追踪/日志/Alloy 采集日志发送到 Loki.md]] 里"加载配置"那步 `sudo cp config.alloy /etc/alloy/config.alloy` 对得上，这也是为什么 Docker 方式要手动挂载到同一个路径——保持跟包管理器安装版本的目录约定一致）。
+包管理器安装的版本，配置文件固定在 `/etc/alloy/config.alloy`（跟 [[Alloy 采集日志发送到 Loki]] 里"加载配置"那步 `sudo cp config.alloy /etc/alloy/config.alloy` 对得上，这也是为什么 Docker 方式要手动挂载到同一个路径——保持跟包管理器安装版本的目录约定一致）。
 
 ## Systemd 服务管理
 

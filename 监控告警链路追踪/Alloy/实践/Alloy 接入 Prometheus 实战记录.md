@@ -146,7 +146,7 @@ discovery.relabel "unix_job" {
 }
 ```
 
-`constants.hostname` 在这里能用是因为 alloy 是**原生 systemd 装的**，没有容器 hostname 命名空间隔离；如果是 Docker 部署的 alloy，`constants.hostname` 拿到的会是容器 ID，得改用环境变量传真实 hostname（见 [[监控告警链路追踪/日志/Alloy 采集日志发送到 Loki.md]] 里那个坑）。
+`constants.hostname` 在这里能用是因为 alloy 是**原生 systemd 装的**，没有容器 hostname 命名空间隔离；如果是 Docker 部署的 alloy，`constants.hostname` 拿到的会是容器 ID，得改用环境变量传真实 hostname（见 [[Alloy 采集日志发送到 Loki]] 里那个坑）。
 
 **教训**：内嵌/虚拟类型的 exporter 组件（`prometheus.exporter.unix` 这种没有真实网络地址的）容易在 `instance` 标签上留坑，写完 `discovery.relabel` 别只顾着改 `job`，`instance` 也要显式检查一遍是不是默认成了 loopback 地址。
 

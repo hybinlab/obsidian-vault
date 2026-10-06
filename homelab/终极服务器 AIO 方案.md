@@ -75,7 +75,7 @@ publish: true
 * **智能家居：** Home Assistant (HA)。
 * **媒体中心：** Jellyfin / Plex / Sonarr 全家桶。
 * **图书漫画：**Calibre
-* **资源监控：普罗米修斯+**（见 [[监控告警链路追踪/监控/Prometheus + Grafana 部署文档.md]]）
+* **资源监控：普罗米修斯+**（见 [[Prometheus + Grafana 部署文档]]）
 
 
 * **MCP：**MCPhub
