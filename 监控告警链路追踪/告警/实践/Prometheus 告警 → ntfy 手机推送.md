@@ -11,14 +11,15 @@ tags:
 > 背景：Prometheus 告警此前没有任何通知出口（规则未加载、Alertmanager 未启动、receiver 为 null），本次打通"规则 → Alertmanager → ntfy → 手机"整条链路
 > 公网入口沿用《阿里云 ECS + FRP + Nginx 公网服务部署 SOP》的架构
 > 2026-10-07 更新：模板改北京时间；新增资源类告警（第七步）、告警链路自监控（第八步）
+> 2026-10-07 晚更新：接入 Loki 日志告警、监控组件自监控、Watchdog；middleware 停止抓取。详见 [[Loki 日志告警与监控组件自监控]]
 
 ---
 
 ## 架构
 
 ```
-Prometheus (rules/*.yml)
-   ↓ 告警
+Prometheus (rules/*.yml)        Loki ruler (loki-rules/*.yml，日志告警)
+   ↓ 告警                           ↓ 告警
 Alertmanager :9093
    ↓ webhook  http://ntfy:80/homelab-alerts?template=am   (Bearer token，只写)
 ntfy :2586 (docker-host 192.168.31.1)
@@ -43,6 +44,9 @@ Android ntfy app (phone 账号，只读)
 | `rules/node-up.yml` | 存活告警（NodeDown / RemoteWriteStale） |
 | `rules/node-resources.yml` | 磁盘 / 内存 / CPU / 负载告警 |
 | `rules/alerting-pipeline.yml` | 告警链路自监控（ntfy / 公网入口 / 证书 / AM 发送失败） |
+| `rules/monitoring-stack.yml` | 监控组件自监控（Loki / Alloy / Grafana / Prometheus）+ Watchdog |
+| `loki-config.yaml` | Loki 配置，含 `ruler:`（日志告警发到 Alertmanager） |
+| `loki-rules/log-alerts.yml` | 日志告警（磁盘 I/O / SSH / 容器错误 / 日志断流），挂到 `/loki/rules/fake` |
 | `blackbox.yml` | blackbox_exporter 探测模块 |
 | `alertmanager.yml` | 路由、receiver（含 ntfy token） |
 | `ntfy/etc/server.yml` | ntfy 服务端配置 |
@@ -243,6 +247,10 @@ route:
   group_interval: 5m
   repeat_interval: 4h
   receiver: 'ntfy'
+  routes:
+    # Watchdog 永远在触发,先吞掉;接外部心跳检测后改 receiver(2026-10-07 加)
+    - matchers: ['alertname="Watchdog"']
+      receiver: 'null'
 
 receivers:
   - name: 'null'
@@ -560,6 +568,7 @@ curl -s -G localhost:9090/api/v1/query --data-urlencode 'query=(probe_ssl_earlie
 > ⚠️ **ntfy 自己挂了，NtfyDown 无法经 ntfy 推送**；公网入口断了，NtfyPublicDown 能进 ntfy 但到不了手机（恢复后才补收）。目前这两类只能在 Alertmanager `:9093` / Grafana 看到。
 > 要真正兜底需要一条**不经过 ntfy 和 frp** 的备用通道（ntfy.sh 公共 topic / 邮件），见 TODO。
 > 同理，Prometheus 或 Alertmanager 自己挂了，整条链路静默——需要外部 dead man's switch。
+> 2026-10-07 已加 Watchdog（`vector(1)` 永远触发，Alertmanager 里路由到 `null`），作为将来外部心跳检测的信号源；外部检测本身还没接。Loki / Alloy / Grafana / Prometheus 的自监控见 [[Loki 日志告警与监控组件自监控]]。
 
 ---
 
@@ -567,7 +576,8 @@ curl -s -G localhost:9090/api/v1/query --data-urlencode 'query=(probe_ssl_earlie
 
 | 操作 | 命令 |
 |---|---|
-| 改规则 / 抓取配置 | 编辑 `rules/*.yml` / `prometheus.yml` → promtool 校验 → `docker restart prometheus`（未开 lifecycle） |
+| 改规则 / 抓取配置 | 编辑 `rules/*.yml` / `prometheus.yml` → promtool 校验 → `docker kill -s HUP prometheus`（未开 lifecycle，但 SIGHUP 可热加载，不用重启） |
+| 改日志告警 | 编辑 `loki-rules/*.yml`，Loki ruler 自动重新加载；`curl -s localhost:3100/prometheus/api/v1/rules` 确认 |
 | 改路由 | 编辑 `alertmanager.yml` → amtool 校验 → `curl -XPOST localhost:9093/-/reload` |
 | 改模板 | 编辑 `ntfy/etc/templates/am.yml` → `docker restart ntfy` |
 | 查当前告警 | `curl -s localhost:9090/api/v1/alerts` / `curl -s localhost:9093/api/v2/alerts` |
@@ -619,7 +629,8 @@ curl -s -G localhost:9090/api/v1/query --data-urlencode 'query=(probe_ssl_earlie
 - [x] 监控 ntfy 自身 + 公网入口 + 证书到期（blackbox_exporter） ✅ 2026-10-07
 - [ ] Prometheus / Alertmanager / Grafana 镜像固定版本，不用 `latest`（目前仍是 latest）
 - [ ] **备用通知通道**（ntfy.sh 或邮件），专门承接 NtfyDown / NtfyPublicDown
-- [ ] 外部 dead man's switch（Prometheus / Alertmanager 自身挂掉）
-- [ ] Loki 日志告警
+- [ ] 外部 dead man's switch（Prometheus / Alertmanager 自身挂掉）——Watchdog 已就绪，待接外部检测
+- [x] Loki 日志告警 ✅ 2026-10-07（[[Loki 日志告警与监控组件自监控]]）
+- [x] Loki / Alloy / Grafana / Prometheus 自监控 ✅ 2026-10-07
 - [ ] 用 blackbox 顺带探测 nas / nexterm 等其他公网站点和证书
 - [ ] queen 桥上线后加子路由（`continue: true`），确认地址是 31.3 还是 31.101

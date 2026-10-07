@@ -271,3 +271,4 @@ curl http://127.0.0.1:3100/loki/api/v1/label/cluster/values
 - [[监控告警链路追踪/Alloy/Grafana Alloy 概述.md]] — Alloy 整体
 - [[Alloy 处理日志（多阶段 Pipeline）]] — `loki.process` 各 stage 与提取映射表
 - [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] — Hindsight 服务本身的部署
+- [[Loki 日志告警与监控组件自监控]] — 基于这里采集的日志做告警（agent 断流会触发 LogIngestionStopped）
