@@ -274,6 +274,14 @@ docker stop pve-mysql
 
 > ⚠️ pveui 的 compose 里仍是 `restart: always`，在 `/root/workspace/pveui` 执行 `docker compose up -d` 会按原配置重建、重新开始崩溃循环。恢复前先在 `.env` 填好 `MYSQL_ROOT_PASSWORD`。
 
+**后续（同日）查明的真正原因**：pveui 有两个 compose 文件。默认的 `docker-compose.yml` 是一体化版本，自带 MySQL；`docker-compose.dev.yml` 连 database 上的外部 MySQL。10-02 14:50 先用默认文件启动过一次（创建了 pve-mysql），1 分钟后改用 dev 文件启动了现在的前后端，pve-mysql 就作为残留一直崩溃重启。它本来就不需要，已删除容器和空卷 `pveui_mysql-data`（`pveui_media-data` 是后端上传目录，保留）。以后启动 pveui 只用：
+
+```bash
+docker compose -f docker-compose.dev.yml up -d --build
+```
+
+> 判断容器由哪个 compose 文件创建：`docker inspect <容器> -f '{{index .Config.Labels "com.docker.compose.project.config_files"}}'`
+
 ### 为什么崩溃循环会触发 AlloyDroppingLogs
 
 `loki.source.docker` 在容器每次重新启动时，会把这个容器的日志从头再读一遍。崩溃循环的容器日志里有几天前的条目，Loki 拒收（`entry too far behind`），Alloy 重试后丢弃。所以 **AlloyDroppingLogs 突然出现、且丢弃的都是旧时间戳时，先查有没有容器在反复重启**：
