@@ -13,6 +13,7 @@ tags:
 > 2026-10-07 更新：模板改北京时间；新增资源类告警（第七步）、告警链路自监控（第八步）
 > 2026-10-07 晚更新：接入 Loki 日志告警、监控组件自监控、Watchdog；middleware 停止抓取。详见 [[Loki 日志告警与监控组件自监控]]
 > 2026-10-07 晚更新：新增容器监控（cAdvisor + Docker RestartCount）。详见 [[容器监控与告警（cAdvisor + Docker 重启次数）]]
+> 2026-10-07 晚更新：bastion、middleware 改用 Alloy remote write，Prometheus 只直接抓 docker-host 的 node_exporter。详见 [[Ansible 批量部署 Alloy 实战记录]]
 
 ---
 
@@ -98,13 +99,18 @@ groups:
           summary: 'node_exporter down: {{ $labels.instance }}'
           description: '{{ $labels.instance }} 的 node_exporter 已失联超过 2 分钟。'
 
-      # agent / database 是 remote write 推过来的,机器挂了只会停推,
-      # 不会出现 up == 0,所以用"数据断了"来判断。
+      # agent / database / bastion / middleware 是 Alloy remote write 推过来的,
+      # 机器挂了只会停推,不会出现 up == 0,所以用"数据断了"来判断。
+      # 新增 remote write 机器时在这里加一行。
       - alert: RemoteWriteStale
         expr: |
           absent_over_time(up{job="node", instance="agent"}[5m])
           or
           absent_over_time(up{job="node", instance="database"}[5m])
+          or
+          absent_over_time(up{job="node", instance="bastion"}[5m])
+          or
+          absent_over_time(up{job="node", instance="middleware"}[5m])
         for: 2m
         labels:
           severity: critical
@@ -264,10 +270,6 @@ receivers:
           authorization:
             type: Bearer
             credentials: '<ALERTMANAGER_TOKEN>'
-  - name: 'queen-webhook'
-    webhook_configs:
-      - url: 'http://192.168.31.3:9099/alert'
-        send_resolved: true
 
 inhibit_rules: []
 ```
@@ -285,15 +287,17 @@ docker logs alertmanager --since 1m | grep -i 'Completed loading'
 curl -s localhost:9093/metrics | grep -E 'alertmanager_notifications(_failed)?_total\{.*webhook'
 ```
 
-### 3.3 以后接 queen 桥（同时发两边）
+### 3.3 以后接第二个 webhook（同时发两边）
 
 ```yaml
 route:
   receiver: 'ntfy'
   routes:
-    - receiver: 'queen-webhook'
+    - receiver: '<另一个 webhook receiver>'
       continue: true        # 匹配后继续走默认 ntfy
 ```
+
+> 原先预留的 `queen-webhook`（Hermes 写的桥，`192.168.31.3:9099`）只完成了一半，2026-10-07 已从 `alertmanager.yml` 删除。
 
 ---
 
@@ -635,4 +639,4 @@ curl -s -G localhost:9090/api/v1/query --data-urlencode 'query=(probe_ssl_earlie
 - [x] Loki 日志告警 ✅ 2026-10-07（[[Loki 日志告警与监控组件自监控]]）
 - [x] Loki / Alloy / Grafana / Prometheus 自监控 ✅ 2026-10-07
 - [ ] 用 blackbox 顺带探测 nas / nexterm 等其他公网站点和证书
-- [ ] queen 桥上线后加子路由（`continue: true`），确认地址是 31.3 还是 31.101
+- [-] queen 桥上线后加子路由 —— 桥只做了一半，取消，receiver 已删除 ❌ 2026-10-07

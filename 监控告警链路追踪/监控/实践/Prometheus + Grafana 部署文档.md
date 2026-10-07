@@ -7,7 +7,7 @@ tags:
 
 > 监控栈运行在 LXC 101 (docker-host)，采集所有 VM 和 LXC 的系统指标。
 
-> ⚠️ 2026-10-07 备注：本文是早期版本的部署记录，IP 和目录已经变化。当前监控栈在 docker-host `192.168.31.1` 的 `/root/monitoring/`，抓取目标为 docker-host、bastion，agent / database 通过 remote write 推送；192.168.31.6（middleware）的 node_exporter 已停，已从抓取中注释。现行配置见 [[Prometheus 告警 → ntfy 手机推送]] 和 [[Loki 日志告警与监控组件自监控]]。
+> ⚠️ 2026-10-07 备注：本文是早期版本的部署记录，IP 和目录已经变化。当前监控栈在 docker-host `192.168.31.1` 的 `/root/monitoring/`，Prometheus 只直接抓 docker-host 的 node_exporter，agent / database / bastion / middleware 都由 Alloy 通过 remote write 推送。现行配置见 [[Prometheus 告警 → ntfy 手机推送]] 和 [[Loki 日志告警与监控组件自监控]]。
 
 
 ---

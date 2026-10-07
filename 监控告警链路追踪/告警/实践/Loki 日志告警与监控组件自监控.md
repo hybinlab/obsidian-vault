@@ -9,7 +9,8 @@ tags:
 ---
 > 日期：2026-10-07
 > 背景：日志早已经由 Alloy 采集进 Loki，但没有任何日志告警（Loki ruler 未配置，Grafana 里也没有告警规则），出问题只能事后查；Loki / Alloy / Grafana / Prometheus 自身也没有被监控。本次把日志告警接进现有的 [[Prometheus 告警 → ntfy 手机推送]] 链路，并补上监控组件自监控。
-> 顺带：middleware（192.168.31.6）的 node_exporter 已停，从抓取目标里注释掉。
+> 顺带：middleware（192.168.31.6）的抓取目标一直 down，先注释掉（后来查明 node_exporter 根本没装过，已改装 Alloy）。
+> 2026-10-07 晚更新：bastion、middleware 改用 Alloy 采集指标和日志（见 [[Ansible 批量部署 Alloy 实战记录]]），LogIngestionStopped 覆盖 4 台机器；新增 FrpcReconnecting。
 
 ---
 
@@ -113,7 +114,8 @@ qr 'sum by (container_name) (count_over_time({job="docker-host"} |~ "(?i)\\b(err
 | SSHBruteForce | 10 分钟 SSH 认证失败 > 20 次 | warning |
 | SSHLoginFromOutside | 非 192.168.* / 127.0.0.1 来源 SSH 登录成功 | critical |
 | ContainerErrorSpike | 单个容器 10 分钟 error/fatal/panic 日志 > 100 条 | warning |
-| LogIngestionStopped | docker-host 或 agent 15 分钟没有任何日志 | critical |
+| FrpcReconnecting | 10 分钟 frpc 连接 ECS 失败 > 3 次 | warning |
+| LogIngestionStopped | docker-host / agent / bastion / middleware 任一台 15 分钟没有任何日志 | critical |
 
 ```yaml
 groups:
@@ -168,11 +170,28 @@ groups:
           summary: '容器错误日志激增: {{ $labels.instance }}'
           description: '最近 10 分钟 {{ $labels.instance }} 输出 {{ $value }} 条 error/fatal/panic 日志。'
 
+      # bastion frpc 连不上 ECS frps(2026-10-07 晚新增)
+      - alert: FrpcReconnecting
+        expr: |
+          label_replace(
+            sum by (host) (count_over_time({job="frpc"} |= "connect to server error" [10m])),
+            "instance", "$1", "host", "(.*)"
+          ) > 3
+        labels:
+          severity: warning
+        annotations:
+          summary: 'frp 隧道反复断线: {{ $labels.instance }}'
+          description: '最近 10 分钟 frpc 连接 ECS frps 失败 {{ $value }} 次,公网服务(ntfy 等)可能不可用。检查 ECS 上 frps 和家里网络。'
+
       - alert: LogIngestionStopped
         expr: |
           label_replace(absent_over_time({host="docker-host"}[15m]), "instance", "docker-host", "", "")
           or
           label_replace(absent_over_time({host="agent"}[15m]), "instance", "agent", "", "")
+          or
+          label_replace(absent_over_time({host="bastion"}[15m]), "instance", "bastion", "", "")
+          or
+          label_replace(absent_over_time({host="middleware"}[15m]), "instance", "middleware", "", "")
         labels:
           severity: critical
         annotations:
@@ -284,7 +303,7 @@ curl -s localhost:9093/api/v2/alerts | jq -r '.[] | "\(.labels.alertname)\trecei
 
 ## 第四步：注释掉 middleware
 
-middleware（192.168.31.6）能 ping 通但 9100 拒绝连接，node_exporter 已停，NodeDown 从 10-06 22:32 一直在响。暂不修复，先从抓取目标注释掉：
+middleware（192.168.31.6）能 ping 通但 9100 拒绝连接，NodeDown 从 10-06 22:32 一直在响。先从抓取目标注释掉：
 
 ```yaml
       # middleware 的 node_exporter 已停(2026-10-07 注释)
@@ -294,7 +313,9 @@ middleware（192.168.31.6）能 ping 通但 9100 拒绝连接，node_exporter �
       #     instance: 'middleware'
 ```
 
-`docker kill -s HUP prometheus` 后，target 消失，规则下一轮评估时 NodeDown 恢复，ntfy 推送"已恢复"。以后要恢复监控：去掉注释再 HUP 一次。
+`docker kill -s HUP prometheus` 后，target 消失，规则下一轮评估时 NodeDown 恢复，ntfy 推送"已恢复"。
+
+> 更正：后来通过 Ansible 上机查看，middleware 上**根本没装过 node_exporter**（Prometheus 一直在抓一个不存在的端口），不是"停了"。已改装 Alloy，以 remote write 推送指标，这行抓取配置不再需要。见 [[Ansible 批量部署 Alloy 实战记录]]。
 
 ---
 
@@ -348,6 +369,7 @@ sd 1:0:0:2: [sdb] ... Sense Key : Aborted Command
 - [x] middleware 停止抓取 ✅ 2026-10-07
 - [ ] PVE 宿主机检查 sdb 对应物理盘的 SMART
 - [ ] Watchdog 接外部 dead man's switch（ECS 或 healthchecks.io）
-- [ ] bastion 装 Alloy，采集 syslog / frpc 日志（排查公网链路抖动：10-07 凌晨 NtfyPublicDown 触发过两次，各约 5 分钟）
+- [x] bastion 装 Alloy，采集 syslog / frpc 日志 ✅ 2026-10-07——凌晨两次 NtfyPublicDown 查明是 frpc ↔ frps 反复断线
+- [ ] ECS 上查 frps 在 2026-10-07 01:40~02:00 的日志，确认是 frps 重启还是网络抖动
 - [x] 容器级监控（cAdvisor + Docker RestartCount） ✅ 2026-10-07（[[容器监控与告警（cAdvisor + Docker 重启次数）]]）
-- [ ] middleware 决定修复还是下线
+- [x] middleware 恢复监控（装 Alloy） ✅ 2026-10-07

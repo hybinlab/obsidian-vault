@@ -272,3 +272,4 @@ curl http://127.0.0.1:3100/loki/api/v1/label/cluster/values
 - [[Alloy 处理日志（多阶段 Pipeline）]] — `loki.process` 各 stage 与提取映射表
 - [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] — Hindsight 服务本身的部署
 - [[Loki 日志告警与监控组件自监控]] — 基于这里采集的日志做告警（agent 断流会触发 LogIngestionStopped）
+- [[Ansible 批量部署 Alloy 实战记录]] — 同样的配置用 Ansible 推到 bastion / middleware
