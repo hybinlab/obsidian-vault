@@ -324,6 +324,7 @@ sd 1:0:0:2: [sdb] ... Sense Key : Aborted Command
 | 推送标题没有机器名 | 日志告警没有 `instance` 标签 | `label_replace` 映射 |
 | LogQL 子查询报 `parse error` | LogQL 不支持 `[24h:10m]` | 用 `query_range` 统计 |
 | 删了规则后告警一直 active | AM 等 endsAt 过期 | 等几分钟自动恢复 |
+| AlloyDroppingLogs 突然出现，丢的都是旧时间戳 | 有容器在崩溃循环，Alloy 每次重启都从头重读它的日志 | 见 [[容器监控与告警（cAdvisor + Docker 重启次数）]] |
 | Prometheus 容器 `wget` 报 `bad address` | busybox wget 问题 | 以 targets 页面为准 |
 
 ---
@@ -348,5 +349,5 @@ sd 1:0:0:2: [sdb] ... Sense Key : Aborted Command
 - [ ] PVE 宿主机检查 sdb 对应物理盘的 SMART
 - [ ] Watchdog 接外部 dead man's switch（ECS 或 healthchecks.io）
 - [ ] bastion 装 Alloy，采集 syslog / frpc 日志（排查公网链路抖动：10-07 凌晨 NtfyPublicDown 触发过两次，各约 5 分钟）
-- [ ] 容器级监控（cAdvisor），发现容器退出 / 反复重启
+- [x] 容器级监控（cAdvisor + Docker RestartCount） ✅ 2026-10-07（[[容器监控与告警（cAdvisor + Docker 重启次数）]]）
 - [ ] middleware 决定修复还是下线

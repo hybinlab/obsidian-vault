@@ -12,6 +12,7 @@ tags:
 > 公网入口沿用《阿里云 ECS + FRP + Nginx 公网服务部署 SOP》的架构
 > 2026-10-07 更新：模板改北京时间；新增资源类告警（第七步）、告警链路自监控（第八步）
 > 2026-10-07 晚更新：接入 Loki 日志告警、监控组件自监控、Watchdog；middleware 停止抓取。详见 [[Loki 日志告警与监控组件自监控]]
+> 2026-10-07 晚更新：新增容器监控（cAdvisor + Docker RestartCount）。详见 [[容器监控与告警（cAdvisor + Docker 重启次数）]]
 
 ---
 
@@ -44,7 +45,8 @@ Android ntfy app (phone 账号，只读)
 | `rules/node-up.yml` | 存活告警（NodeDown / RemoteWriteStale） |
 | `rules/node-resources.yml` | 磁盘 / 内存 / CPU / 负载告警 |
 | `rules/alerting-pipeline.yml` | 告警链路自监控（ntfy / 公网入口 / 证书 / AM 发送失败） |
-| `rules/monitoring-stack.yml` | 监控组件自监控（Loki / Alloy / Grafana / Prometheus）+ Watchdog |
+| `rules/monitoring-stack.yml` | 监控组件自监控（Loki / Alloy / Grafana / Prometheus / cAdvisor）+ Watchdog |
+| `rules/containers.yml` | 容器告警（重启循环 / OOM / 内存 / 消失），见 [[容器监控与告警（cAdvisor + Docker 重启次数）]] |
 | `loki-config.yaml` | Loki 配置，含 `ruler:`（日志告警发到 Alertmanager） |
 | `loki-rules/log-alerts.yml` | 日志告警（磁盘 I/O / SSH / 容器错误 / 日志断流），挂到 `/loki/rules/fake` |
 | `blackbox.yml` | blackbox_exporter 探测模块 |
