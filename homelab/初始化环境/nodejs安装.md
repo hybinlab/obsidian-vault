@@ -1,8 +1,6 @@
 ---
 publish: true
 ---
-# nodejs安装
-
 **方式一：NodeSource（推荐，系统级安装）**
 
 NodeSource 支持 Node.js v20.x、v22.x、v24.x。

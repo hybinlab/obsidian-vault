@@ -1,8 +1,6 @@
 ---
 publish: true
 ---
-# openwrt安装（作为内部VM）
-
 #### 1. 准备工作：PVE 网络环境确认
 
 * `vmbr0` (家庭局域网): **桥接到唯一的物理网口** (`enp5s0`)。PVE 的管理 IP 也在 `vmbr0` 上。

@@ -1,6 +1,12 @@
-# hydrea
+---
+publish: true
+tags:
+  - 渗透测试
+  - 后渗透与提权
+---
+## hydrea
 
-## 🛠️ Hydra 命令
+### 🛠️ Hydra 命令
 
 我们传递给 **Hydra** 的选项取决于我们正在攻击的服务（协议）。例如，如果我们要使用用户名 **user** 和密码列表 **passlist.txt** 来暴力破解 **FTP**，我们将使用以下命令：
 
@@ -13,7 +19,7 @@ hydra -l user -P passlist.txt ftp://10.48.162.150
 
 -----
 
-## 🔒 SSH 暴力破解
+### 🔒 SSH 暴力破解
 
 ```bash
 hydra -l <username> -P <full path to pass> 10.48.162.150 -t 4 ssh
@@ -34,7 +40,7 @@ hydra -l <username> -P <full path to pass> 10.48.162.150 -t 4 ssh
 
 -----
 
-## 🌐 Web 表单 (POST) 暴力破解
+### 🌐 Web 表单 (POST) 暴力破解
 
 我们也可以使用 **Hydra** 来暴力破解 **Web 表单**。你必须知道它正在进行哪种类型的请求；**GET** 或 **POST** 方法是常用的。你可以使用浏览器的网络选项卡（在开发者工具中）来查看请求类型或查看源代码。
 

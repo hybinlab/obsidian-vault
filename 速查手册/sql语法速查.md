@@ -1,6 +1,4 @@
-# 🎯 sql语法速查
-
-## 一些最重要的 SQL 命令
+### 一些最重要的 SQL 命令
 
 * **SELECT** - 从数据库中提取数据
 * **UPDATE** - 更新数据库中的数据
@@ -15,7 +13,7 @@
 * **DROP INDEX** - 删除索引
 
 
-# SELECT
+## SELECT
 
 ```sql
 SELECT column_name(s)
@@ -30,7 +28,7 @@ ORDER BY column_name [ASC|DESC]
 * `ORDER BY`: 排序方式，`ASC` 表示升序，`DESC` 表示降序（可选）。
 
 
-# INSERT INTO
+## INSERT INTO
 
 ```sql
 INSERT INTO table_name (column1, column2, ...)
@@ -42,7 +40,7 @@ VALUES (value1, value2, ...)
 * `value1, value2, ...`: 对应列的值。
 
 
-# UPDATE
+## UPDATE
 
 ```sql
 UPDATE table_name
@@ -55,7 +53,7 @@ WHERE condition
 * `condition`: 更新条件。
 
 
-# DELETE
+## DELETE
 
 ```sql
 DELETE FROM table_name
@@ -66,7 +64,7 @@ WHERE condition
 * `condition`: 删除条件。
 
 
-# CREATE TABLE
+## CREATE TABLE
 
 ```sql
 CREATE TABLE table_name (
@@ -82,7 +80,7 @@ CREATE TABLE table_name (
 * `constraint`: 列的约束（如 `PRIMARY KEY`、`NOT NULL` 等）。
 
 
-# ALTER TABLE(用于修改现有数据库表的结构。)
+## ALTER TABLE(用于修改现有数据库表的结构。)
 
 ```sql
 ALTER TABLE table_name
@@ -103,7 +101,7 @@ DROP COLUMN column_name
 * `column_name`: 要删除的列。
 
 
-# DROP TABLE
+## DROP TABLE
 
 ```sql
 DROP TABLE table_name
@@ -112,7 +110,7 @@ DROP TABLE table_name
 * `table_name`: 要删除的表。
 
 
-# CREATE INDEX(用于创建索引)
+## CREATE INDEX(用于创建索引)
 
 ```sql
 CREATE INDEX index_name
@@ -123,7 +121,7 @@ ON table_name (column_name)
 * `column_name`: 要索引的列。
 
 
-# DROP INDEX(删除索引)
+## DROP INDEX(删除索引)
 
 ```sql
 DROP INDEX index_name
@@ -131,7 +129,7 @@ ON table_name
 ```
 
 
-# WHERE
+## WHERE
 
 ```sql
 SELECT column_name(s)
@@ -156,7 +154,7 @@ WHERE condition
 | IN | 指定针对某个列的多个可能值 |
 
 
-# ORDER BY(排序)
+## ORDER BY(排序)
 
 ```sql
 SELECT column_name(s)
@@ -169,7 +167,7 @@ ORDER BY column_name [ASC|DESC]
 * `DESC`: 降序。
 
 
-# GROUP BY(将结果集按一列或多列进行分组)
+## GROUP BY(将结果集按一列或多列进行分组)
 
 ```sql
 SELECT column_name(s), aggregate_function(column_name)
@@ -181,7 +179,7 @@ GROUP BY column_name(s)
 `aggregate_function`: 聚合函数（如 COUNT、SUM、AVG 等）
 
 
-# HAVING(对分组后的结果集进行筛选)
+## HAVING(对分组后的结果集进行筛选)
 
 ```sql
 SELECT column_name(s), aggregate_function(column_name)
@@ -193,7 +191,7 @@ HAVING condition
 * `condition`: 筛选条件。
 
 
-# JOIN(将两个或多个表的记录结合)
+## JOIN(将两个或多个表的记录结合)
 
 ```sql
 SELECT column_name(s)
@@ -205,7 +203,7 @@ ON table_name1.column_name = table_name2.column_name
 * `JOIN`: 可以是 INNER JOIN、LEFT JOIN、RIGHT JOIN 或 FULL JOIN。
 
 
-# DISTINCT(返回唯一不同的值)
+## DISTINCT(返回唯一不同的值)
 
 ```sql
 SELECT DISTINCT column_name(s)
@@ -216,7 +214,7 @@ FROM table_name
 
 
 \
-# SELECT TOP
+## SELECT TOP
 
 ```sql
 SELECT column1, column2, ...
@@ -225,7 +223,7 @@ LIMIT number;
 ```
 
 
-# LIKE(模糊查询)
+## LIKE(模糊查询)
 
 ```sql
 SELECT column1, column2, ...
@@ -261,7 +259,7 @@ WHERE ProductName LIKE '_e%';
 ```
 
 
-# IN(在 WHERE 子句中规定多个值)
+## IN(在 WHERE 子句中规定多个值)
 
 ```sql
 SELECT column1, column2, ...
@@ -277,7 +275,7 @@ WHERE name IN ('Google','菜鸟教程');
 ```
 
 
-# BETWEEN(选取介于两个值之间的数据范围内的值)
+## BETWEEN(选取介于两个值之间的数据范围内的值)
 
 ```sql
 SELECT column1, column2, ...
@@ -302,7 +300,7 @@ SELECT * FROM WebsitesWHERE name NOT BETWEEN 'A' AND 'H';
 ```
 
 
-# AS(为表名称或列名称指定别名)
+## AS(为表名称或列名称指定别名)
 
 
 1. 表的别名
@@ -321,7 +319,7 @@ FROM table_name;
 ```
 
 
-# JOIN(连接)
+## JOIN(连接)
 
 | 类型 | 描述 |
 |----|----|
@@ -334,7 +332,7 @@ FROM table_name;
 | **NATURAL JOIN** | 基于同名字段自动匹配连接的表。 |
 
 
-## INNER JOIN
+### INNER JOIN
 
 
 :::info
@@ -359,7 +357,7 @@ ON table1.column_name=table2.column_name;
 ```
 
 
-## UNION(合并结果集)
+### UNION(合并结果集)
 
 ```sql
 SELECT column1, column2, ...
@@ -384,7 +382,7 @@ FROM table2;
 ```
 
 
-## CREATE
+### CREATE
 
 创建数据库
 
@@ -408,7 +406,7 @@ City varchar(255)
 
 ## 
 
-## 约束
+### 约束
 
 SQL 中，我们有如下约束：
 

@@ -1,8 +1,6 @@
 ---
 publish: true
 ---
-# 【合集】常用VPS脚本
-
 ## 1、DD重装脚本
 
 <https://www.nodeseek.com/post-116193-1>

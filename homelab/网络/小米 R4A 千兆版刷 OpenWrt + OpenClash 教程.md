@@ -1,5 +1,3 @@
-# 小米 R4A 千兆版刷 OpenWrt + OpenClash 教程
-
 > 适用型号：小米路由器 4A 千兆版
 > CPU：MediaTek MT7621
 > 内存：64MB（够用，装 OpenClash 后注意内存监控）

@@ -4,8 +4,6 @@ tags:
   - 排障
 publish: true
 ---
-# Ansible pipx 安装踩坑记录
-
 
 > 日期：2026-09-01 背景：在 VM 上安装 ansible 过程中的实际问题
 

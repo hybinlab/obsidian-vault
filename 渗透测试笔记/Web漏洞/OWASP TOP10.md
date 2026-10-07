@@ -1,5 +1,9 @@
-# OWASP TOP10
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - Web漏洞
+---
 1. Broken Access Control
  2. Cryptographic Failures
  3. Injection

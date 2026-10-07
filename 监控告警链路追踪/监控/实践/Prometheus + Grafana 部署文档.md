@@ -3,8 +3,6 @@ publish: true
 tags:
   - 部署
 ---
-# Prometheus + Grafana 部署文档
-
 > 监控栈运行在 LXC 101 (docker-host)，采集所有 VM 和 LXC 的系统指标。
 
 > ⚠️ 2026-10-07 备注：本文是早期版本的部署记录，IP 和目录已经变化。当前监控栈在 docker-host `192.168.31.1` 的 `/root/monitoring/`，Prometheus 只直接抓 docker-host 的 node_exporter，agent / database / bastion / middleware 都由 Alloy 通过 remote write 推送。现行配置见 [[Prometheus 告警 → ntfy 手机推送]] 和 [[Loki 日志告警与监控组件自监控]]。

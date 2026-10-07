@@ -4,8 +4,6 @@ tags:
   - 排障
 publish: true
 ---
-# Docker & fnm 部署踩坑记录
-
 > 日期：2026-09-08 背景：[[ansible/Ansible 实战练习清单.md]] 第九关，写 `docker-host.yml` 把裸 Ubuntu 24.04（noble）自动配置成 Docker Host 的过程中，实际踩到的坑。
 
 ---

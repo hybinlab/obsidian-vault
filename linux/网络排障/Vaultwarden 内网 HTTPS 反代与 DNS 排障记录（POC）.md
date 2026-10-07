@@ -4,8 +4,6 @@ tags:
   - 排障
 publish: true
 ---
-# Vaultwarden 内网 HTTPS 反代与 DNS 排障记录（POC）
-
 > 日期：2026-08-24 场景：自托管 Vaultwarden 需要 HTTPS，homelab 内网访问 状态：✅ 已解决，可复用
 
 

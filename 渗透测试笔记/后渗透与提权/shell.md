@@ -1,6 +1,10 @@
-# shell
-
-# 查看当前shell
+---
+publish: true
+tags:
+  - 渗透测试
+  - 后渗透与提权
+---
+## 查看当前shell
 
 ```powershell
 user@tryhackme:~$ echo $SHELL
@@ -8,7 +12,7 @@ user@tryhackme:~$ echo $SHELL
 ```
 
 
-# 查看有哪些shell
+## 查看有哪些shell
 
 可以通过在终端中`/etc/shells`输入以下命令来列出 Linux 操作系统中可用的 shell
 
@@ -42,7 +46,7 @@ tryhackme%
 :::
 
 
-# 自动化脚本
+## 自动化脚本
 
 要执行脚本，我们首先需要确保脚本具有执行权限
 

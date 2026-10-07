@@ -6,7 +6,7 @@ tags:
   - Vaultwarden
 ---
 > 更新：2026-10-07（从 docker-host 实际配置反推） · 位置：docker-host `192.168.31.1` `/root/vaultwarden/` · 重要性：**核心（数据价值最高）**
-> 服务总表见 [[03-服务清单]]，HTTPS / DNS 排障见 [[Vaultwarden 内网 HTTPS 反代与 DNS 排障记录]]
+> 服务总表见 [[03-服务清单]]，HTTPS / DNS 排障见 [[Vaultwarden 内网 HTTPS 反代与 DNS 排障记录（POC）]]
 
 ## 1. 这是什么
 

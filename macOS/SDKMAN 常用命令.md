@@ -2,8 +2,6 @@
 tags:
   - macos
 ---
-# SDKMAN 常用命令
-
 ## 候选版本查询
 
 ```bash

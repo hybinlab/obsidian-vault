@@ -1,20 +1,16 @@
 ---
 publish: true
 ---
-# Redmi AX3000T 刷官方 OpenWrt 25.12（旁路由）
-
-# Redmi AX6000 刷官方 OpenWrt 25.12（旁路由）完整记录
-
 > 更新时间：2026-07-07
 >
 > 固件：官方 OpenWrt 25.12.x（APK 包管理）
 >
-> 硬件：Redmi AX6000
+> 硬件：Redmi AX3000T
 
 
 ---
 
-# 一、固件选择
+## 一、固件选择
 
 下载官方 Stable Release。
 
@@ -31,7 +27,7 @@ publish: true
 
 ---
 
-# 二、首次登录
+## 二、首次登录
 
 默认地址：
 
@@ -49,7 +45,7 @@ publish: true
 
 ---
 
-# 三、旁路由配置
+## 三、旁路由配置
 
 LAN：
 
@@ -73,7 +69,7 @@ Gateway：
 
 ---
 
-## Advanced Settings
+### Advanced Settings
 
 必须：
 
@@ -81,7 +77,7 @@ Gateway：
 ✔ Use default gateway
 ```
 
-### 重点！！！
+#### 重点！！！
 
 这里有一个坑：
 
@@ -136,7 +132,7 @@ dnsmasq 没有任何上游 DNS。
 
 ---
 
-# 四、DHCP
+## 四、DHCP
 
 LAN
 
@@ -151,7 +147,7 @@ Enable
 
 ---
 
-# 五、确认 DNS 正常
+## 五、确认 DNS 正常
 
 测试：
 
@@ -190,7 +186,7 @@ apk update
 
 ---
 
-# 六、安装中文
+## 六、安装中文
 
 ```
 apk add luci-i18n-base-zh-cn
@@ -199,7 +195,7 @@ apk add luci-i18n-base-zh-cn
 
 ---
 
-# 七、安装 Argon
+## 七、安装 Argon
 
 GitHub：
 
@@ -248,7 +244,7 @@ uci commit luci
 
 ---
 
-# 八、安装 OpenClash
+## 八、安装 OpenClash
 
 GitHub：
 
@@ -300,7 +296,7 @@ OpenClash 官方仓库： <https://github.com/vernesong/OpenClash> :contentRefer
 
 ---
 
-# 九、首次进入 OpenClash
+## 九、首次进入 OpenClash
 
 进入：
 
@@ -324,7 +320,7 @@ Meta Core
 
 ---
 
-# 十、第三方 APK 安装方式（官方 OpenWrt 25.x）
+## 十、第三方 APK 安装方式（官方 OpenWrt 25.x）
 
 统一流程：
 
@@ -359,7 +355,7 @@ apk add --allow-untrusted /tmp/xxx.apk
 
 ---
 
-# 十一、常用命令
+## 十一、常用命令
 
 更新软件源：
 
@@ -400,9 +396,9 @@ ls /tmp
 
 ---
 
-# 十二、今晚踩过的坑
+## 十二、今晚踩过的坑
 
-## ① LAN 勾选了自定义 DNS 但为空
+### ① LAN 勾选了自定义 DNS 但为空
 
 现象：
 
@@ -429,7 +425,7 @@ Bad address
 
 ---
 
-## ② Argon 官方仓库没有
+### ② Argon 官方仓库没有
 
 ```
 apk add luci-theme-argon
@@ -452,7 +448,7 @@ GitHub Release 下载 APK。
 
 ---
 
-## ③ 第三方 APK 无法安装
+### ③ 第三方 APK 无法安装
 
 提示：
 
@@ -469,7 +465,7 @@ apk add --allow-untrusted xxx.apk
 
 ---
 
-## ④ OpenClash 安装
+### ④ OpenClash 安装
 
 直接安装官方 Release 的 APK。
 
@@ -480,7 +476,7 @@ apk add --allow-untrusted xxx.apk
 
 ---
 
-# 十三、后续建议
+## 十三、后续建议
 
 安装完成后：
 

@@ -1,5 +1,9 @@
-# Gobuster
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - 信息收集
+---
 ## 💻 Gobuster：目录爆破工具概览
 
 **Gobuster** 是一款用 Golang 编写的开源攻击性工具。它通过**暴力破解**的方式，利用特定的\*\*字典文件（wordlists）**并处理传入的响应，来枚举 Web 目录、DNS 子域名、虚拟主机（vhosts）、Amazon S3 存储桶和 Google Cloud Storage。许多安全专业人员使用此工具进行渗透测试、漏洞赏金狩猎和网络安全评估。从道德黑客攻击的阶段来看，我们可以将 Gobuster 置于**侦察（reconnaissance）**和**扫描（scanning）\*\*阶段之间。

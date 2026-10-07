@@ -3,8 +3,6 @@ publish: true
 tags:
   - 部署
 ---
-# PostgreSQL_的详细安装方式（全平台覆盖)
-
 > 本文将全面、系统、深入地讲解 PostgreSQL 在 **Linux（Ubuntu/CentOS）、Windows、macOS 以及 Docker 容器** 四大主流环境下的详细安装步骤，涵盖官方仓库、包管理器、图形化安装程序、容器化部署等多种方式，并附带初始化配置、服务管理、安全加固等关键实践。
 
 ### 一、安装前准备：通用原则与注意事项
@@ -447,4 +445,4 @@ PostgreSQL 的安装只是第一步，后续还需关注备份策略（ `pg_dump
 
 ## 相关笔记
 
-- [[homelab/数据库/CloudBeaver 部署与恢复手册.md]] — Web 端管理这个 PostgreSQL 实例
+- [[homelab/services/CloudBeaver 部署与恢复手册.md]] — Web 端管理这个 PostgreSQL 实例

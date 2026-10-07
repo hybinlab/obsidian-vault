@@ -1,8 +1,6 @@
 ---
 publish: true
 ---
-# python环境
-
 **1. 系统 python（备用，一行搞定）**
 
 ```bash

@@ -1,5 +1,9 @@
-# GPG/PGP 加密
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - 基础知识
+---
 ## 基本概念
 
 * **PGP (Pretty Good Privacy)**: 用于文件加密、数字签名等功能的加密软件

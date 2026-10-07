@@ -1,8 +1,6 @@
-# **GitHub SSH 密钥配置**
-
 使用 SSH Key 可以让 Linux 服务器免用户名、密码或 PAT 访问 GitHub，适用于 `git clone`、`git pull`、`git push` 等操作。
 
-## **1. 生成 SSH 密钥**
+### **1. 生成 SSH 密钥**
 
 查看当前是否已有密钥：
 
@@ -32,7 +30,7 @@ ssh-keygen -t ed25519 -C "agent"
 
 ---
 
-## **2. 获取 SSH 公钥**
+### **2. 获取 SSH 公钥**
 
 ```bash
 cat ~/.ssh/id_ed25519.pub
@@ -48,7 +46,7 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIxxxxxxxxxxxxxxxxxxxxxxxx agent
 
 ---
 
-## **3. 添加公钥到 GitHub**
+### **3. 添加公钥到 GitHub**
 
 进入：
 
@@ -74,7 +72,7 @@ https://github.com/settings/keys
 
 ---
 
-## **4. 测试 GitHub SSH 连接**
+### **4. 测试 GitHub SSH 连接**
 
 ```bash
 ssh -T git@github.com
@@ -102,7 +100,7 @@ Hi <username>! You've successfully authenticated, but GitHub does not provide sh
 
 ---
 
-## **5. GitHub SSH 使用 443 端口**
+### **5. GitHub SSH 使用 443 端口**
 
 如果网络环境、代理或防火墙无法正常访问 SSH `22` 端口，可以使用 GitHub 提供的 SSH over HTTPS port。
 
@@ -155,7 +153,7 @@ ssh.github.com:443
 
 ---
 
-## **6. 将 Git 仓库从 HTTPS 改为 SSH**
+### **6. 将 Git 仓库从 HTTPS 改为 SSH**
 
 查看当前远程仓库：
 
@@ -205,7 +203,7 @@ git push
 
 ---
 
-## **7. 配置 Git Commit 身份**
+### **7. 配置 Git Commit 身份**
 
 SSH Key 只负责 GitHub **身份认证和仓库访问权限**。
 
@@ -237,7 +235,7 @@ git config --global --list
 
 ---
 
-## **常用排查命令**
+### **常用排查命令**
 
 查看 SSH 文件：
 
@@ -282,7 +280,7 @@ git config --global user.email
 git config --list
 ```
 
-## **注意事项**
+### **注意事项**
 
 1. **不要上传或分享** **`~/.ssh/id_ed25519`** **私钥。**
 2. GitHub SSH 公钥应添加 `.pub` 文件内容。

@@ -1,8 +1,6 @@
 ---
 publish: true
 ---
-# Ansible 安装指南（Ubuntu）
-
 > 日期：2026-09-01 环境：Ubuntu 目标：在 Ubuntu 上通过 pipx 全局安装 ansible-core
 
 ---

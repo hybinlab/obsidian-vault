@@ -1,11 +1,9 @@
 ---
 publish: true
 ---
-# frp服务器部署
-
 > ⚠️ **旧版笔记**：这篇是早期腾讯云 VPS（106.55.160.167）上的 frpc 配置，frp 0.54.0/0.65.0。当前用的阿里云 ECS 完整方案（frp 0.70.1 + nginx + acme.sh 证书）见 [[homelab/网络/阿里云 ECS + FRP + Nginx 公网服务部署 SOP.md]]。这篇留着仅作历史参考。
 
-# 1、下载frp源码并上传至服务器
+## 1、下载frp源码并上传至服务器
 
 ```bash
 wget https://github.com/fatedier/frp/releases/download/v0.54.0/frp_0.54.0_linux_amd64.tar.gz
@@ -31,7 +29,7 @@ scp frp_0.65.0_linux_amd64.tar.gz root@192.168.31.6:/root
 ```
 
 
-# **2、创建正确的 frpc.toml 配置文件(直接在frp目录下创建)**
+## **2、创建正确的 frpc.toml 配置文件(直接在frp目录下创建)**
 
 ```bash
 cat > frpc.toml << 'EOF'
@@ -70,7 +68,7 @@ remotePort = 2209
 EOF
 ```
 
-# **3、 启动 FRP 客户端（测试）**
+## **3、 启动 FRP 客户端（测试）**
 
 ```bash
 # 测试配置
@@ -81,7 +79,7 @@ EOF
 ```
 
 
-# 开机自动化脚本
+## 开机自动化脚本
 
 ```bash
 # 1. 创建 systemd 服务文件
@@ -117,7 +115,7 @@ systemctl status frpc
 ```
 
 
-## **📊 端口映射说明**
+### **📊 端口映射说明**
 
 根据你的配置：
 

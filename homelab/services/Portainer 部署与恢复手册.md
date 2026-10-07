@@ -4,10 +4,6 @@ tags:
   - 部署
   - homelab
 ---
-# Portainer 部署与恢复手册
-
-# Portainer 部署与恢复手册
-
 > 更新：2026-08-17 · 部署人：用户（Red Queen 协助验收） 位置：docker-host（192.168.31.1）`/root/portainer/`
 
 ## 1. 这是什么

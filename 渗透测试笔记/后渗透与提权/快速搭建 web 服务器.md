@@ -1,6 +1,12 @@
-# linux第三部分
+---
+publish: true
+tags:
+  - 渗透测试
+  - 后渗透与提权
+---
+## linux第三部分
 
-# 快速搭建web服务器
+## 快速搭建web服务器
 
 python3提供了·`HTTPServer`模块，该模块可以将计算机变成一个快速简便的 Web 服务器。
 
@@ -10,7 +16,7 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 ```
 
 
-# 查看进程
+## 查看进程
 
 要查看其他用户运行的进程以及那些不在会话中运行的进程（即系统进程），我们需要像这样为命令提供**aux 参数：**`ps aux`
 
@@ -25,7 +31,7 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 我们可以使用名称合适的`kill` 命令以及要终止的进程 ID (PID)。例如，要终止 PID 1337，我们可以使用 \`kill 1337\` `kill 1337`。
 
 
-# wget
+## wget
 
 `wget:`该命令允许通过 HTTP 从网络下载文件——就像在浏览器中访问文件一样。只需要提供要下载的资源的地址即可。例如，如果我想将名为"myfile.txt"的文件下载到我的电脑上，假设我知道它的网址——命令看起来会像这样：
 
@@ -33,7 +39,7 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 wget https://assets.tryhackme.com/additional/linux-fundamentals/part3/myfile.txt
 ```
 
-# scp
+## scp
 
 Secure copy (SCP),与普通的cp命令不同，SCP命令允许使用SSH协议在两台计算机之间传输文件，从而提供身份验证和加密。
 
@@ -49,7 +55,7 @@ scp important.txt ubuntu@192.168.1.30:/home/ubuntu/transferred.txt
 ```
 
 
-# **__进程是如何启动的？__**
+## **__进程是如何启动的？__**
 
 我们先来谈谈命名空间。操作系统 (OS) 使用命名空间来划分计算机上的可用资源（例如 CPU、内存和优先级），供各个进程使用。你可以把它想象成把计算机切成若干块——就像切蛋糕一样。每块"切片"内的进程都可以访问一定量的计算能力，但这仅仅是所有进程可用资源的一小部分。
 
@@ -68,7 +74,7 @@ scp important.txt ubuntu@192.168.1.30:/home/ubuntu/transferred.txt
  ![](bg5.png " =252.5x151.5")
 
 
-# crontab
+## crontab
 
 希望在系统启动后安排某些操作或任务.
 

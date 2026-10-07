@@ -1,5 +1,9 @@
-# shell的常见类型
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - 后渗透与提权
+---
 ## 🛡️ 反向 Shell 概念
 
 **反向 Shell**（或称"回连 Shell"，Connect Back Shell）是一种流行的**渗透测试技术**，用于建立对目标系统的连接。它与传统 Shell 的区别在于连接的发起方向。

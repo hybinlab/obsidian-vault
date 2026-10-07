@@ -1,6 +1,10 @@
-# 哈希破解工具：john
-
-# 安装
+---
+publish: true
+tags:
+  - 渗透测试
+  - 后渗透与提权
+---
+## 安装
 
 ```bash
 sudo apt install john
@@ -15,7 +19,7 @@ sudo dnf install john
 `/usr/share/wordlists`目录包含一系列优秀的字典文件,如`rockyou.txt`
 
 
-# 语法
+## 语法
 
 John 内置了检测哈希类型并选择相应规则和格式进行破解的功能；虽然这种方法并非总是最佳选择，因为它可能不太可靠，但如果您无法识别哈希类型并想尝试破解，这不失为一个好办法！为此，我们使用以下语法：
 
@@ -47,7 +51,7 @@ John 内置了检测哈希类型并选择相应规则和格式进行破解的功
 :::
 
 
-# 破解 /etc/shadow 哈希值
+## 破解 /etc/shadow 哈希值
 
 John_password_company 的基本语法`unshadow`如下：
 
@@ -61,10 +65,10 @@ John_password_company 的基本语法`unshadow`如下：
 `unshadow local_passwd local_shadow > unshadowed.txt`
 
 
-# 自定义规则
+## 自定义规则
 
 
-# 破解受密码保护的压缩文件
+## 破解受密码保护的压缩文件
 
 使用`zip2john`工具将 Zip 文件转换为 John 可以理解并希望能够破解的哈希格式。主要用法如下：
 
@@ -86,7 +90,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt rar_hash.txt
 ```
 
 
-# 破解受密码保护的 RAR 压缩文件
+## 破解受密码保护的 RAR 压缩文件
 
 使用该`rar2john`工具将 RAR 文件转换为 John 可以理解的哈希格式。基本语法如下：
 
@@ -102,7 +106,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt rar_hash.txt
 `/opt/john/rar2john rarfile.rar > rar_hash.txt`
 
 
-## **破解__SSH__密钥密码**
+### **破解__SSH__密钥密码**
 
 `ssh2john [id_rsa private key file] > [output file]`
 

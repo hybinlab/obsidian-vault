@@ -1,8 +1,6 @@
 ---
 publish: true
 ---
-# OpenViking + OpenClaw 部署指南
-
 > 适用环境：Ubuntu Server，OpenClaw 已注册为 systemd 用户服务
 
 

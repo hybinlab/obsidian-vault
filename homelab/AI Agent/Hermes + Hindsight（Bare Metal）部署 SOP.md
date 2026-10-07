@@ -1,5 +1,3 @@
-# Hermes + Hindsight（Bare Metal）部署 SOP
-
 > Hindsight 专项笔记（API 细节、概念）另开在 [[homelab/AI Agent/Hindsight/]] 文件夹，这篇是 Hermes+Hindsight 联合部署的 SOP，两者耦合较深，暂不拆分。
 
 > **适用场景**：Hermes Agent 与 Hindsight API 同机部署在 Agent VM；PostgreSQL 独立部署在 DB VM；Hindsight 使用本地 Embedding / Reranker（中英混合），LLM 使用 MiniMax 国内 API。

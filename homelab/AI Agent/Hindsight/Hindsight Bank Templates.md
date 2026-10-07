@@ -2,7 +2,7 @@
 publish: true
 ---
 
-对应部署已经跑起来的 [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]]，这篇整理 Hindsight 的 Bank Template 功能——用一份 JSON 清单，一次 API 调用就能把一个 bank（记忆库）的配置、心理模型、指令全部配好，不用在 Web UI 里一项项手动点。
+对应部署已经跑起来的 [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]]，这篇整理 Hindsight 的 Bank Template 功能——用一份 JSON 清单，一次 API 调用就能把一个 bank（记忆库）的配置、心理模型、指令全部配好，不用在 Web UI 里一项项手动点。
 
 ## 是什么、解决什么问题
 
@@ -101,6 +101,6 @@ Bank Template 是声明式的 JSON 配置清单，导入时会创建或更新对
 
 ## 相关笔记
 
-- [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] — 部署、环境变量、踩坑记录
+- [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]] — 部署、环境变量、踩坑记录
 - [[homelab/AI Agent/Hindsight/Hindsight Memories API.md]] — 记忆单元的管理操作（编辑/失效）
 - [[homelab/AI Agent/Hindsight/Hindsight Memory Banks API.md]] — Bank 本身的概念、这些配置字段实际控制什么阶段

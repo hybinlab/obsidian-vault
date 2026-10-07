@@ -4,8 +4,6 @@ tags:
   - VPN
   - 排障
 ---
-# OpenClash 内网域名解析失败排查与解决
-
 ## 环境
 
 * 路由器：OpenWrt + OpenClash（Meta 内核）

@@ -161,4 +161,4 @@ Reflect 收集不到证据时**返回 500，而不是憋一个空答案出来**�
 
 - [[homelab/AI Agent/Hindsight/Hindsight Memory Banks API.md]] — disposition/reflect_mission 等配置字段
 - [[homelab/AI Agent/Hindsight/Hindsight Memories API.md]] — Reflect 检索到的记忆单元本身怎么管理
-- [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] — 部署
+- [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]] — 部署

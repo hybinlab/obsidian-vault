@@ -167,7 +167,7 @@ systemctl daemon-reload
 
 ## Hindsight 日志：Python logging → 解析成标签
 
-Hindsight API 是 Python 服务（部署见 [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]]），日志由 systemd 的 `append:` 输出写进 `/var/log/hindsight/`：stdout → `hindsight.log`，stderr → `hindsight.err.log`，分别打上 `stream=stdout` / `stream=stderr`。
+Hindsight API 是 Python 服务（部署见 [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]]），日志由 systemd 的 `append:` 输出写进 `/var/log/hindsight/`：stdout → `hindsight.log`，stderr → `hindsight.err.log`，分别打上 `stream=stdout` / `stream=stderr`。
 
 这条链路比系统日志/Hermes 多一步解析（`loki.process "hindsight_parse"`），日志格式是 Python logging 默认的 `时间 - 级别 - logger - 正文`：
 
@@ -204,7 +204,7 @@ curl -s http://127.0.0.1:3100/loki/api/v1/label/logger/values
 
 **4. 日志文件会一直长大。** systemd 的 `append:` 只负责追加，不轮转。需要配 logrotate；因为 systemd 一直持有文件句柄，用 `copytruncate`，别用 rename + create（否则 systemd 会继续写进被改名的旧文件）。目前我没看到这份 logrotate 配置。
 
-**5. `journalctl -u hindsight` 已经看不到应用输出。** unit 里 `StandardOutput` / `StandardError` 是 `append:`（已确认），应用日志只在 `/var/log/hindsight/` 的文件里，journal 里只剩 systemd 自己的启停记录。[[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] 的 §10 / §11 / §13 已按这份 unit 同步，其中还补了 logrotate 建议（尚未配置）。
+**5. `journalctl -u hindsight` 已经看不到应用输出。** unit 里 `StandardOutput` / `StandardError` 是 `append:`（已确认），应用日志只在 `/var/log/hindsight/` 的文件里，journal 里只剩 systemd 自己的启停记录。[[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]] 的 §10 / §11 / §13 已按这份 unit 同步，其中还补了 logrotate 建议（尚未配置）。
 
 ## 诊断信号对照
 
@@ -270,6 +270,6 @@ curl http://127.0.0.1:3100/loki/api/v1/label/cluster/values
 - [[监控告警链路追踪/Alloy/Alloy 接入 Prometheus 实战记录.md]] — 同一 alloy 实例的 Prom 链路实战
 - [[监控告警链路追踪/Alloy/Grafana Alloy 概述.md]] — Alloy 整体
 - [[Alloy 处理日志（多阶段 Pipeline）]] — `loki.process` 各 stage 与提取映射表
-- [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] — Hindsight 服务本身的部署
+- [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]] — Hindsight 服务本身的部署
 - [[Loki 日志告警与监控组件自监控]] — 基于这里采集的日志做告警（agent 断流会触发 LogIngestionStopped）
 - [[Ansible 批量部署 Alloy 实战记录]] — 同样的配置用 Ansible 推到 bastion / middleware

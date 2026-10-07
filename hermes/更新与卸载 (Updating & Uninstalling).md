@@ -1,10 +1,6 @@
 ---
 publish: true
 ---
-# 更新与卸载 (Updating & Uninstalling)
-
-# 更新与卸载 (Updating & Uninstalling)
-
 ## 更新
 
 ### Git 安装

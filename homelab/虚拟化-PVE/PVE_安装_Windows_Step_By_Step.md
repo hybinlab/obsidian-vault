@@ -1,8 +1,6 @@
 ---
 publish: true
 ---
-# PVE_安装_Windows_Step_By_Step
-
 > 本文撰写时，我使用的 PVE 版本是 8.0.3。
 
 ## 下载镜像和驱动

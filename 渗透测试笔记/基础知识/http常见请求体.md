@@ -1,5 +1,9 @@
-# http常见请求体
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - 基础知识
+---
 ## **Request Body**
 
 In __HTTP__ requests such as POST and PUT, where data is sent to the web server as opposed to requested from the web server, the data is located inside the __HTTP__ Request Body. The formatting of the data can take many forms, but some common ones are `URL Encoded`, `Form Data`, `JSON`, or `XML`.

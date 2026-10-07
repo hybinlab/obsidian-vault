@@ -4,8 +4,6 @@ tags:
   - homelab
   - 部署
 ---
-# CloudBeaver 部署与恢复手册
-
 > 更新：2026-08-17 · 部署人：Red Queen（用户指挥，二次重构定稿） 位置：docker-host（192.168.31.1）`/root/cloudbeaver/`
 
 ## 1. 这是什么

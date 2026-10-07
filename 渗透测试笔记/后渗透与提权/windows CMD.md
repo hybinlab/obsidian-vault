@@ -1,14 +1,18 @@
-# windows CMD
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - 后渗透与提权
+---
 Windows 目录的系统环境变量是`%windir%`
 
-# HOSTNAME
+## HOSTNAME
 
 **hostname**命令会输出计算机名称。
 
  ![](hostname.png " =266x56")
 
-# WHOAMI
+## WHOAMI
 
 **whoami**命令会输出已登录用户的名称。
 
@@ -29,7 +33,7 @@ Windows 目录的系统环境变量是`%windir%`
 :::
 
 
-# NETSTAT
+## NETSTAT
 
 下一个命令是`netstat`。根据帮助手册，此命令将显示协议统计信息和当前 TCP/IP 网络连接。 
 
@@ -70,7 +74,7 @@ Windows 目录的系统环境变量是`%windir%`
  ![](渗透测试笔记/uploads/e6d1e924-6404-478c-b58a-1a046b0538c8/6a50014c-7946-4923-a9a8-e21c9d6e77fc/image.png " =745x801")
 
 
-# SET
+## SET
 
 ```bash
 # 显示所有环境变量
@@ -81,7 +85,7 @@ SET PATH
 SET USERNAME
 ```
 
-# VER
+## VER
 
 `ver`命令来确定操作系统（__OS__）版本
 
@@ -91,7 +95,7 @@ Microsoft Windows [Version 10.0.17763.1821]
 ```
 
 
-# SYSINFO
+## SYSINFO
 
 `systeminfo`命令来列出系统的各种信息，例如__操作系统__信息、系统详情、处理器和内存。
 
@@ -118,12 +122,12 @@ OS Build Type:             Multiprocessor Free
 :::
 
 
-# nslookup
+## nslookup
 
 可以查找主机或域名并返回其 IP 地址
 
 
-# dir
+## dir
 
 `dir`您可以使用.查看子目录。
 
@@ -144,22 +148,22 @@ OS Build Type:             Multiprocessor Free
 要创建目录，使用`mkdir directory_name,mkdir`代表*创建目录*。要删除目录，请使用 \` `rmdir directory_name`;\`，\`;\``rmdir`代表*删除目录*。
 
 
-# type
+## type
 
 类似linux的cat
 
 
-# move
+## move
 
 类似linux的mv
 
 
-# del
+## del
 
 类似linux的rm
 
 
-# tasklist
+## tasklist
 
 列出正在运行的进程
 
@@ -182,11 +186,11 @@ taskkill /PID 进程号
 ```
 
 
-# runas
+## runas
 
 提权用的
 
 
-# driverquery
+## driverquery
 
 显示已安装的设备驱动程序列表

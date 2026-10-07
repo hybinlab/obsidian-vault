@@ -189,7 +189,7 @@ for message in preview.messages:
 }
 ```
 
-`default_action` 四选一：`allow`/`redact`（脱敏）/`quarantine`（隔离待审）/`block`（直接拒绝）。对应部署 SOP [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] §14 安全那节提到的"REST API 默认无鉴权"，这个 Memory Defense 是内容层面的防护，跟网络层面的访问控制是两回事，两个都要配才算完整。
+`default_action` 四选一：`allow`/`redact`（脱敏）/`quarantine`（隔离待审）/`block`（直接拒绝）。对应部署 SOP [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]] §14 安全那节提到的"REST API 默认无鉴权"，这个 Memory Defense 是内容层面的防护，跟网络层面的访问控制是两回事，两个都要配才算完整。
 
 ## 小结
 
@@ -200,4 +200,4 @@ Bank 是容器，四组配置（retain/observations/reflect/recall）控制四�
 - [[homelab/AI Agent/Hindsight/Hindsight Bank Templates.md]] — 把这些配置打包成模板批量下发
 - [[homelab/AI Agent/Hindsight/Hindsight Memories API.md]] — Bank 里存的记忆单元怎么管理
 - [[homelab/AI Agent/Hindsight/Hindsight Reflect API.md]] — Reflect 操作详解（请求参数、响应结构、失败行为）
-- [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] — 部署、安全配置
+- [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]] — 部署、安全配置

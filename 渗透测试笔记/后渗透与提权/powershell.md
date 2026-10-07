@@ -1,11 +1,15 @@
-# powershell
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - 后渗透与提权
+---
 可在CMD窗口输入powershell打开一个新的powershell窗口
 
  ![](渗透测试笔记/uploads/e6d1e924-6404-478c-b58a-1a046b0538c8/8e247e1c-75ce-419d-a00d-626dc3bfc01a/image.png " =841x184")
 
 
-# get-command
+## get-command
 
 __列出当前PowerShell__会话中所有可用的 cmdlet、函数、别名和脚本
 
@@ -25,7 +29,7 @@ Function        Add-DnsClientNrptRule                              1.0.0.0    Dn
 
 
 \
-# Find-Module
+## Find-Module
 
 __在PowerShell__ Gallery等在线存储库中搜索模块（cmdlet 集合）
 
@@ -56,12 +60,12 @@ You are installing the modules from an untrusted repository. If you trust this r
 
 
 \
-# Get-ChildItem
+## Get-ChildItem
 
 列出指定位置（由`-Path`参数指定）中的文件和目录。它可用于浏览目录并查看其内容。如果未`Path`指定参数，则该 cmdlet 将显示当前工作目录的内容。
 
 
-# Set-Location
+## Set-Location
 
 它会更改当前目录，将我们带到指定的路径，类似于`cd`命令
 
@@ -72,7 +76,7 @@ PS C:\Users\captain\Documents>
 ```
 
 
-# New-Item
+## New-Item
 
 __要在PowerShell__中创建项目，我们可以使用`New-Item`。我们需要指定项目的路径及其类型（是文件还是目录）
 
@@ -95,7 +99,7 @@ Mode                 LastWriteTime         Length Name
 ```
 
 
-# Remove-Item
+## Remove-Item
 
 会同时删除目录和文件
 
@@ -105,7 +109,7 @@ PS C:\Users\captain\Documents> Remove-Item -Path ".\captain-cabin\captain-wardro
 ```
 
 
-# Copy-Item
+## Copy-Item
 
 复制或移动文件和目录
 
@@ -125,7 +129,7 @@ d-----          9/4/2024  12:50 PM                captain-wardrobe
 ```
 
 
-# Get-Content
+## Get-Content
 
 类似于`type`命令提示符（或`cat`）中的命令
 
@@ -142,7 +146,7 @@ Don't touch my hat!
 ```
 
 
-# 管道符
+## 管道符
 
 允许将一个命令的输出作为另一个命令的输入
 
@@ -217,7 +221,7 @@ ship-flag.txt     2116
 
 
 \
-# Get-ComputerInfo
+## Get-ComputerInfo
 
 可以检索全面的系统信息，包括操作系统信息、硬件规格、BIOS 详情等等
 
@@ -235,7 +239,7 @@ WindowsProductName                                      : Windows Server 2022 Da
 ```
 
 
-# Get-LocalUser
+## Get-LocalUser
 
 列出系统上的所有本地用户帐户
 
@@ -252,7 +256,7 @@ WDAGUtilityAccount False   A user account managed and used by the system for Win
 ```
 
 
-# `Get-NetIPConfiguration`
+## `Get-NetIPConfiguration`
 
 供系统网络接口的详细信息，包括 IP 地址、__DNS__服务器和网关配置(不如直接用IPconfig)
 
@@ -270,7 +274,7 @@ DNSServer            : 10.0.0.2
 ```
 
 
-# Get-NetIPAddress
+## Get-NetIPAddress
 
 显示系统上配置的所有 IP 地址的详细信息，包括当前未激活的 IP 地址。
 
@@ -305,7 +309,7 @@ AddressFamily     : IPv4
 ```
 
 
-# Get-Process
+## Get-Process
 
 提供当前所有运行进程的详细视图，包括__CPU__和内存使用情况
 
@@ -323,7 +327,7 @@ Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
 ```
 
 
-# Get-Service
+## Get-Service
 
 检索有关计算机上服务状态的信息
 
@@ -342,7 +346,7 @@ Stopped  ClipSVC            Client License Service (ClipSVC)
 ```
 
 
-# Get-NetTCPConnection
+## Get-NetTCPConnection
 
 显示当前__TCP__连接，从而深入了解本地和远程端点
 
@@ -367,7 +371,7 @@ LocalAddress        LocalPort RemoteAddress       RemotePort State       Applied
 ```
 
 
-# Get-FileHash
+## Get-FileHash
 
 用于生成文件哈希值的实用 cmdlet，这在事件响应、威胁搜寻和恶意软件分析中特别有价值，因为它有助于验证文件完整性并检测潜在的篡改。
 
@@ -380,6 +384,6 @@ SHA256          54D2EC3C12BF3D[...]       C:\Users\captain\Documents\captain-cab
 ```
 
 
-# Invoke-Command(重要)
+## Invoke-Command(重要)
 
  ![](渗透测试笔记/uploads/e6d1e924-6404-478c-b58a-1a046b0538c8/8764869f-5d9f-49e3-8bfb-0263681b8084/image.png " =1116x107")

@@ -1,8 +1,6 @@
 ---
 publish: true
 ---
-# C盘扩容操作手册（DiskGenius）
-
 ## 前提条件
 
 * C盘和D盘须在同一块物理磁盘上

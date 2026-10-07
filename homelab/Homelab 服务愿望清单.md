@@ -1,19 +1,20 @@
 ---
 publish: true
 ---
-# 规划
 
-# Homelab 服务清单
+> 这是**愿望清单**（想部署、在评估的服务），不代表当前状态；现在实际在跑什么以 [[03-服务清单]] 为准，整体见 [[00-现状总览]]。
 
-## docker-host（LXC）
+## 服务愿望清单
 
-### 知识与文档
+### docker-host（LXC）
+
+#### 知识与文档
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
 | Outline | 知识库 | [GitHub](https://github.com/outline/outline) |
 
-### 媒体
+#### 媒体
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
@@ -22,25 +23,25 @@ publish: true
 | Kavita | 漫画 + 小说书库 | [kavitareader.com](https://www.kavitareader.com) |
 | Calibre | 电子书管理（完整版，KasmVNC Web 图形界面） | [linuxserver/calibre](https://github.com/linuxserver/docker-calibre) |
 
-### 资讯
+#### 资讯
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
 | FreshRSS | RSS 新闻聚合 | [freshrss.org](https://freshrss.org) |
 
-### 存储与文件
+#### 存储与文件
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
 | OpenList | 网盘聚合，挂载群晖 SMB/NFS | [GitHub](https://github.com/OpenListTeam/OpenList) |
 
-### 智能家居
+#### 智能家居
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
 | Home Assistant | 智能家居中枢 | [home-assistant.io](https://www.home-assistant.io) |
 
-### 监控
+#### 监控
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
@@ -51,7 +52,7 @@ publish: true
 | mysqld_exporter | MySQL 指标 | [GitHub](https://github.com/prometheus/mysqld_exporter) |
 | postgres_exporter | PostgreSQL 指标 | [GitHub](https://github.com/prometheus-community/postgres_exporter) |
 
-### AI / 自动化
+#### AI / 自动化
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
@@ -60,7 +61,7 @@ publish: true
 
 ---
 
-## 堡垒机（LXC）
+### 堡垒机（LXC）
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
@@ -68,7 +69,7 @@ publish: true
 | Nginx | 内网反代，按子域名路由到各服务 | [nginx.org](https://nginx.org) |
 | JumpServer | 堡垒机，资产管理 + 会话审计 + 权限控制，复用基础设施层 MySQL + Redis | [jumpserver.org](https://www.jumpserver.org) |
 
-### 子域名规划（示例）
+#### 子域名规划（示例）
 
 | 子域名 | 指向服务 |
 |----|----|
@@ -88,7 +89,7 @@ publish: true
 
 ---
 
-## 群晖 VM
+### 群晖 VM
 
 | 服务 | 用途 |
 |----|----|
@@ -101,9 +102,9 @@ publish: true
 
 ---
 
-## 基础设施层
+### 基础设施层
 
-### 数据库 VM
+#### 数据库 VM
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
@@ -112,14 +113,14 @@ publish: true
 
 > JumpServer、Outline 等服务的数据库均指向此 VM（内网 IP:Port）。
 
-### 中间件 VM
+#### 中间件 VM
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
 | Redis | 缓存 + 会话存储 | [redis.io](https://redis.io) |
 | RabbitMQ | 消息队列 | [rabbitmq.com](https://www.rabbitmq.com) |
 
-### MinIO VM
+#### MinIO VM
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
@@ -128,7 +129,7 @@ publish: true
 
 ---
 
-## Agent VM
+### Agent VM
 
 | 服务 | 用途 | 链接 |
 |----|----|----|
@@ -141,14 +142,14 @@ publish: true
 
 ---
 
-## 说明
+### 说明
 
 * IPTV 通过 Jellyfin Live TV 内置功能接 m3u 源，无需单独部署服务
 * Calibre 使用 `linuxserver/calibre` 镜像，通过 KasmVNC 提供 Web 图形界面
 * Prometheus 监控范围：PVE 宿主机、所有常驻 VM/LXC、MySQL、PostgreSQL
 * JumpServer 依赖复用基础设施层的 MySQL 和 Redis，不在堡垒机本地单独部署
 
-## 相关笔记（已落地的部署文档）
+### 相关笔记（已落地的部署文档）
 
 - [[homelab/数据库/MySQL 8.4 二进制安装.md]]
 - [[homelab/数据库/PostgreSQL_的详细安装方式（全平台覆盖).md]]
@@ -157,4 +158,4 @@ publish: true
 - [[mysql部署prometheus]] — 旧版 mysqld_exporter 方案，已迁移到 Alloy（见上面链接）
 - [[homelab/网络/frp服务器部署.md]]
 - [[homelab/AI Agent/OpenViking + OpenClaw 部署指南.md]]
-- [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] — Hindsight 专项笔记见 [[homelab/AI Agent/Hindsight/]]
+- [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]] — Hindsight 专项笔记见 [[homelab/AI Agent/Hindsight/]]

@@ -105,7 +105,7 @@ publish: true
 
 这一关不是练习题，是拿真实的 Docker Host 开刀，产出一份你以后重装机器还能直接跑的 Infrastructure as Code。
 
-> 这一关实际踩了不少坑（DEB822 仓库格式、Architectures 字段、cache_valid_time 反模式、-C 检查模式误导、fnm 实际安装路径），完整排障过程见 [[Docker & fnm部署踩坑记录]]。
+> 这一关实际踩了不少坑（DEB822 仓库格式、Architectures 字段、cache_valid_time 反模式、-C 检查模式误导、fnm 实际安装路径），完整排障过程见 [[Docker & fnm 部署踩坑记录]]。
 
 **目标**：一台裸 Ubuntu VM，跑一个 `docker-host.yml`，跑完自动变成生产可用的 Docker 节点。
 

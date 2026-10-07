@@ -1,5 +1,9 @@
-# TCPdump
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - 信息收集
+---
 查看更多命令使用`man tcpdump`
 
 | **命令** | **解释** |

@@ -1,10 +1,6 @@
 ---
 publish: true
 ---
-# 安装指南 (Installation)
-
-# 安装指南 (Installation)
-
 两分钟内通过一行命令完成 Hermes Agent 的安装。
 
 ## 快速安装

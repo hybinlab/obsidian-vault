@@ -1,8 +1,6 @@
 ---
 publish: true
 ---
-# AI Town Homelab 部署指南
-
 > 适用环境：Docker 宿主机（Linux），自有 LLM 供应商（OpenAI 兼容接口）
 
 

@@ -1,5 +1,3 @@
-# Obsidian + Quartz v5 知识库部署
-
 > 从零开始，将 Obsidian 笔记通过 Quartz v5 发布到 GitHub Pages 的完整可复现流程。
 
 ## 架构概览

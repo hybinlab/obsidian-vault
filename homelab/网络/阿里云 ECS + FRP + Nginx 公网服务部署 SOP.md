@@ -1,5 +1,3 @@
-# 阿里云 ECS + FRP + Nginx 公网服务部署 SOP
-
 > 日期：2026-09-10
 > 背景：把腾讯云 VPS 迁到阿里云 ECS，重建公网 HTTPS 服务链路
 > 旧腾讯云方案（仅 frpc，无 nginx/acme）见 [[homelab/网络/frp服务器部署.md]]，已过时，仅作历史参考

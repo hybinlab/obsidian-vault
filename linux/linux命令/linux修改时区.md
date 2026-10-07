@@ -1,21 +1,19 @@
 ---
 publish: true
 ---
-# linux修改时区
-
-# 查看
+## 查看
 
 ```bash
 timedatectl
 ```
 
-# 修改
+## 修改
 
 ```bash
  timedatectl set-timezone Asia/Shanghai
 ```
 
-# 验证
+## 验证
 
 ```bash
  date

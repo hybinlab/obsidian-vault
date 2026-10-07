@@ -22,7 +22,7 @@ publish: true
 ### 🖥️ 基础设施
 
 - [[linux/网络排障/网络故障排查 Runbook.md|linux]] — Linux 系统管理与运维基础
-- [[homelab/规划.md|homelab]] — 我的 Homelab 架构、服务部署与网络拓扑
+- [[homelab/00-现状总览.md|homelab]] — 我的 Homelab 架构、服务部署与网络拓扑
 - [[VPN/主流 VPN 协议指南.md|VPN]] — 代理与隧道相关
 - [[监控告警链路追踪/Alloy/Grafana Alloy 概述.md|监控告警链路追踪]] — Prometheus/Loki 监控日志体系，Alloy 采集实战与踩坑记录
 
@@ -37,4 +37,4 @@ publish: true
 
 - [[安装指南 (Installation)|hermes学习笔记]] — Hermes Agent 项目相关
 - [[macOS 开发环境配置文档|mac学习使用之旅]] — macOS 使用技巧与开发环境
-- [[知识库quartz/新知识库的构建.md|知识库quartz]] — 这个知识库本身是怎么用 Quartz 搭起来的
+- [[知识库quartz/个人知识库方案备忘.md|知识库quartz]] — 这个知识库本身是怎么用 Quartz 搭起来的

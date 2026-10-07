@@ -1,5 +1,9 @@
-# 100个sql注入Payload
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - Web漏洞
+---
 ## 一、联合查询注入 Payload（6 个）
 
 #### 字段数量探测

@@ -4,8 +4,6 @@ tags:
   - homelab
   - 部署
 ---
-# Nexterm 部署文档
-
 > 部署在 LXC 101 (docker-host)，通过 LXC 103 Nginx 反代暴露为 `terminal.home`
 
 

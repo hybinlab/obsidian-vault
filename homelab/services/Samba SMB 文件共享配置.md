@@ -4,10 +4,6 @@ tags:
   - homelab
   - 部署
 ---
-# amba SMB 文件共享配置
-
-# Samba SMB 文件共享配置
-
 ## 环境
 
 * **OS**: Ubuntu 24.04.4 LTS

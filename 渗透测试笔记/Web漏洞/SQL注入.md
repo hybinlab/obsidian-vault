@@ -1,5 +1,9 @@
-# SQL注入
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - Web漏洞
+---
 ## 💻 SQL 注入漏洞 
 
 ### 🎯 概述

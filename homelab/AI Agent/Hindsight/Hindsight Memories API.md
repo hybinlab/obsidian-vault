@@ -2,7 +2,7 @@
 publish: true
 ---
 
-对应 [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] §9 冒烟测试里用到的 `/v1/default/banks/test/memories` 那套接口，这篇整理 Memory（记忆单元）的概念和管理操作，重点是官方 "When to reach for what" 那节——遇到记忆错了/过时了，该用哪个操作。
+对应 [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]] §9 冒烟测试里用到的 `/v1/default/banks/test/memories` 那套接口，这篇整理 Memory（记忆单元）的概念和管理操作，重点是官方 "When to reach for what" 那节——遇到记忆错了/过时了，该用哪个操作。
 
 ## Memory Unit 是什么
 
@@ -76,6 +76,6 @@ await client.memory.update_memory(
 
 ## 相关笔记
 
-- [[homelab/AI Agent/Hermes + Hindsight 部署 SOP.md]] — 部署、冒烟测试
+- [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]] — 部署、冒烟测试
 - [[homelab/AI Agent/Hindsight/Hindsight Bank Templates.md]] — bank 配置模板（`retain_mission`/`observations_mission` 这些字段在那篇有完整说明）
 - [[homelab/AI Agent/Hindsight/Hindsight Memory Banks API.md]] — Bank 本身的概念，Memory 是 Bank 五个组成部分之一

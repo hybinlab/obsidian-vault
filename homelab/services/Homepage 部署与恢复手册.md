@@ -4,10 +4,6 @@ tags:
   - homelab
   - 部署
 ---
-# Homepage 部署与恢复手册
-
-# Homepage 部署与恢复手册
-
 > 更新：2026-08-16 · 部署人：Red Queen 位置：docker-host（192.168.31.1）`/root/homepage/`
 
 ## 1. 这是什么

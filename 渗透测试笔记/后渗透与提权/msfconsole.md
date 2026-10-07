@@ -1,5 +1,9 @@
-# msfconsole
-
+---
+publish: true
+tags:
+  - 渗透测试
+  - 后渗透与提权
+---
 ## 1. 简介 (Introduction)
 
 Metasploit 是一个开源渗透测试框架，涵盖枚举、测试和攻击执行的所有阶段。

