@@ -18,7 +18,7 @@ cssclasses:
 
 | 机器 | 之前 | 之后 |
 |---|---|---|
-| bastion（192.168.31.3） | node_exporter，Prometheus 抓 9100；无日志 | Alloy：指标 remote write + syslog / auth / kern + **frpc journal**；node_exporter 停用 |
+| bastion（192.168.31.3） | node_exporter，Prometheus 抓 9100；无日志 | Alloy：指标 remote write + syslog / auth / kern + **frpc journal**；node_exporter 已删除 |
 | middleware（192.168.31.6） | 什么都没有（抓取目标一直 down） | Alloy：指标 remote write + syslog / auth / kern + **docker 容器日志**（redis） |
 
 标签和 agent 完全对齐，现有告警规则不用改表达式：
@@ -178,6 +178,12 @@ bastion 原来由 Prometheus 抓 9100，切到 remote write 后两路数据的�
 1. `prometheus.yml` 里注释掉 bastion 的 9100 抓取目标 → `docker kill -s HUP prometheus`
 2. 部署 Alloy：`ansible-playbook deploy-alloy-node-logs.yml --limit bastion`
 3. 确认 Alloy 正常后停掉 node_exporter：`ansible bastion -m shell -a "systemctl disable --now node_exporter"`
+4. 稳定后彻底删除（按 [[阿里云 ECS 监控部署文档]] 的安装步骤，只有这两个文件；没有专用用户，也没有防火墙规则）：
+
+```bash
+rm -f /usr/local/bin/node_exporter /etc/systemd/system/node_exporter.service
+systemctl daemon-reload
+```
 
 中间只有一两分钟的指标空档。
 
