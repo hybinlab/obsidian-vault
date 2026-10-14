@@ -232,30 +232,18 @@ curl -s http://127.0.0.1:3100/loki/api/v1/label/logger/values
 
 ## 多机对齐：homelab 集群标签
 
-homelab 集群里两台机器都在推 Loki，标签体系要统一：
+2026-10-15 核对 docker-host 的 `/root/monitoring/config.alloy` 和 Loki 标签 API：当前 docker-host 已经把容器日志经 `docker_logs` 加上 `job="docker-host"`，再统一经过 `add_labels` 注入 `cluster="homelab"`；syslog / authlog 也转给 `add_labels`。日志最终写入容器内的 `http://loki:3100/loki/api/v1/push`。旧笔记里“docker-host 缺少 cluster 标签、需要补配置”的步骤已经过时。
+
+当前已核对的标签结构：
 
 | 维度 | 本机 (agent, systemd alloy) | docker-host (容器 alloy) |
 |---|---|---|
 | **hostname** | `agent` | `docker-host` |
-| **host label** | `"agent"`（硬编码，跟 hostname 一致） | `"docker-host"`（硬编码，跟 hostname 一致）|
-| **cluster label** | `cluster = "homelab"`（`loki.process add_labels`） | `cluster = "homelab"`（同一套）|
-| **job** | syslog / authlog / kernlog / hermes / hindsight | docker / syslog / authlog |
+| **host label** | `"agent"`（硬编码，跟 hostname 一致） | `"docker-host"`（硬编码，跟 hostname 一致） |
+| **cluster label** | `cluster = "homelab"`（`loki.process add_labels`） | `cluster = "homelab"`（`loki.process add_labels`） |
+| **job** | syslog / authlog / kernlog / hermes / hindsight | 容器日志 `docker-host`（经 `docker_logs`）；syslog / authlog |
 
-docker-host 上原来的 `config.alloy` **没有 `cluster` 标签**，只给本机加了之后 Loki 端筛 `{cluster="homelab"}` 会漏掉 docker-host 的日志。补齐那台需要做：
-
-1. 备份：`ssh docker-host 'cp /root/monitoring/config.alloy /root/monitoring/config.alloy.bak.<date>'`
-2. 在 `loki.write` 段之前插入 `loki.process "add_labels"` 段（结构跟本机一样，`cluster = "homelab"`、`forward_to = [loki.write.local.receiver]`）
-3. `loki.source.file "syslog"` 的 `forward_to` 改成 `[loki.process.add_labels.receiver]`。docker 那条**不能直接改**，要串起来：`loki.source.docker` → `loki.process "docker_logs"`（打 `job="docker"`）→ `loki.process "add_labels"`（打 `cluster`），即 `loki.source.docker` 转给 `docker_logs`，`docker_logs` 再转给 `add_labels`。如果把 `loki.source.docker` 直接转给 `add_labels`，会绕过 `docker_logs`，容器日志就丢了 `job="docker"`（实际发生过，Loki 日志里能看到流标签里没有 `job`）
-4. 容器没有 curl/wget，**热加载靠 `docker compose restart alloy`**（容器 alloy 不支持 `/-/reload` 因为 exec 没 HTTP 工具；这是 docker 镜像精简过的代价）
-
-验证：
-
-```
-curl http://127.0.0.1:3100/loki/api/v1/label/cluster/values
-→ ["homelab"]
-```
-
-跑完两台机器所有 Loki 日志都贴 `cluster="homelab"`，按集群筛干净。
+Loki 标签 API 返回的 `cluster` 值包含 `homelab`，`job` 值包含 `docker-host`。docker-host 当前配置没有 kernlog 采集。这里记录的是配置与标签核验结果，不代表已经逐条验证所有历史日志流。
 
 **`/etc/hostname` 是这两台机器 host label 的真实来源**——目前是硬编码到 alloy 配置里，如果机器改名 / 搬网段要同步改。也可以用 `loki.process.stage.template` + `local.file_match` 读 `/etc/hostname` 动态注入，但 homelab 规模不值得。
 

@@ -21,10 +21,12 @@ cssclasses:
 | bastion（192.168.31.3） | node_exporter，Prometheus 抓 9100；无日志 | Alloy：指标 remote write + syslog / auth / kern + **frpc journal**；node_exporter 已删除 |
 | middleware（192.168.31.6） | 什么都没有（抓取目标一直 down） | Alloy：指标 remote write + syslog / auth / kern + **docker 容器日志**（redis） |
 
-标签和 agent 完全对齐，现有告警规则不用改表达式：
+Playbook 中配置的预期标签如下；指标标签与日志标签的意图是跟 agent 保持一致：
 
 - 指标：`job="node"`、`instance=<主机名>`；Alloy 自身指标 `job="alloy"`
 - 日志：`host=<主机名>`、`cluster="homelab"`、`job=syslog|authlog|kernlog|frpc|docker`
+
+2026-10-15 从 Loki 核对到一处运行时偏差：bastion 的 Alloy 配置文件为 frpc journal 源设置 `job="frpc"`，但 Loki 实际 stream 标签是 `job="loki.source.journal.frpc"`。`FrpcReconnecting` 规则当前按 `{job="frpc"}` 查询，所以没有匹配到这批日志；该规则已加载不等于已验证可命中。偏差原因尚未确认，修复记录见 [[Loki 日志告警与监控组件自监控]]。
 
 ---
 

@@ -162,9 +162,9 @@ sudo systemctl reload alloy
 1. Alloy UI（`http://localhost:12345`）的 **Graph** 标签能看到四个组件连成的管道图，颜色代表健康状态（对应 [[监控告警链路追踪/Alloy/Alloy 组件控制器与生命周期.md]] 的四种健康状态）
 2. Grafana Explore（`http://localhost:3000/explore`）选 Loki 数据源，点 **Label Browser** 选日志文件对应的标签，能查到日志内容即为端到端打通
 
-## 实际部署：Docker Host（homelab 在用的版本）
+## Docker Host 部署示例（历史配置，当前以实战记录为准）
 
-教程版本只采文件日志，homelab 实际的 `config.alloy` 多了 Docker 容器日志这条线，两条管道并行：
+下面保留的是早期部署示例，包含 Docker 容器日志和系统日志两条管道。它与当前 `/root/monitoring/config.alloy` 有差异（例如当前容器日志 `job` 为 `docker-host`，并且容器日志和系统日志都经过 `add_labels` 注入 `cluster="homelab"`）；不要把下面代码当成线上配置。当前配置核验见 [[监控告警链路追踪/Alloy/实践/Alloy 采集 Loki 日志实战记录]]。
 
 ```alloy
 log_level = "debug"

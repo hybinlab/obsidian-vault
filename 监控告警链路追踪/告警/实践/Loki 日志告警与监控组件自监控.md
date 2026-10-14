@@ -11,6 +11,7 @@ tags:
 > 背景：日志早已经由 Alloy 采集进 Loki，但没有任何日志告警（Loki ruler 未配置，Grafana 里也没有告警规则），出问题只能事后查；Loki / Alloy / Grafana / Prometheus 自身也没有被监控。本次把日志告警接进现有的 [[Prometheus 告警 → ntfy 手机推送]] 链路，并补上监控组件自监控。
 > 顺带：middleware（192.168.31.6）的抓取目标一直 down，先注释掉（后来查明 node_exporter 根本没装过，已改装 Alloy）。
 > 2026-10-07 晚更新：bastion、middleware 改用 Alloy 采集指标和日志（见 [[Ansible 批量部署 Alloy 实战记录]]），LogIngestionStopped 覆盖 4 台机器；新增 FrpcReconnecting。
+> 2026-10-15 运行核验：docker-host 上 Prometheus 9/9 targets 为 `up`，5 个规则组共 29 条规则均为 `health=ok`；Loki `log-alerts` 组的 6 条规则已加载且 `health=ok`。Alloy `/-/ready` 返回 HTTP 200。当前 Loki 关闭认证、日志保留 30 天、ruler 每分钟评估并将告警送往 `http://alertmanager:9093`；Alertmanager 默认路由到 ntfy，Watchdog 路由到 `null`，分组键为 `alertname, instance`，等待 30 秒、分组间隔 5 分钟、重复通知间隔 4 小时。规则 `health=ok` 只表示成功加载，不保证每条 LogQL 都能匹配到预期日志；`FrpcReconnecting` 的 selector 与 Loki 实际 frpc stream 标签不一致，见下文。
 
 ---
 
@@ -33,7 +34,7 @@ ntfy → 手机
 | 文件 | 改动 |
 |---|---|
 | `loki-config.yaml` | 新增 `ruler:` 块 |
-| `loki-rules/log-alerts.yml` | 新建，5 条日志告警 |
+| `loki-rules/log-alerts.yml` | 新建，6 条日志告警 |
 | `docker-compose.yml` | loki 挂载 `./loki-rules:/loki/rules/fake:ro` |
 | `prometheus.yml` | 新增 prometheus / loki / alloy / grafana 抓取；注释 middleware |
 | `rules/monitoring-stack.yml` | 新建，组件自监控 + Watchdog |
@@ -198,6 +199,8 @@ groups:
           summary: '日志断流: {{ $labels.instance }}'
           description: 'Loki 超过 15 分钟没收到 {{ $labels.instance }} 的任何日志,检查那台机器上的 Alloy。'
 ```
+
+> **2026-10-15 核验发现：FrpcReconnecting 当前匹配不到观察到的 bastion 日志。** bastion 的 Alloy 配置给 journal 源设置了 `job="frpc"`，但 Loki 中近 24 小时看到的 stream 标签是 `job="loki.source.journal.frpc"`；近 30 天有 9 条 `connect to server error` 日志落在该标签下，`job="frpc"` 下没有对应记录。因此规则虽然已加载且健康，`{job="frpc"}` 仍不会命中这些日志。待查明标签偏差后再修采集标签或规则 selector；目前不要把“规则健康”当作“告警已验证”。详见 [[Ansible 批量部署 Alloy 实战记录]]。
 
 > ⚠️ **ntfy 模板标题和正文都显示 `instance` 标签**，而日志里没有这个标签（只有 `host` / `container_name`）。用 LogQL 的 `label_replace` 映射成 `instance`，否则推送标题里没有机器名。
 > LogQL 字符串里的反斜杠要双写：`\\S`、`\\.`。
@@ -370,6 +373,7 @@ sd 1:0:0:2: [sdb] ... Sense Key : Aborted Command
 - [ ] PVE 宿主机检查 sdb 对应物理盘的 SMART
 - [ ] Watchdog 接外部 dead man's switch（ECS 或 healthchecks.io）
 - [x] bastion 装 Alloy，采集 syslog / frpc 日志 ✅ 2026-10-07——凌晨两次 NtfyPublicDown 查明是 frpc ↔ frps 反复断线
+- [ ] 查明 bastion frpc 日志的 Loki `job` 标签为何与配置不符，修复采集标签或 `FrpcReconnecting` selector，并验证规则能命中
 - [ ] ECS 上查 frps 在 2026-10-07 01:40~02:00 的日志，确认是 frps 重启还是网络抖动
 - [x] 容器级监控（cAdvisor + Docker RestartCount） ✅ 2026-10-07（[[容器监控与告警（cAdvisor + Docker 重启次数）]]）
 - [x] middleware 恢复监控（装 Alloy） ✅ 2026-10-07
