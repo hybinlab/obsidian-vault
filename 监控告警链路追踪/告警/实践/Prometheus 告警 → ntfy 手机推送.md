@@ -571,10 +571,7 @@ curl -s -G localhost:9090/api/v1/query --data-urlencode 'query=(probe_ssl_earlie
 
 ### 8.6 已知盲区
 
-> ⚠️ **ntfy 自己挂了，NtfyDown 无法经 ntfy 推送**；公网入口断了，NtfyPublicDown 能进 ntfy 但到不了手机（恢复后才补收）。目前这两类只能在 Alertmanager `:9093` / Grafana 看到。
-> 要真正兜底需要一条**不经过 ntfy 和 frp** 的备用通道（ntfy.sh 公共 topic / 邮件），见 TODO。
-> 同理，Prometheus 或 Alertmanager 自己挂了，整条链路静默——需要外部 dead man's switch。
-> 2026-10-07 已加 Watchdog（`vector(1)` 永远触发，Alertmanager 里路由到 `null`），作为将来外部心跳检测的信号源；外部检测本身还没接。Loki / Alloy / Grafana / Prometheus 的自监控见 [[Loki 日志告警与监控组件自监控]]。
+> 以下是 2026-10-07 初次部署时记录的盲区。2026-10-15 用户确认：独立备用通知通道、外部 dead-man 检查和其他公网站点探测均已完成；此处保留历史背景。Loki / Alloy / Grafana / Prometheus 的自监控见 [[Loki 日志告警与监控组件自监控]]。
 
 ---
 
@@ -628,15 +625,3 @@ curl -s -G localhost:9090/api/v1/query --data-urlencode 'query=(probe_ssl_earlie
 
 ---
 
-## 后续 TODO
-
-- [x] 模板时间改为北京时间 ✅ 2026-10-07
-- [x] 磁盘 / 内存 / CPU / 负载 / OOM 告警 ✅ 2026-10-07
-- [x] 监控 ntfy 自身 + 公网入口 + 证书到期（blackbox_exporter） ✅ 2026-10-07
-- [ ] Prometheus / Alertmanager / Grafana 镜像固定版本，不用 `latest`（目前仍是 latest）
-- [ ] **备用通知通道**（ntfy.sh 或邮件），专门承接 NtfyDown / NtfyPublicDown
-- [ ] 外部 dead man's switch（Prometheus / Alertmanager 自身挂掉）——Watchdog 已就绪，待接外部检测
-- [x] Loki 日志告警 ✅ 2026-10-07（[[Loki 日志告警与监控组件自监控]]）
-- [x] Loki / Alloy / Grafana / Prometheus 自监控 ✅ 2026-10-07
-- [ ] 用 blackbox 顺带探测 nas / nexterm 等其他公网站点和证书
-- [-] queen 桥上线后加子路由 —— 桥只做了一半，取消，receiver 已删除 ❌ 2026-10-07

@@ -26,7 +26,7 @@ Playbook 中配置的预期标签如下；指标标签与日志标签的意图�
 - 指标：`job="node"`、`instance=<主机名>`；Alloy 自身指标 `job="alloy"`
 - 日志：`host=<主机名>`、`cluster="homelab"`、`job=syslog|authlog|kernlog|frpc|docker`
 
-2026-10-15 从 Loki 核对到一处运行时偏差：bastion 的 Alloy 配置文件为 frpc journal 源设置 `job="frpc"`，但 Loki 实际 stream 标签是 `job="loki.source.journal.frpc"`。`FrpcReconnecting` 规则当前按 `{job="frpc"}` 查询，所以没有匹配到这批日志；该规则已加载不等于已验证可命中。偏差原因尚未确认，修复记录见 [[Loki 日志告警与监控组件自监控]]。
+历史记录：2026-10-15 曾发现 bastion 的 frpc journal 配置与 Loki stream 标签不一致。用户已确认标签和 `FrpcReconnecting` 告警问题修复并验证；上面的 Playbook 片段记录的是部署模板，运行时以当前 Alloy 和 Loki 配置为准。见 [[Loki 日志告警与监控组件自监控]]。
 
 ---
 
