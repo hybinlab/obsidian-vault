@@ -158,7 +158,7 @@ nano ~/.ssh/config
 
 ```sshconfig
 Host aliyun
-  HostName 8.163.56.188
+  HostName ECS_PUBLIC_IP
   User root
   IdentityFile ~/.ssh/aliyun.pem
   IdentitiesOnly yes
