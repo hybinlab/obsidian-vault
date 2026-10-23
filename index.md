@@ -37,4 +37,4 @@ publish: true
 
 - [[安装指南 (Installation)|hermes学习笔记]] — Hermes Agent 项目相关
 - [[macOS 开发环境配置文档|mac学习使用之旅]] — macOS 使用技巧与开发环境
-- [[知识库quartz/个人知识库方案备忘.md|知识库quartz]] — 这个知识库本身是怎么用 Quartz 搭起来的
+- [[知识库quartz/个人知识库方案备忘.md|个人知识库方案备忘]] — 个人知识库的使用与维护 SOP

@@ -1,7 +1,7 @@
 {
   "userName": "阿B",
   "permissionMode": "yolo",
-  "model": "sonnet",
+  "model": "openai-codex/gpt-6-luna",
   "thinkingBudget": "off",
   "effortLevel": "max",
   "serviceTier": "default",
@@ -23,7 +23,7 @@
   "locale": "zh-CN",
   "providerConfigs": {
     "claude": {
-      "enabled": true,
+      "enabled": false,
       "safeMode": "acceptEdits",
       "cliPath": "",
       "cliPathsByHost": {},
@@ -47,9 +47,9 @@
       "selectedModels": [
         {
           "value": "opus",
-          "label": "MiniMax-M2.7",
-          "description": "Custom Opus model",
-          "resolvedModel": "MiniMax-M2.7",
+          "label": "Opus 5.5",
+          "description": "For complex work and everyday tasks",
+          "resolvedModel": "claude-opus-5-5",
           "reasoningMetadataResolved": true,
           "supportedEffortLevels": [
             "low",
@@ -61,9 +61,23 @@
         },
         {
           "value": "sonnet",
-          "label": "MiniMax-M2.7",
-          "description": "Custom Sonnet model",
-          "resolvedModel": "MiniMax-M2.7",
+          "label": "Sonnet 5.5",
+          "description": "Most efficient for simpler tasks",
+          "resolvedModel": "claude-sonnet-5-5",
+          "reasoningMetadataResolved": true,
+          "supportedEffortLevels": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        },
+        {
+          "value": "fable",
+          "label": "Fable 5.1",
+          "description": "For your toughest challenges",
+          "resolvedModel": "claude-fable-5-1",
           "reasoningMetadataResolved": true,
           "supportedEffortLevels": [
             "low",
@@ -75,35 +89,67 @@
         },
         {
           "value": "haiku",
-          "label": "MiniMax-M2.7",
-          "description": "Custom Haiku model",
-          "resolvedModel": "MiniMax-M2.7",
+          "label": "Haiku 4.5",
+          "description": "Fastest for quick answers",
+          "resolvedModel": "claude-haiku-4-5-20251001",
           "reasoningMetadataResolved": true,
-          "supportedEffortLevels": [
-            "low",
-            "medium",
-            "high",
-            "xhigh",
-            "max"
-          ]
+          "supportedEffortLevels": []
         }
       ]
     },
     "codex": {
-      "enabled": false,
+      "enabled": true,
       "safeMode": "workspace-write",
       "cliPath": "",
       "cliPathsByHost": {},
       "modelAliases": {},
-      "visibleModels": [],
+      "visibleModels": [
+        "gpt-6-luna"
+      ],
+      "enableUltraEffort": true,
+      "responseStyle": "pragmatic",
       "reasoningSummary": "detailed",
       "environmentVariables": "",
-      "environmentHash": "",
+      "environmentHash": "runtime-input:v1:ed54f4f5238abeec7f65a5da1e468c9a639e157a7d1c7753b53f54ba1196e8a0",
       "installationMethodsByHost": {},
       "wslDistroOverridesByHost": {},
-      "enableUltraEffort": false,
-      "responseStyle": "pragmatic",
-      "selectedModels": []
+      "selectedModels": [
+        {
+          "model": "gpt-6-luna",
+          "displayName": "GPT-6-Luna",
+          "description": "Fast and affordable model for easier tasks.",
+          "supportedReasoningEfforts": [
+            {
+              "value": "low",
+              "description": "Fast responses with lighter reasoning"
+            },
+            {
+              "value": "medium",
+              "description": "Balances speed and reasoning depth for everyday tasks"
+            },
+            {
+              "value": "high",
+              "description": "Greater reasoning depth for complex problems"
+            },
+            {
+              "value": "xhigh",
+              "description": "Extra high reasoning depth for complex problems"
+            },
+            {
+              "value": "max",
+              "description": "Maximum reasoning depth for the hardest problems"
+            }
+          ],
+          "defaultReasoningEffort": "medium",
+          "serviceTiers": [],
+          "defaultServiceTier": null,
+          "inputModalities": [
+            "text",
+            "image"
+          ],
+          "isDefault": true
+        }
+      ]
     },
     "opencode": {
       "cliPath": "",
@@ -142,21 +188,24 @@
       "selectedModelsByHost": {}
     }
   },
-  "settingsProvider": "claude",
+  "settingsProvider": "codex",
   "lastSelectedChatModel": {
     "providerId": "claude",
     "model": "sonnet"
   },
   "savedProviderModel": {
-    "claude": "sonnet"
+    "claude": "sonnet",
+    "codex": "openai-codex/gpt-6-luna"
   },
   "savedProviderEffort": {
-    "claude": "max"
+    "claude": "max",
+    "codex": "max"
   },
   "savedProviderServiceTier": {},
   "savedProviderThinkingBudget": {},
   "savedProviderPermissionMode": {
-    "claude": "yolo"
+    "claude": "yolo",
+    "codex": "yolo"
   },
   "pendingProviderSessionInvalidations": {},
   "maxWarmAgentProcesses": 5,

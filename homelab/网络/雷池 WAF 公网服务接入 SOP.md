@@ -66,8 +66,6 @@ docker network inspect safeline-ce
 http://<上一步查到的宿主机网关地址>:8082
 ```
 
-不要把实际 ECS 公网 IP、私网地址或证书凭据写入公开知识库。
-
 ## Nginx 接入雷池
 
 保留现有 Nginx 的 HTTP 跳转和 HTTPS 虚拟主机。将各站点 HTTPS server 中的 `proxy_pass` 指向雷池本机监听端口：
