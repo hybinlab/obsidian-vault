@@ -13,15 +13,15 @@ fnm 是 Node.js 官方推荐的版本管理器，基于 Rust，性能比 nvm 快
 
 ### 核心命令
 
-| 命令 | 说明 |
-|---|---|
-| `fnm install <version>` | 安装指定版本（如 `fnm install 22`） |
-| `fnm use <version>` | 切换到指定版本 |
-| `fnm default <version>` | 设为默认版本 |
-| `fnm ls` | 列出已安装版本 |
-| `fnm ls-remote` | 列出远程可用版本 |
-| `fnm current` | 显示当前激活版本 |
-| `fnm uninstall <version>` | 卸载指定版本 |
+| 命令                        | 说明                         |
+| ------------------------- | -------------------------- |
+| `fnm install <version>`   | 安装指定版本（如 `fnm install 22`） |
+| `fnm use <version>`       | 切换到指定版本                    |
+| `fnm default <version>`   | 设为默认版本                     |
+| `fnm ls`                  | 列出已安装版本                    |
+| `fnm ls-remote`           | 列出远程可用版本                   |
+| `fnm current`             | 显示当前激活版本                   |
+| `fnm uninstall <version>` | 卸载指定版本                     |
 
 ### 跨大版本升级
 
