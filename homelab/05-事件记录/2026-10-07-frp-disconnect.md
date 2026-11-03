@@ -4,16 +4,16 @@ tags:
   - homelab
   - 事件记录
 ---
-| 项目       | 内容                                                                                                                                                                                              |
-| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 时间       | 2026-10-07 00:45~00:47、01:47~01:54；NtfyPublicDown 分别在 00:48、01:50 触发，各约 5 分钟后恢复                                                                                                                 |
-| 现象       | blackbox 探测 `https://ntfy.onecloud.xin/v1/health` 失败，触发 NtfyPublicDown                                                                                                                          |
-| 影响       | 两段时间内所有经 frp 的公网服务不可用（ntfy、OpenList、calibre、openwebui、nexterm），手机收不到推送（恢复后补收）                                                                                                                   |
+| 项目       | 内容                                                                                                                                      |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 时间       | 2026-10-07 00:45~00:47、01:47~01:54；NtfyPublicDown 分别在 00:48、01:50 触发，各约 5 分钟后恢复                                                         |
+| 现象       | blackbox 探测 `https://ntfy.onecloud.xin/v1/health` 失败，触发 NtfyPublicDown                                                                  |
+| 影响       | 两段时间内所有经 frp 的公网服务不可用（ntfy、OpenList、calibre、openwebui、nexterm），手机收不到推送（恢复后补收）                                                           |
 | 根因       | bastion 的 frpc 连不上 ECS 上的 frps，日志反复出现 `connect to server error: connection write timeout`、`session shutdown`，随后重连成功。frps 端原因调查已完成（用户确认） |
-| 为什么当时没定位 | bastion 没有日志采集，事后才从 journal 里翻到                                                                                                                                                                 |
-| 处理       | bastion 改用 Alloy，采集 frpc 的 journal 日志；新增 FrpcReconnecting 告警（10 分钟连接失败 >3 次）                                                                                                                    |
-| 验证       | 初次处理时 frpc 日志已进 Loki、规则已加载；之后发现过标签不匹配，用户确认已修复并验证（当前标签值见最新配置）                                                                                                                                                            |
-| 后续措施     | ECS 上 frps 日志调查已完成（用户确认）                                                                                                                                           |
+| 为什么当时没定位 | bastion 没有日志采集，事后才从 journal 里翻到                                                                                                         |
+| 处理       | bastion 改用 Alloy，采集 frpc 的 journal 日志；新增 FrpcReconnecting 告警（10 分钟连接失败 >3 次）                                                            |
+| 验证       | 初次处理时 frpc 日志已进 Loki、规则已加载；之后发现过标签不匹配，用户确认已修复并验证（当前标签值见最新配置）                                                                            |
+| 后续措施     | ECS 上 frps 日志调查已完成（用户确认）                                                                                                                |
 
 相关：[[Ansible 批量部署 Alloy 实战记录]]、[[Prometheus 告警 → ntfy 手机推送]]
 
