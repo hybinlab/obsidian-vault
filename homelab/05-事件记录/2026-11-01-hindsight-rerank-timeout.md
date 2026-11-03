@@ -28,3 +28,4 @@ tags:
 - **CPU 满载 + 上游服务无响应 = 先看上游自己的资源,别只查上游的依赖。**本次的第一直觉是"数据库慢",实际是本机推理把 API 线程饿死了。
 - **止血点和根治要分开做。**加最小刷新间隔(止血)与提规格(根治)分开落地,才有干净的对比数据。顺序反了,两个变量混在一起,无法归因。
 - **per-bank 配置 API 能改的东西,就别改全局 env。**`min_refresh_interval_seconds` 走 bank config,无需重启、不影响其他 bank;`reranker_max_candidates` 是全局静态参数,才需要改 env + 重启。
+- **查 Hindsight 队列状态前,先做时区转换。**`async_operations` / `mental_models` 里的所有时间戳都是 **UTC+00**(带 `+00:00` 后缀或 `timestamptz`),服务器本地时区是 **CST (UTC+8)**。直接拿 DB 时间戳和 `date` 的本地时间对比,会得出"任务早就该跑却没跑"的错误结论——2026-11-03 排查时就被这个坑误导过一次,误判 defer 机制失效。正确做法:`psql` 输出按 UTC 读,`next_retry_at` 减 8 小时才是本地到期时间。
