@@ -193,10 +193,10 @@ openviking: local server started (http://127.0.0.1:1933, config: /home/openclaw/
 
 ## 常见问题
 
-| 现象 | 原因 | 解决 |
-|----|----|----|
-| `python3 -m venv` 报 ensurepip 不可用 | 缺少 venv 包 | `sudo apt install python3.12-venv` |
-| `pip install` 超时 | PyPI 连接慢 | 加 `-i https://pypi.tuna.tsinghua.edu.cn/simple` |
-| `ModuleNotFoundError: No module named 'openviking'` | systemd 服务用系统 python，找不到 venv 里的包 | 在服务文件加 `Environment="OPENVIKING_PYTHON=..."` |
-| gateway 日志无 `local server started` | 环境变量未生效 | 确认直接编辑了服务文件而非 override，且执行了 `daemon-reload` |
-| `openclaw status` Memory 行不显示 openviking | Plugin 2.0 架构变化 | 正常，看 journalctl 日志确认即可 |
+| 现象                                                  | 原因                                | 解决                                              |
+| --------------------------------------------------- | --------------------------------- | ----------------------------------------------- |
+| `python3 -m venv` 报 ensurepip 不可用                   | 缺少 venv 包                         | `sudo apt install python3.12-venv`              |
+| `pip install` 超时                                    | PyPI 连接慢                          | 加 `-i https://pypi.tuna.tsinghua.edu.cn/simple` |
+| `ModuleNotFoundError: No module named 'openviking'` | systemd 服务用系统 python，找不到 venv 里的包 | 在服务文件加 `Environment="OPENVIKING_PYTHON=..."`    |
+| gateway 日志无 `local server started`                  | 环境变量未生效                           | 确认直接编辑了服务文件而非 override，且执行了 `daemon-reload`     |
+| `openclaw status` Memory 行不显示 openviking            | Plugin 2.0 架构变化                   | 正常，看 journalctl 日志确认即可                          |
