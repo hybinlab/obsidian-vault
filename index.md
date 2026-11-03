@@ -32,6 +32,7 @@ publish: true
 - [[homelab/AI Agent/Hermes 告警诊断 Webhook 接入 SOP.md|Hermes 告警诊断]] — Alertmanager 触发只读排查并回传微信
 - [[SRE/SRE 学习路径.md|SRE]] — SRE 方向的学习路径与方法论
 - [[最佳实践|claude code最佳实践]] — AI 辅助工程的工作流与技巧
+- [[codex/Codex 常用命令.md|codex]] — Codex CLI 常用命令、会话管理与操作速查
 - [[速查手册/Git 常用命令使用指南.md|速查手册]] — 命令、语法、配置速查
 
 ### 🧪 项目与探索
