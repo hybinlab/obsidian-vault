@@ -289,15 +289,9 @@ curl -s localhost:9093/metrics | grep -E 'alertmanager_notifications(_failed)?_t
 
 ### 3.3 以后接第二个 webhook（同时发两边）
 
-```yaml
-route:
-  receiver: 'ntfy'
-  routes:
-    - receiver: '<另一个 webhook receiver>'
-      continue: true        # 匹配后继续走默认 ntfy
-```
+2026-11-03 已接入 Hermes，见 [[Hermes 告警诊断 Webhook 接入 SOP]]。指定的主机失联、容器重启循环/OOM 告警使用 `ntfy-hermes` 组合 receiver：复制原有 ntfy webhook，再增加 Hermes webhook，使两路各自投递；其他告警仍由默认 `ntfy` receiver 处理。
 
-> 原先预留的 `queen-webhook`（Hermes 写的桥，`192.168.31.3:9099`）只完成了一半，2026-10-07 已从 `alertmanager.yml` 删除。
+`continue: true` 只表示继续匹配同级后续路由，不能保证匹配子路由后还会发送给父路由的默认 receiver。需要双投递时，应使用上述组合 receiver，或显式配置两个匹配的同级路由。
 
 ---
 

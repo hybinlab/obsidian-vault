@@ -29,6 +29,7 @@ publish: true
 ### 🔧 自动化与工程实践
 
 - [[ansible/Ansible 概念.md|ansible]] — Ansible 自动化配置管理
+- [[homelab/AI Agent/Hermes 告警诊断 Webhook 接入 SOP.md|Hermes 告警诊断]] — Alertmanager 触发只读排查并回传微信
 - [[SRE/SRE 学习路径.md|SRE]] — SRE 方向的学习路径与方法论
 - [[最佳实践|claude code最佳实践]] — AI 辅助工程的工作流与技巧
 - [[速查手册/Git 常用命令使用指南.md|速查手册]] — 命令、语法、配置速查
@@ -36,5 +37,6 @@ publish: true
 ### 🧪 项目与探索
 
 - [[安装指南 (Installation)|hermes学习笔记]] — Hermes Agent 项目相关
+- [[hermes/Webhooks（事件触发与消息投递）.md|Hermes Webhooks]] — 事件接入、路由、会话与消息投递
 - [[macOS 开发环境配置文档|mac学习使用之旅]] — macOS 使用技巧与开发环境
 - [[知识库quartz/个人知识库方案备忘.md|个人知识库方案备忘]] — 个人知识库的使用与维护 SOP

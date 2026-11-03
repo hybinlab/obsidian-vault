@@ -1,0 +1,6 @@
+name: homelab-alerts
+version: 0.1.0
+description: Bounded read-only Prometheus/Loki queries for alert diagnosis.
+kind: standalone
+provides_tools:
+  - homelab_observe
