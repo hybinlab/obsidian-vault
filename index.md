@@ -39,5 +39,7 @@ publish: true
 
 - [[安装指南 (Installation)|hermes学习笔记]] — Hermes Agent 项目相关
 - [[hermes/Webhooks（事件触发与消息投递）.md|Hermes Webhooks]] — 事件接入、路由、会话与消息投递
+- [[hermes/Lightpanda 安装与使用.md|Lightpanda]] — Hermes 本地浏览器引擎与终端网页提取
+- [[hermes/Pets（宠物与氛围互动）.md|Hermes Pets]] — 界面宠物、爱心互动与终端展示
 - [[macOS 开发环境配置文档|mac学习使用之旅]] — macOS 使用技巧与开发环境
 - [[知识库quartz/个人知识库方案备忘.md|个人知识库方案备忘]] — 个人知识库的使用与维护 SOP
