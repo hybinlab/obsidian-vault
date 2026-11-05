@@ -42,4 +42,6 @@ publish: true
 - [[hermes/Lightpanda 安装与使用.md|Lightpanda]] — Hermes 本地浏览器引擎与终端网页提取
 - [[hermes/Pets（宠物与氛围互动）.md|Hermes Pets]] — 界面宠物、爱心互动与终端展示
 - [[macOS 开发环境配置文档|mac学习使用之旅]] — macOS 使用技巧与开发环境
+- [[macOS/Ghostty SSH 终端类型报错修复.md|Ghostty SSH 排障]] — 修复 xterm-ghostty 未识别与 terminfo 缺失
+- [[macOS/Ghostty 常用快捷键与使用技巧.md|Ghostty 快捷键与技巧]] — 标签页、分屏、配置与多 VM 使用
 - [[知识库quartz/个人知识库方案备忘.md|个人知识库方案备忘]] — 个人知识库的使用与维护 SOP
