@@ -6,16 +6,16 @@ tags:
   - hindsight
   - 性能
 ---
-| 项目 | 内容 |
-|---|---|
-| 时间 | 2026-10-02 起持续复发 → 2026-10-28 定位 → 2026-11-01 修复 |
-| 现象 | agent VM（101）CPU 100% 持续数十分钟至数小时；Hindsight API 的 recall 请求超时/被取消；日志刷 `Reflect operation timed out after 300 seconds`；单日日志量 1.1MB（平时 27–50KB） |
-| 影响 | **Hindsight 记忆功能整体不可用**——recall 无响应，agent 读不到长期记忆；agent VM 上还跑着 Hermes 与 Ansible 控制节点，满载期间整机响应劣化 |
-| 根因 | **默认配置与硬件规格不匹配**：agent VM 仅 2C/6G，纯 CPU 跑 bge-m3 嵌入 + bge-reranker-base 交叉编码器重排。`reranker_max_candidates` 默认 300，实测单次重排 215s；而 `reflect_wall_timeout` 默认 300s —— **一次工具调用就吃掉 2/3 预算**，`reflect_max_iterations=10` 在此单次耗时下根本跑不完，必然撞墙 |
-| 放大链路 | reflect 撞墙 → `TimeoutError` → 任务重试 ×3 → 每次重试再跑一遍满 CPU 的重排 → 自旋。两个 mental model 并发刷新，各开 4 个 executor worker × torch 2 线程 = 16 线程槽挤 2 核 |
-| 触发源 | `refresh_after_consolidation: true` —— 每轮对话产生事实 → consolidation → 自动刷新 mental model → 必超时。10-02 起两个 mental model 的 `last_refreshed_at` 再未更新，**一个月零成功** |
-| 处理 | 三步，变量分离以便验证：<br>① env：`RERANKER_MAX_CANDIDATES` 300→**50**，`REFLECT_WALL_TIMEOUT` 300→**900**（备份 `hindsight.env.bak.20261101`）<br>② 硬件：PVE 上 101 agent 由 2C/6G 升 **4C/8G**（103 database 内存 2G→4G，CPU 降 2C）<br>③ 止血：bank config `PATCH mental_model_min_refresh_interval_seconds=86400`（per-bank，无需重启） |
-| 验证 | reflect 耗时 233–264s 稳定成功（原为必超时）；重排 48s/次（原 215s）；超时 0 次；两个 mental model 的 `last_refreshed_at` 更新到 2026-11-01，为一个月来首次成功；24h 间隔生效的日志证据：`Task ... deferred until 2026-11-02 15:55:44: min_refresh_interval_seconds=86400` |
+| 项目   | 内容                                                                                                                                                                                                                                                                                                           |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 时间   | 2026-10-02 起持续复发 → 2026-10-28 定位 → 2026-11-01 修复                                                                                                                                                                                                                                                             |
+| 现象   | agent VM（101）CPU 100% 持续数十分钟至数小时；Hindsight API 的 recall 请求超时/被取消；日志刷 `Reflect operation timed out after 300 seconds`；单日日志量 1.1MB（平时 27–50KB）                                                                                                                                                                 |
+| 影响   | **Hindsight 记忆功能整体不可用**——recall 无响应，agent 读不到长期记忆；agent VM 上还跑着 Hermes 与 Ansible 控制节点，满载期间整机响应劣化                                                                                                                                                                                                             |
+| 根因   | **默认配置与硬件规格不匹配**：agent VM 仅 2C/6G，纯 CPU 跑 bge-m3 嵌入 + bge-reranker-base 交叉编码器重排。`reranker_max_candidates` 默认 300，实测单次重排 215s；而 `reflect_wall_timeout` 默认 300s —— **一次工具调用就吃掉 2/3 预算**，`reflect_max_iterations=10` 在此单次耗时下根本跑不完，必然撞墙                                                                          |
+| 放大链路 | reflect 撞墙 → `TimeoutError` → 任务重试 ×3 → 每次重试再跑一遍满 CPU 的重排 → 自旋。两个 mental model 并发刷新，各开 4 个 executor worker × torch 2 线程 = 16 线程槽挤 2 核                                                                                                                                                                        |
+| 触发源  | `refresh_after_consolidation: true` —— 每轮对话产生事实 → consolidation → 自动刷新 mental model → 必超时。10-02 起两个 mental model 的 `last_refreshed_at` 再未更新，**一个月零成功**                                                                                                                                                       |
+| 处理   | 三步，变量分离以便验证：<br>① env：`RERANKER_MAX_CANDIDATES` 300→**50**，`REFLECT_WALL_TIMEOUT` 300→**900**（备份 `hindsight.env.bak.20261101`）<br>② 硬件：PVE 上 101 agent 由 2C/6G 升 **4C/8G**（103 database 内存 2G→4G，CPU 降 2C）<br>③ 止血：bank config `PATCH mental_model_min_refresh_interval_seconds=86400`（per-bank，无需重启）        |
+| 验证   | reflect 耗时 233–264s 稳定成功（原为必超时）；重排 48s/次（原 215s）；超时 0 次；两个 mental model 的 `last_refreshed_at` 更新到 2026-11-01，为一个月来首次成功；24h 间隔生效的日志证据：`Task ... deferred until 2026-11-02 15:55:44: min_refresh_interval_seconds=86400`                                                                                       |
 | 后续措施 | - [x] env 降重排候选数 + 抬墙钟预算 ✅ 2026-11-01<br>- [x] agent VM 升 4C/8G ✅ 2026-11-01<br>- [x] mental model 刷新加 24h 最小间隔 ✅ 2026-11-01<br>- [ ] 写一份 homelab 现状的权威输入文档，让 mental model 的 source_query 指向它，而不是每次从记忆库碎片重新拼图（reflect 可更快更准）<br>- [ ] 观察 2026-11-02 15:55 那次真跑的 reflect 耗时，确认稳定在 300s 内；若仍超时则瓶颈在 LLM 侧而非 CPU |
 
 相关：[[Hermes + Hindsight（Bare Metal）部署 SOP]]、[[00-现状总览]]、[[01-主机清单]]
