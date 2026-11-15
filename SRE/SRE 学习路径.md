@@ -8,16 +8,16 @@ SRE 要求的面宽得多，这篇笔记是整体地图，未来各领域的笔�
 
 | 领域           | 核心工具/概念                                                                                  | 现状                                                                         |
 | ------------ | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| **配置管理**     | Ansible：playbook、role、inventory                                                          | 已系统学习，见 [[ansible/Ansible 概念.md]]                                          |
-| **基础设施即代码**  | Terraform 建资源（VM、网络、存储），Ansible 装软件配置；前提是懂云网络基础（VPC/子网/安全组/负载均衡/DNS解析）                   | 未开始                                                                        |
-| **容器与编排**    | Docker（已会）→ Kubernetes（部署、调度、网络、存储）                                                      | Docker 已会，K8s 未开始，SRE 岗位默认门槛                                               |
-| **CI/CD**    | Jenkins / GitLab CI / GitHub Actions，至少熟一个，代码提交到生产部署全流程自动化                               | 未开始                                                                        |
-| **监控告警**     | Prometheus + Grafana（标配），日志（ELK/Loki），链路追踪（Jaeger）                                       | 阿里云有监控搭建经验，需系统化，笔记见 [[监控告警链路追踪]]                                             |
-| **数据库运维**    | MySQL/PostgreSQL/Redis 其中一两个：主从复制、备份恢复、连接池与调优、常见故障排查                                     | 未开始                                                                        |
-| **密钥/证书管理**  | Vault 或云厂商密钥服务，TLS 证书签发与轮换，敏感配置不落明文                                                      | 未开始                                                                        |
-| **Linux 深度** | 网络（iptables/nftables、DNS、负载均衡）、性能排查（CPU/内存/IO/网络瓶颈）、存储、systemd                           | 网络排障已有 [[linux/网络排障/网络故障排查 Runbook.md]]，防火墙见 [[linux/防火墙/防火墙总览.md]]，性能排查待补 |
-| **编程/脚本**    | Python 或 Go，写工具/operator/自动化修复脚本；Shell 只是入门                                              | 待评估现状                                                                      |
-| **SRE 理念**   | SLI/SLO/SLA、error budget、toil 消减、事故复盘（postmortem），容量规划、高可用设计（备份/多副本/故障转移），Google SRE 那本书 | 未开始                                                                        |
+| **配置管理** | Ansible：playbook、role、inventory | 已系统学习并用于 Homelab 配置管理，见 [[ansible/Ansible 概念.md]] |
+| **基础设施即代码** | Terraform 建资源（VM、网络、存储），Ansible 装软件配置；前提是懂云网络基础（VPC/子网/安全组/负载均衡/DNS解析） | Terraform 尚未开始；暂未形成基础设施代码化实践 |
+| **容器与编排** | Docker（已会）→ Kubernetes（部署、调度、网络、存储） | Docker/Compose 已用于实际服务运维；Kubernetes 尚未开始，仍是下一阶段重点 |
+| **CI/CD** | Jenkins / GitLab CI / GitHub Actions，至少熟一个，代码提交到生产部署全流程自动化 | 已接触 GitHub Actions；应用的测试、构建、部署流水线尚未系统化 |
+| **监控告警** | Prometheus + Grafana（标配），日志（ELK/Loki），链路追踪（Jaeger） | 已有指标监控、日志采集与告警链路的实际部署和运维；链路追踪、SLI/SLO 尚未系统化，见 [[监控告警链路追踪]] |
+| **数据库运维** | MySQL/PostgreSQL/Redis 其中一两个：主从复制、备份恢复、连接池与调优、常见故障排查 | 已有 MySQL/PostgreSQL 部署文档与真实故障复盘；备份恢复有文档，但 Homelab 当前尚无实际备份；复制、连接池与性能调优尚未系统化 |
+| **密钥/证书管理** | Vault 或云厂商密钥服务，TLS 证书签发与轮换，敏感配置不落明文 | TLS 证书自动化已有实操经验；Vault、密钥轮换和敏感配置治理尚未系统学习 |
+| **Linux 深度** | 网络（iptables/nftables、DNS、负载均衡）、性能排查（CPU/内存/IO/网络瓶颈）、存储、systemd | 已有网络排障、防火墙、性能与存储笔记；深入性能分析和 systemd 运维尚未系统化 |
+| **编程/脚本** | Python 或 Go，写工具/operator/自动化修复脚本；Shell 只是入门 | 知识库中尚无足够的项目记录来评估 Python/Go 工程化进度 |
+| **SRE 理念** | SLI/SLO/SLA、error budget、toil 消减、事故复盘（postmortem），容量规划、高可用设计（备份/多副本/故障转移），Google SRE 那本书 | 已积累多篇事故记录与复盘；SLI/SLO、error budget、toil 和容量规划尚未系统化 |
 
 ## 关于 Ansible 的取舍原则（可复用到其他工具）
 
@@ -30,6 +30,8 @@ Ansible 笔记建设过程中形成的判断标准，值得套用到后续 Terra
 
 ## 路线图
 
+监控阶段已有实战基础，但链路追踪和 SLI/SLO 尚未完成，因此仍属于待完成阶段。
+
 ![[SRE/SRE 学习路线图.png]]
 
 ## 学习顺序建议
@@ -37,7 +39,7 @@ Ansible 笔记建设过程中形成的判断标准，值得套用到后续 Terra
 不追求同时铺开，按 ROI 排：
 
 1. **K8s** — SRE 岗位硬门槛，且 Docker 基础已经有了，衔接成本低；开始前先花小半天过一遍云网络基础概念（子网、路由、DNS解析、负载均衡原理），否则 K8s 的 CNI/Service/Ingress 会学得很吃力
-2. **监控体系系统化** — 已有阿里云经验，补齐 Prometheus/Grafana + 日志/链路追踪的完整链路
+2. **监控体系系统化** — 指标监控、日志采集与告警已有实战；后续重点补链路追踪和 SLI/SLO
 3. **Terraform** — 和 Ansible 配合形成完整 IaC 闭环（Terraform 建机器，Ansible 装软件）
 4. **CI/CD** — 前三项打底后，把整个流程串起来
 5. **编程语言深化 + SRE 理念** — 贯穿始终，不是单独一个阶段

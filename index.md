@@ -31,6 +31,7 @@ publish: true
 
 - [[ansible/Ansible 概念.md|ansible]] — Ansible 自动化配置管理
 - [[homelab/AI Agent/Hermes 告警诊断 Webhook 接入 SOP.md|Hermes 告警诊断]] — Alertmanager 触发只读排查并回传微信
+- [[homelab/AI Agent/Hindsight/Hindsight 官方文档速查.md|Hindsight 官方文档速查]] — 三层记忆模型、mental model 刷新机制、关键配置与运维接口
 - [[SRE/SRE 学习路径.md|SRE]] — SRE 方向的学习路径与方法论
 - [[最佳实践|claude code最佳实践]] — AI 辅助工程的工作流与技巧
 - [[codex/Codex 常用命令.md|codex]] — Codex CLI 常用命令、会话管理与操作速查
