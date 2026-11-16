@@ -5,8 +5,9 @@ publish: true
 > 记录 2026-11-15 夜间对 Hindsight 做的一次完整变更：版本升级、reranker 换模型、mental model 刷新机制调参。
 >
 > **结论边界**：升级成功、未观察到数据丢失（已回读验证）；recall 提速已通过 A/B 实测确认；
-> `max_tokens=4096` + `mode=delta` 的内容保留效果已通过 5 轮 dry-run 验证。
-> **尚未验证**：召回质量是否等价（需独立评估）、mental model 刷新机制是否恢复正常（两个模型至今仍 `retry_blocked`，未成功刷新过）、delta/4096 的多轮次稳定性。
+> `max_tokens=4096` + `mode=delta` 的内容保留效果已通过 5 轮 dry-run 验证；
+> **两个 mental model 已真实刷新成功，`retry_blocked` 清零，自动刷新恢复**。
+> **尚未验证**：召回质量是否等价（需独立评估）、delta/4096 的多轮次稳定性。
 >
 > 官方资料整理见 [[homelab/AI Agent/Hindsight/Hindsight 官方文档速查.md]]；部署运维见 [[homelab/AI Agent/Hermes + Hindsight（Bare Metal）部署 SOP.md]]。
 
@@ -19,9 +20,9 @@ publish: true
 | Hindsight `0.10.1` → `1.2.1` | ✅ 14 个迁移全过，1738 条记忆无损，向量维度未变 | 已回读验证 |
 | reranker 换 `hs-rerank-1` | ✅ recall **36.2s → 10.97s（-69%）** | A/B 实测确认 |
 | ↑ 同上 · 召回质量 | ⚠️ **未证明等价**：新模型有 2 条旧模型没有的，旧模型有 4 条新模型没有的 | **待独立评估** |
-| mental model 切 `delta` + `max_tokens=4096` | ✅ reflect **276–298s → 122–167s**（端到端对比） | dry-run 实测 |
+| mental model 切 `delta` + `max_tokens=4096` | ✅ **两个模型已真实刷新成功**，reflect **276–298s → 64–130s**（端到端对比） | dry-run + 真实刷新 |
 | ↑ 同上 · 内容保留 | ✅ **5 轮 dry-run 验证**：4096+delta 保住全部 5 项；缺任一都丢 3–5 项 | 已验证（含随机性，见 §4.3） |
-| ↑ 同上 · 刷新机制恢复 | ❌ **未恢复**：两个模型至今 `retry_blocked`，本次未执行真实刷新 | **未解决** |
+| ↑ 同上 · 刷新机制恢复 | ✅ **已恢复**：11-16 08:41 / 08:44 两次真实刷新成功，`paused_mental_models: 0` | 已验证 |
 
 **这次变更的核心认知**：mental model 丢内容**不是 LLM 随机漂移，是预算不足导致的强制压缩**。
 5 轮 dry-run 证明：**`max_tokens=4096` + `mode=delta` 缺一不可** —— 2048 预算下两种模式都丢 5 项；
@@ -389,10 +390,10 @@ PATCH /v1/default/banks/hermes/mental-models/homelab-architecture
 
 | mental model | mode | max_tokens | 状态 |
 |---|---|---|---|
-| `homelab-architecture` | **delta** | **4096** | 已改，**未执行真实刷新**（配置经 5 轮 dry-run 验证） |
-| `user-profile` | full | 1024 | 未动（1442 字符 ≈ 900 token，未超预算，风险较低） |
+| `homelab-architecture` | **delta** | **4096** | ✅ **已刷新成功**（2026-11-16 08:44，内容 4095 → 5576 字符） |
+| `user-profile` | **delta** | **4096** | ✅ **已刷新成功**（2026-11-16 08:41，内容 1442 → 2580 字符） |
 
-> **`user-profile` 建议同样改成 `delta` + `4096`** —— 它是「画像」类文档，长期演进且同样存在"只在正文里的信息"（如"此前 2026 年 7 月 20 日入职的记录已失效"这类纠错记录）。只是尚未验证。
+**两个模型都已切到 `delta` + `4096` 并完成真实刷新。**
 
 **与官方 Pages 默认配置的对齐情况**：
 
@@ -421,10 +422,12 @@ PATCH /v1/default/banks/hermes/mental-models/homelab-architecture
 
 刷新只读记忆库，不读 vault 文档 —— 所以**只存在于 mental model 正文里的内容，重写时无从获取，必然丢失**。
 
-本次补写了两条 fact：
+本次补写了三��� fact：
 
 1. **reranker 换 hs-rerank-1 + A/B 数据**（否则下次刷新会写回旧的 `bge-reranker-base`）
 2. **证书链路四个待办项**（TLS 终止点 / `nginx -t` / SNI 探测 / 到期监控）
+3. **`/dev/sdb1` ext4 元数据错误计数**（11-16 刷新后补写 —— 该项在刷新中丢失，
+   因为它同样只存在于旧版正文。这是该规律的第三次验证）
 
 > **规律：mental model 正文 ≠ 事实来源。要长期保住的结论，必须在 fact 层有一条独立记录。**
 
@@ -532,7 +535,7 @@ HF_HOME=/opt/hindsight/hf-cache
 
 | 项 | 观察方式 | 状态 |
 |---|---|---|
-| `retry_blocked` 是否自愈 | 24h 窗口到期后看 `PENDING_BREAKDOWN` 是否回到 `retry_blocked=0` | ❌ 截至 11-16 00:55 仍 `retry_blocked`，两个模型 `last_refreshed_at` 仍是 11-15，**从未成功刷新** |
+| ~~`retry_blocked` 是否自愈~~ | 手动刷新成功即解锁 | ✅ **已解决** —— 11-16 08:41 / 08:44 两次手动刷新成功，`paused_mental_models: 0`，两个模型 `last_refresh_failed_at` 均为 null |
 | 新的 reflect 实际耗时 | 下一次自动刷新的日志 | 待观察 |
 | `paused_mental_models` 是否归零 | `GET /banks/hermes/stats` | 待观察 |
 | `user-profile` 内容是否丢失 | 它还是 full/1024，1442 字符未超预算，风险低但非零；丢了就改成 `delta` + `4096` | 待观察 |
@@ -541,10 +544,18 @@ HF_HOME=/opt/hindsight/hf-cache
 | **仍缺失：多轮次稳定性** | delta/4096 只验证过 2 轮（轮次 3 丢 1 项、轮次 5 全保住），需更多轮次判断是否稳定 | **未做** |
 | **仍缺失：召回准确率基线** | 准备一组固定 query + 人工标注期望结果集，测两个 reranker 的 recall@k | **未做** —— 这是判断换模型是否等价的唯一办法 |
 
-> **2026-11-16 00:55 状态**：`refresh_mental_model` 仍 `retry_blocked=2`，
-> `homelab-architecture.last_refreshed_at` = 2026-11-15 01:09，`user-profile` = 2026-11-15 14:59，
-> **两个模型在升级后都未刷新成功**。同期 consolidation 因 MiniMax LLM 调用超时（`llm=1338.9s`）两次重试失败。
-> **升级成功 ≠ 刷新机制恢复，这两件事必须分开看。**
+> **2026-11-16 08:45 最终状态**：两个 mental model 均已真实刷新成功。
+>
+> | | 刷新前 | 刷新后 | 耗时 |
+> |---|---|---|---|
+> | `user-profile` | 1442 字符 / 11-15 14:59 | **2580 字符 / 11-16 08:41** | 64s（4 iterations, 3 tool calls） |
+> | `homelab-architecture` | 4095 字符 / 11-15 01:09 | **5576 字符 / 11-16 08:44** | 130s（7 iterations, 6 tool calls） |
+>
+> `paused_mental_models: 0`，`last_refresh_failed_at` 均为 null，`retry_blocked` 已清零。
+>
+> **语义保留率验证**：`homelab-architecture` 16/17（唯一缺 ext4 错误计数）、`user-profile` 12/12。
+> 缺的那一项**正好印证了 §4.6 的规律** —— 它只存在于旧版正文、没有 fact 支撑，
+> 已于刷新后补写为 fact（见下）。
 
 ---
 
