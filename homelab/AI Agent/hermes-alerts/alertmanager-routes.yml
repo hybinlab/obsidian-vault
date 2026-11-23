@@ -1,0 +1,25 @@
+# Route fragment only: merge into the existing route; do not replace the full config.
+# Watchdog must precede critical/warning routes.
+route:
+  receiver: ntfy
+  group_by: [alertname, instance]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  routes:
+    - receiver: "null"
+      matchers:
+        - 'alertname="Watchdog"'
+    - receiver: ntfy-hermes
+      matchers:
+        - 'severity="critical"'
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
+    - receiver: ntfy-hermes
+      matchers:
+        - 'severity="warning"'
+        - 'alertname=~"NtfyCertExpiringSoon|BlackboxDown|ContainerOOMKilled|ContainerMemoryNearLimit|ContainerDisappeared|CAdvisorDown|GrafanaDown|AlloyDroppingLogs|LokiRuleEvaluationFailing|PrometheusRuleEvaluationFailing|DiskSpaceLow|DiskWillFillIn24h|InodesLow|MemoryLow|OOMKill|CPUHigh|LoadHigh|SSHBruteForce|FrpcReconnecting|ContainerErrorSpike"'
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
