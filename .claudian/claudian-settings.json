@@ -2,18 +2,18 @@
   "userName": "阿B",
   "permissionMode": "yolo",
   "model": "openai-codex/gpt-6-luna",
-  "thinkingBudget": "off",
-  "effortLevel": "max",
+  "effortLevel": "medium",
   "serviceTier": "default",
   "enableAutoTitleGeneration": true,
   "titleGenerationLocale": "",
   "titleGenerationModel": "",
+  "showTabTitlesByDefault": true,
+  "chatFontScale": 100,
   "excludedTags": [],
   "mediaFolder": "",
   "systemPrompt": "1. Summary documents are not allowed unless specified by the user.\n2. Please point out any problems with my answer and I will correct them.\n3. Answers should be concise and clear; avoid unnecessary repetition or filler content.\n4.Think carefully before answering a user's question. If you feel the context is insufficient, ask the user to provide more background information and refuse to give an uncertain answer.\n5. Do not be sycophantic. Push back when the user is wrong, even if they seem confident.\n6. Do not end responses with leading questions to prompt the user to continue the conversation.",
   "sharedEnvironmentVariables": "",
   "envSnippets": [],
-  "customContextLimits": {},
   "keyboardNavigation": {
     "scrollUpKey": "w",
     "scrollDownKey": "s",
@@ -36,7 +36,6 @@
       "titleModelEnvironmentType": "",
       "environmentVariables": "",
       "environmentHash": "",
-      "responseStyle": "Default",
       "modelAliases": {},
       "visibleModels": [
         "haiku",
@@ -95,7 +94,12 @@
           "reasoningMetadataResolved": true,
           "supportedEffortLevels": []
         }
-      ]
+      ],
+      "installationMethodsByHost": {},
+      "wslDistroOverridesByHost": {},
+      "outputStyle": null,
+      "promptSuggestions": false,
+      "discoveredOutputStyles": []
     },
     "codex": {
       "enabled": true,
@@ -108,15 +112,16 @@
       ],
       "enableUltraEffort": true,
       "responseStyle": "pragmatic",
+      "responseVerbosity": "low",
       "reasoningSummary": "detailed",
       "environmentVariables": "",
-      "environmentHash": "runtime-input:v1:ed54f4f5238abeec7f65a5da1e468c9a639e157a7d1c7753b53f54ba1196e8a0",
+      "environmentHash": "runtime-input:v1:197595abd9d745e24689d5a438700b7ac70840cea7d031da56b13d08e625dac5",
       "installationMethodsByHost": {},
       "wslDistroOverridesByHost": {},
       "selectedModels": [
         {
           "model": "gpt-6-luna",
-          "displayName": "GPT-6-Luna",
+          "displayName": "GPT-6 Luna",
           "description": "Fast and affordable model for easier tasks.",
           "supportedReasoningEfforts": [
             {
@@ -141,13 +146,19 @@
             }
           ],
           "defaultReasoningEffort": "medium",
-          "serviceTiers": [],
+          "serviceTiers": [
+            {
+              "id": "priority",
+              "name": "Fast",
+              "description": "1.5x speed"
+            }
+          ],
           "defaultServiceTier": null,
           "inputModalities": [
             "text",
             "image"
           ],
-          "isDefault": true
+          "isDefault": false
         }
       ]
     },
@@ -155,16 +166,19 @@
       "cliPath": "",
       "cliPathsByHost": {},
       "enabled": false,
-      "environmentHash": "",
+      "environmentHash": "runtime-input:v1:c89cf1d5f8f67bb358663c59aea29011b153916337b1ca84fad8ae40a3fa1076",
       "environmentVariables": "OPENCODE_ENABLE_EXA=1",
       "modelAliases": {},
       "preferredThinkingByModel": {},
-      "selectedMode": "",
       "thinkingOptionsByModel": {},
       "visibleModels": [],
-      "selectedModels": []
+      "selectedModels": [],
+      "installationMethodsByHost": {},
+      "wslDistroOverridesByHost": {}
     },
     "pi": {
+      "installationMethodsByHost": {},
+      "wslDistroOverridesByHost": {},
       "cliPath": "",
       "cliPathsByHost": {},
       "enabled": false,
@@ -172,11 +186,12 @@
       "environmentVariables": "",
       "modelAliases": {},
       "preferredThinkingByModel": {},
-      "toolMode": "all",
       "visibleModels": [],
       "selectedModels": []
     },
     "grok": {
+      "installationMethodsByHost": {},
+      "wslDistroOverridesByHost": {},
       "cliPath": "",
       "cliPathsByHost": {},
       "enabled": false,
@@ -186,41 +201,76 @@
       "preferredReasoningByModel": {},
       "visibleModels": [],
       "selectedModelsByHost": {}
+    },
+    "antigravity": {
+      "cliPath": "",
+      "cliPathsByHost": {},
+      "enabled": false,
+      "environmentHash": "",
+      "environmentVariables": "",
+      "installationMethodsByHost": {},
+      "modelAliases": {},
+      "preferredReasoningByModel": {},
+      "visibleModels": [],
+      "wslDistroOverridesByHost": {},
+      "selectedModelsByHost": {}
+    },
+    "deepseek": {
+      "installationMethodsByHost": {},
+      "wslDistroOverridesByHost": {},
+      "enabled": false,
+      "codeMode": false,
+      "presetPlugins": "",
+      "cliPath": "",
+      "cliPathsByHost": {},
+      "environmentVariables": "",
+      "environmentHash": "",
+      "visibleModels": [],
+      "modelAliases": {},
+      "preferredReasoningByModel": {},
+      "selectedModels": []
     }
   },
   "settingsProvider": "codex",
   "lastSelectedChatModel": {
-    "providerId": "claude",
-    "model": "sonnet"
+    "providerId": "codex",
+    "model": "openai-codex/gpt-6-luna"
   },
+  "inlineEditModel": null,
   "savedProviderModel": {
     "claude": "sonnet",
     "codex": "openai-codex/gpt-6-luna"
   },
   "savedProviderEffort": {
     "claude": "max",
-    "codex": "max"
+    "codex": "medium"
   },
-  "savedProviderServiceTier": {},
-  "savedProviderThinkingBudget": {},
+  "savedProviderServiceTier": {
+    "codex": "default"
+  },
   "savedProviderPermissionMode": {
     "claude": "yolo",
-    "codex": "yolo"
+    "codex": "yolo",
+    "opencode": "normal"
   },
-  "pendingProviderSessionInvalidations": {},
-  "maxWarmAgentProcesses": 5,
   "enableAutoScroll": true,
-  "showMessageTimestamps": false,
   "deferMathRenderingDuringStreaming": true,
+  "pluginRenderedFenceLanguages": [],
   "expandFileEditsByDefault": false,
   "chatViewPlacement": "right-sidebar",
+  "enableZenMode": true,
+  "zenModePosition": null,
   "enableDualPane": true,
   "dualPaneSide": "right",
   "restoreTabsOnStartup": true,
+  "skillsSynced": false,
   "sessionManagerOrganization": "list",
   "sessionManagerSort": "last-updated",
+  "sessionAutoArchiveAfter": "off",
   "pinnedLinkedContentPaths": [],
-  "hiddenProviderCommands": {},
+  "hiddenCommands": [],
+  "thinkingBudget": "off",
+  "savedProviderThinkingBudget": {},
   "customModelAliases": {},
   "lastCustomModel": "",
   "maxTabs": 3

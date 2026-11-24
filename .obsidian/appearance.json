@@ -1,6 +1,7 @@
 {
   "translucency": true,
-  "cssTheme": "ITS Theme",
+  "cssTheme": "AnuPpuccin",
   "theme": "moonstone",
-  "showRibbon": true
+  "showRibbon": true,
+  "textFontFamily": "霞鹜文楷等宽 屏幕阅读版"
 }
